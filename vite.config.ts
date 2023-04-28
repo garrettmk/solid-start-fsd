@@ -6,5 +6,7 @@ export default defineConfig({
     host: "127.0.0.1",
     port: 3000,
   },
-  plugins: [solid()],
+  plugins: [solid({
+    rootEntry: "/src/app/ui/root.tsx",
+  })],
 });
