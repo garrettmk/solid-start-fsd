@@ -5,7 +5,9 @@
     "build": "solid-start build",
     "start": "solid-start start",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
-    "format": "prettier --ignore-path .gitignore --write ./src"
+    "format": "prettier --ignore-path .gitignore --write ./src",
+    "supabase:start": "supabase start --workdir .supabase",
+    "supabase:stop": "supabase stop --workdir .supabase"
   },
   "type": "module",
   "devDependencies": {
@@ -18,12 +20,14 @@
     "postcss": "^8.4.21",
     "prettier": "^2.8.8",
     "solid-start-node": "^0.2.19",
+    "supabase": "^1.51.0",
     "typescript": "^4.9.4",
     "vite": "^4.1.4"
   },
   "dependencies": {
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.8.2",
+    "@supabase/supabase-js": "^2.21.0",
     "solid-js": "^1.7.2",
     "solid-start": "^0.2.26",
     "undici": "^5.15.1"
