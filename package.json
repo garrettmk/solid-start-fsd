@@ -4,7 +4,8 @@
     "dev": "solid-start dev",
     "build": "solid-start build",
     "start": "solid-start start",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src"
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
+    "format": "prettier --ignore-path .gitignore --write ./src"
   },
   "type": "module",
   "devDependencies": {
@@ -13,7 +14,9 @@
     "@typescript-eslint/parser": "^5.59.1",
     "esbuild": "^0.14.54",
     "eslint": "^8.39.0",
+    "eslint-config-prettier": "^8.8.0",
     "postcss": "^8.4.21",
+    "prettier": "^2.8.8",
     "solid-start-node": "^0.2.19",
     "typescript": "^4.9.4",
     "vite": "^4.1.4"
