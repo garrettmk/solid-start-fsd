@@ -1,4 +1,4 @@
-import { Title } from "solid-start";
+import { Title, A } from "solid-start";
 import { Counter } from "@/shared/ui";
 import { signInWithPassword } from "@/features/session/sign-in-with-password";
 import { SessionData, useSession } from "@/entities/session";
@@ -21,6 +21,7 @@ export default function Home() {
     <main>
       <Title>Hello World</Title>
       <h1>Hello world!</h1>
+      <A href="/app/">Go to app</A>
       <Counter />
       <SessionData session={session()} />
       <button onClick={signIn}>Sign In</button>
