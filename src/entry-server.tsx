@@ -21,7 +21,7 @@ export default createHandler(
       event.locals.user = user;
 
       const url = new URL(event.request.url);
-      if (!user && url.pathname.startsWith("/app")) return redirect("/");
+      if (!user && url.pathname.startsWith("/app")) return redirect("/sign-in");
 
       return forward(event);
     },
