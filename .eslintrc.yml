@@ -27,9 +27,15 @@ settings:
       capture:
         - segment
 
-    - type: pages
+    - type: routes
       pattern:
-        - src/pages/*
+        - src/routes/*
+
+    - type: widgets
+      pattern:
+        - src/widgets/*
+      capture:
+        - slice
 
     - type: features
       pattern:
@@ -61,14 +67,23 @@ rules:
             - app
           allow:
             - app
-            - pages
+            - widgets
+            - routes
             - features
             - entities
             - shared
 
         - from:
-            - pages
+            - widgets
           allow:
+            - features
+            - entities
+            - shared
+
+        - from:
+            - routes
+          allow:
+            - widgets
             - features
             - entities
             - shared
