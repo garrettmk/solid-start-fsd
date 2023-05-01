@@ -17,6 +17,8 @@
     "esbuild": "^0.14.54",
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-boundaries": "^3.1.1",
     "postcss": "^8.4.21",
     "prettier": "^2.8.8",
     "solid-start-node": "^0.2.19",

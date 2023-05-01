@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+
 export const sessionSchema = z.object({
   expiresAt: z.number(),
   user: z.object({
