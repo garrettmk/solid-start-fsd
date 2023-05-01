@@ -1,9 +1,8 @@
-import { Title, A } from "solid-start";
-import { Counter } from "@/shared/ui";
-import { signInWithPassword } from "@/features/session/sign-in-with-password";
 import { SessionData, useSession } from "@/entities/session";
-import { createEffect } from "solid-js";
+import { signInWithPassword } from "@/features/session/sign-in-with-password";
 import { SignOutButton } from "@/features/session/sign-out";
+import { createEffect } from "solid-js";
+import { A, Title } from "solid-start";
 
 export default function Home() {
   const session = useSession();
@@ -22,7 +21,6 @@ export default function Home() {
       <Title>Hello World</Title>
       <h1>Hello world!</h1>
       <A href="/app/">Go to app</A>
-      <Counter />
       <SessionData session={session()} />
       <button onClick={signIn}>Sign In</button>
       <SignOutButton />
