@@ -1,5 +1,5 @@
 import { AuthSession, AuthResponse } from "@supabase/supabase-js";
-import { AuthTokens, authTokensSchema } from "../schemas";
+import { AuthTokens, authTokensSchema } from "@/shared/schemas";
 import { Session, sessionSchema } from "@/entities/session";
 
 /**

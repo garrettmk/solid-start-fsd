@@ -1,5 +1,5 @@
 import { IS_CLIENT } from "@/shared/config";
-import { authTokensSchema } from "../schemas";
+import { authTokensSchema } from "@/shared/schemas";
 import {
   CookieSerializeOptions, parseCookies,
   serializeCookie

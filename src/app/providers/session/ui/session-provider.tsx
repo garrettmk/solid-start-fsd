@@ -15,7 +15,7 @@ import {
   toPartialAuthSession,
   toSession,
 } from "../lib";
-import { AuthTokens } from "../schemas";
+import { AuthTokens } from "@/shared/schemas";
 
 export interface SessionProviderProps {
   children: JSX.Element;
