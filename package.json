@@ -7,7 +7,8 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "format": "prettier --ignore-path .gitignore --write ./src",
     "supabase:start": "supabase start --workdir .supabase",
-    "supabase:stop": "supabase stop --workdir .supabase"
+    "supabase:stop": "supabase stop --workdir .supabase",
+    "supabase:status": "supabase status --workdir .supabase"
   },
   "type": "module",
   "devDependencies": {
@@ -29,6 +30,7 @@
   "dependencies": {
     "@floating-ui/core": "^1.2.6",
     "@floating-ui/dom": "^1.2.7",
+    "@modular-forms/solid": "^0.13.1",
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.8.2",
     "@supabase/supabase-js": "^2.21.0",
