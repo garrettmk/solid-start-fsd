@@ -9,6 +9,7 @@ import {
   useAuthTokens,
 } from "@/shared/services/supabase";
 import { redirect } from "solid-start";
+import { apiRouter } from "@/app/server";
 
 export default createHandler(
   ({ forward }) =>
@@ -22,6 +23,9 @@ export default createHandler(
 
       const url = new URL(event.request.url);
       if (!user && url.pathname.startsWith("/app")) return redirect("/sign-in");
+
+      if (!url.pathname.startsWith("/api"))
+        event.locals.api = apiRouter.createCaller({ supabase, user });
 
       return forward(event);
     },
