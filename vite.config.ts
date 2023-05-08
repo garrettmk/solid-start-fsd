@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import solid from "solid-start/vite";
 import { defineConfig } from "vite";
 
@@ -14,4 +16,9 @@ export default defineConfig({
   plugins: [solid({
     rootEntry: "/src/app/ui/root.tsx",
   })],
+  test: {
+    include: ['**/*.test.{ts,tsx}'],
+    testTimeout: 60_000,
+    hookTimeout: 60_000
+  }
 });

@@ -17,14 +17,21 @@ import {
   useStateIndex,
 } from "@/shared/ui";
 import { useMachine } from "@xstate/solid";
-import { Show } from "solid-js";
+import { Show, createEffect } from "solid-js";
+import { Title } from "solid-start";
 
 /**
  *
  * @returns The sign up page
  */
 export function SignUpPage() {
-  const [state, send] = useMachine(signUpMachine);
+  const [state, send] = useMachine(signUpMachine, {
+    context: {
+      profession: {
+        profession: 'robot'
+      }
+    }
+  });
   const index = useStateIndex(state, [
     "gettingProfession",
     "gettingAccountInfo",
@@ -34,7 +41,8 @@ export function SignUpPage() {
   ]);
 
   return (
-    <main class="flex min-h-screen">
+    <main class="flex min-h-screen dark">
+      <Title>Sign Up</Title>
       {/**
        * Sidebar gives the user a way back to the main page. It's also meant to disappear
        * below the medium breakpoint.

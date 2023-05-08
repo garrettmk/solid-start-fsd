@@ -97,7 +97,7 @@ export function NewAccountInfoForm(props: NewAccountInfoFormProps) {
         {(field, props) => (
           <Checkbox {...props} checked={field.value} class="mb-4" required>
             I have read and agree to the{" "}
-            <a class="text-blue-500" href="#">
+            <a class="text-blue-500 underline" href="#">
               Terms and Conditions
             </a>
           </Checkbox>

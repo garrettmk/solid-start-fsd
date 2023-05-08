@@ -5,6 +5,8 @@ dist
 .netlify
 netlify
 .trunk
+e2e/reports
+e2e/results
 
 # dependencies
 /node_modules

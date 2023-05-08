@@ -1,7 +1,6 @@
 import { isServer } from "solid-js/web";
 
-export const IS_SERVER = isServer;
-
+export const IS_SERVER = Boolean(import.meta.env.SSR);
 export const IS_CLIENT = !isServer;
 
 export const APP_MODE: string =

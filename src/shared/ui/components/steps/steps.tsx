@@ -66,7 +66,7 @@ export function Step(props: StepProps) {
         </Switch>
         {stepProps.children}
       </li>
-      <hr class="border-slate-700 w-16 mx-8 [&:last-child]:hidden" />
+      <li class="border-b border-slate-700 w-16 mx-8 [&:last-child]:hidden" />
     </>
   );
 }

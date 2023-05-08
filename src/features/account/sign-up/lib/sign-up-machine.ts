@@ -33,6 +33,7 @@ export type SignUpEvent =
 export const signUpMachine = createMachine<SignUpContext, SignUpEvent>(
   {
     id: "root",
+    predictableActionArguments: true,
     context: {},
     initial: "gettingProfession",
     states: {
