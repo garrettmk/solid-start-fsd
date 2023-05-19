@@ -1,6 +1,6 @@
 import { JSX, splitProps } from "solid-js";
 import clsx from "clsx";
-import { sizeClasses, SizeProp } from "@/shared/ui";
+import { sizeClasses, SizeProp } from "@/shared/ui/helpers";
 
 export interface IconProps extends JSX.HTMLAttributes<SVGSVGElement> {
   size?: SizeProp;

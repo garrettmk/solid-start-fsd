@@ -1,4 +1,4 @@
-import { adjustSize, sizeClasses, SizeProp, textSizeClass } from "@/shared/ui";
+import { adjustSize, sizeClasses, SizeProp, textSizeClass } from "@/shared/ui/helpers";
 import clsx from "clsx";
 import { createMemo, JSX, Match, splitProps, Switch } from "solid-js";
 import { UserIcon } from "@/shared/ui/components/icons";

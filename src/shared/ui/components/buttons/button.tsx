@@ -5,14 +5,14 @@ import * as styles from "./button-styles";
 
 export interface ButtonProps extends JSX.HTMLAttributes<HTMLButtonElement> {
   color?:
-    | "none"
-    | "light"
-    | "dark"
-    | "alternative"
-    | "ghost"
-    | "blue"
-    | "red"
-    | "green";
+  | "none"
+  | "light"
+  | "dark"
+  | "alternative"
+  | "ghost"
+  | "blue"
+  | "red"
+  | "green";
   size?: SizeProp;
   description?: string;
   icon?: boolean;
