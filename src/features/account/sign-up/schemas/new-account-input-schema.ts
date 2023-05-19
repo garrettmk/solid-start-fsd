@@ -40,8 +40,8 @@ export const newAccountInputSchema = z
       ),
 
     confirmPassword: z.string(),
-    agreesToTerms: z.literal(true),
-    wantsMarketing: z.boolean(),
+    agreesToTerms: z.boolean().refine(v => v, { message: "Must agree to the terms and conditions" }),
+    wantsMarketing: z.boolean().optional(),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password)

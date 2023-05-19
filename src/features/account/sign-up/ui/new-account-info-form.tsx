@@ -95,7 +95,7 @@ export function NewAccountInfoForm(props: NewAccountInfoFormProps) {
       </div>
       <Field name="agreesToTerms" type="boolean">
         {(field, props) => (
-          <Checkbox {...props} checked={field.value} class="mb-4" required>
+          <Checkbox {...props} checked={field.value} error={field.error} class="mb-4" required>
             I have read and agree to the{" "}
             <a class="text-blue-500 underline" href="#">
               Terms and Conditions
@@ -106,7 +106,7 @@ export function NewAccountInfoForm(props: NewAccountInfoFormProps) {
 
       <Field name="wantsMarketing" type="boolean">
         {(field, props) => (
-          <Checkbox {...props} checked={field.value} class="mb-8">
+          <Checkbox {...props} checked={field.value} error={field.error} class="mb-8">
             Send me marketing email
           </Checkbox>
         )}

@@ -1,4 +1,4 @@
-import { JSX, splitProps } from "solid-js";
+import { JSX, Show, splitProps } from "solid-js";
 import clsx from "clsx";
 
 export interface CheckboxProps
@@ -6,6 +6,7 @@ export interface CheckboxProps
   container?: JSX.HTMLAttributes<HTMLDivElement>;
   children?: JSX.Element;
   indeterminate?: boolean;
+  error?: string
 }
 
 export function Checkbox(props: CheckboxProps) {
@@ -18,6 +19,7 @@ export function Checkbox(props: CheckboxProps) {
   ]);
 
   const inputId = () => props.id ?? props.name;
+  const errorId = () => inputId() && inputId() + "-error";
 
   return (
     <div
@@ -37,6 +39,14 @@ export function Checkbox(props: CheckboxProps) {
       >
         {props.children}
       </label>
+      <Show when={props.error}>
+        <p
+          id={errorId()}
+          class="basis-full mt-2 text-sm text-red-600 dark:text-red-400"
+        >
+          {props.error}
+        </p>
+      </Show>
     </div>
   );
 }
