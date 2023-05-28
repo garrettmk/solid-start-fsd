@@ -1,3 +1,8 @@
+# Note: running Storybook with Solid Start
+
+Please see this issue: https://github.com/solidjs/solid-start/issues/822
+
+
 # SolidStart
 
 Everything you need to build a Solid project, powered by [`solid-start`](https://start.solidjs.com);
