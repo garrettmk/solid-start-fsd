@@ -1,7 +1,7 @@
 import { omit } from "radash";
 import { assign, createMachine, ErrorPlatformEvent } from "xstate";
 import { ChooseProfessionInput, NewAccountInput } from "../schemas";
-import { api } from "@/shared/services";
+import { api } from "@/shared/lib";
 
 export interface SignUpContext {
   profession?: ChooseProfessionInput;

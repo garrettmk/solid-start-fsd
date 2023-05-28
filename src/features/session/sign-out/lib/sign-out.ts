@@ -1,5 +1,18 @@
-import { supabase } from "@/shared/services";
+import { dependency, provider } from "@/shared/lib";
+import { SupabaseDependency } from "@/shared/lib";
+import { useContainer } from "@/shared/ui";
 
-export async function signOut() {
-  await supabase.auth.signOut();
+export const SignOutDependency = dependency<() => Promise<void>>({
+  name: 'SignOut'
+});
+
+export const SignOutProvider = provider({
+  provides: SignOutDependency,
+  requires: [SupabaseDependency],
+  use: (supabase) => async () => { supabase.auth.signOut() }
+});
+
+
+export function useSignOut(): () => Promise<void> {
+  return useContainer(SignOutDependency);
 }

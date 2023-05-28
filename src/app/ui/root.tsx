@@ -1,7 +1,7 @@
 // @refresh reload
+import { ScopeProvider } from "@/shared/ui";
 import { Suspense } from "solid-js";
 import {
-  A,
   Body,
   ErrorBoundary,
   FileRoutes,
@@ -10,10 +10,10 @@ import {
   Meta,
   Routes,
   Scripts,
-  Title,
+  Title
 } from "solid-start";
+import { clientScope } from "@/app/scopes";
 import "./root.css";
-import { SessionProvider } from "../providers";
 
 export default function Root() {
   return (
@@ -26,11 +26,11 @@ export default function Root() {
       <Body>
         <Suspense>
           <ErrorBoundary>
-            <SessionProvider>
+            <ScopeProvider scope={clientScope}>
               <Routes>
                 <FileRoutes />
               </Routes>
-            </SessionProvider>
+            </ScopeProvider>
           </ErrorBoundary>
         </Suspense>
         <Scripts />

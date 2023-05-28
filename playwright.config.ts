@@ -14,7 +14,7 @@ dotenv.config();
  */
 export default defineConfig({
   testDir: './e2e',
-  testMatch: /.*\.e2e.ts$/,
+  testMatch: /.*\.{e2e}.ts$/,
   outputDir: './e2e/results',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -78,9 +78,9 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://127.0.0.1:3000',
-    reuseExistingServer: !process.env.CI,
-  },
+  // webServer: {
+  //   command: 'npm run dev',
+  //   url: 'http://127.0.0.1:3000',
+  //   reuseExistingServer: !process.env.CI,
+  // },
 });

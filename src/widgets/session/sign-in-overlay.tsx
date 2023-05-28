@@ -1,22 +1,17 @@
 import { useSession } from "@/entities/session";
 import {
   SignInWithPasswordForm,
-  useSignInWithPassword,
+  useSignInWithPassword
 } from "@/features/session/sign-in-with-password";
 import clsx from "clsx";
-import { JSX, Show, createEffect, createSignal, splitProps } from "solid-js";
+import { JSX, Show, splitProps } from "solid-js";
 
 export type SignInOverlayProps = JSX.HTMLAttributes<HTMLDivElement>;
 
 export function SignInOverlay(props: SignInOverlayProps) {
   const [, divProps] = splitProps(props, ["class"]);
   const session = useSession();
-  // const [isOpen, setIsOpen] = createSignal<boolean>();
   const isOpen = () => !session();
-
-  // createEffect(() => {
-  //   setIsOpen(!session());
-  // });
 
   const [signInResult, signInWithPassword] = useSignInWithPassword();
 

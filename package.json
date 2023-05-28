@@ -6,9 +6,9 @@
     "start": "solid-start start",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "format": "prettier --ignore-path .gitignore --write ./src",
-    "supabase:start": "supabase start --workdir .supabase",
-    "supabase:stop": "supabase stop --workdir .supabase",
-    "supabase:status": "supabase status --workdir .supabase",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:status": "supabase status",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest",
@@ -49,7 +49,7 @@
     "supabase": "^1.51.0",
     "typescript": "^4.9.4",
     "vite": "^4.1.4",
-    "vitest": "^0.31.0"
+    "vitest": "^0.31.1"
   },
   "dependencies": {
     "@floating-ui/core": "^1.2.6",

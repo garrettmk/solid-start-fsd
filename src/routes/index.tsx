@@ -1,4 +1,5 @@
 import { HelloWorld } from "@/features/debug/hello-world";
+import { SessionDebug } from "@/features/debug/session";
 import { Button } from "@/shared/ui";
 
 export default function Home() {
@@ -156,7 +157,8 @@ export default function Home() {
         </div>
       </nav>
       <main>
-        <HelloWorld />
+        {/* <HelloWorld /> */}
+        <SessionDebug />
       </main>
     </>
   );

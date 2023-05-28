@@ -1,18 +1,26 @@
-import { supabase } from "@/shared/services";
+import { dependency, provider } from "@/shared/lib";
+import { SupabaseDependency } from "@/shared/lib";
+import { useContainer } from "@/shared/ui";
 import { createResource, createSignal } from "solid-js";
 import { PasswordCredentials } from "../schemas";
 
 
-export async function signInWithPassword(
-  credentials: PasswordCredentials
-): Promise<void> {
-  const { error } = await supabase.auth.signInWithPassword(credentials);
-  if (error)
-    throw error;
-}
+export const SignInWithPasswordDependency = dependency<(credentials: PasswordCredentials) => Promise<void>>({
+  name: 'SIGN_IN_WITH_PASSWORD'
+});
 
+export const SignInWithPasswordProvider = provider({
+  provides: SignInWithPasswordDependency,
+  requires: [SupabaseDependency],
+  use: (supabase) => async (credentials: PasswordCredentials) => {
+    const { data, error } = await supabase.auth.signInWithPassword(credentials);
+    if (error)
+      throw error;
+  }
+})
 
 export function useSignInWithPassword() {
+  const signInWithPassword = useContainer(SignInWithPasswordDependency);
   const [variables, setVariables] = createSignal<PasswordCredentials>();
   const [result] = createResource(variables, signInWithPassword);
 

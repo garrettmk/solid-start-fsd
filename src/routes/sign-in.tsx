@@ -1,14 +1,16 @@
 import { useSession } from "@/entities/session";
-import { Redirect } from "@/shared/ui";
+import { AppURLDependency } from "@/shared/lib";
+import { Redirect, useContainer } from "@/shared/ui";
 import { SignInOverlay } from "@/widgets/session";
 
 export function SignIn() {
+  const appURL = useContainer(AppURLDependency);
   const session = useSession();
   const isSignedIn = () => !!session();
 
   return (
     <main>
-      <Redirect to="/app" when={isSignedIn} />
+      <Redirect to={appURL} when={isSignedIn} />
       <SignInOverlay />
     </main>
   );

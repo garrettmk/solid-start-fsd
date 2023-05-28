@@ -1,9 +1,10 @@
-import { api } from "@/shared/services";
-import { Code } from "@/shared/ui";
+import { APIClientDependency } from "@/shared/lib";
+import { Code, useContainer } from "@/shared/ui";
 import { onMount } from "solid-js";
 import { createRouteAction } from "solid-start";
 
 export function HelloWorld() {
+  const api = useContainer(APIClientDependency);
   const [result, getResult] = createRouteAction(() =>
     api.debug.helloWorld.query()
   );

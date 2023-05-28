@@ -1,33 +1,44 @@
-import {
-  createHandler,
-  renderAsync,
-  StartServer,
-} from "solid-start/entry-server";
-import { getAuthTokensFromRequest } from "@/app/providers/session/lib";
-import {
-  createSupabaseClient,
-  useAuthTokens,
-} from "@/shared/services/supabase";
+import { AuthUserDependency, RequestURLDependency, makeRequestScope, makeRouteRequestScope } from "@/app/server";
 import { redirect } from "solid-start";
-import { apiRouter } from "@/app/server";
+import { StartServer, createHandler, renderAsync } from "solid-start/entry-server";
+import { APIURLDependency, AppURLDependency, Scope, SignInURLDependency } from "@/shared/lib";
 
 export default createHandler(
   ({ forward }) =>
     async (event) => {
-      const supabase = createSupabaseClient();
-      event.locals.supabase = supabase;
+      const requestScope = await makeRequestScope(event);
+      const isAuthenticated = await isAuthenticatedRequest(requestScope);
+      const isApp = await isAppRequest(requestScope);
+      const isAPI = await isAPIRequest(requestScope);
+      const signInURL = await requestScope.resolve(SignInURLDependency);
 
-      const tokens = getAuthTokensFromRequest(event.request);
-      const user = tokens && (await useAuthTokens(supabase, tokens));
-      event.locals.user = user;
+      if (!isAuthenticated && isApp)
+        return redirect(signInURL);
 
-      const url = new URL(event.request.url);
-      if (!user && url.pathname.startsWith("/app")) return redirect("/sign-in");
-
-      if (!url.pathname.startsWith("/api"))
-        event.locals.api = apiRouter.createCaller({ supabase, user });
+      event.locals.scope = isAPI
+        ? requestScope
+        : await makeRouteRequestScope(requestScope);
 
       return forward(event);
     },
   renderAsync((event) => <StartServer event={event} />)
 );
+
+
+async function isAuthenticatedRequest(scope: Scope) {
+  return Boolean(await scope.resolve(AuthUserDependency));
+}
+
+async function isAppRequest(scope: Scope) {
+  const requestURL = await scope.resolve(RequestURLDependency);
+  const appURL = await scope.resolve(AppURLDependency);
+
+  return requestURL.pathname.startsWith(appURL);
+}
+
+async function isAPIRequest(scope: Scope) {
+  const requestURL = await scope.resolve(RequestURLDependency);
+  const apiURL = await scope.resolve(APIURLDependency);
+
+  return requestURL.pathname.startsWith(apiURL);
+}

@@ -1,9 +1,9 @@
+import { AuthUserDependency } from "@/app/server";
+import { delay, Scope } from "@/shared/lib";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { ZodError } from "zod";
-import { delay } from "@/shared/lib";
-import { APIContext, isAuthenticatedAPIContext } from "./api-context";
 
-const t = initTRPC.context<APIContext>().create({
+const t = initTRPC.context<{ scope: Scope }>().create({
   errorFormatter: ({ shape, error }) => {
     return {
       ...shape,
@@ -19,7 +19,7 @@ const t = initTRPC.context<APIContext>().create({
 });
 
 const isAuthed = t.middleware(({ next, ctx }) => {
-  if (!isAuthenticatedAPIContext(ctx))
+  if (!ctx.scope.get(AuthUserDependency))
     throw new TRPCError({ code: "UNAUTHORIZED" });
 
   return next({ ctx });

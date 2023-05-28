@@ -4,6 +4,11 @@ import solid from "solid-start/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+  define: {
+    process: {
+      env: {}
+    }
+  },
   resolve: {
     alias: {
       "@": "/src",
@@ -18,6 +23,7 @@ export default defineConfig({
   })],
   test: {
     include: ['**/*.test.{ts,tsx}'],
+    exclude: ['**/e2e/*'],
     testTimeout: 60_000,
     hookTimeout: 60_000
   }

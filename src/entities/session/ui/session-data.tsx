@@ -1,4 +1,4 @@
-import { Session } from "../schemas";
+import { Session } from "../schemas/session-schema";
 
 export interface SessionDataProps {
   session?: Session;
