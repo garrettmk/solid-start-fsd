@@ -1,7 +1,7 @@
 import { omit } from "radash";
 import { assign, createMachine, ErrorPlatformEvent } from "xstate";
 import { ChooseProfessionInput, NewAccountInput } from "../schemas";
-import { api } from "@/shared/lib";
+import { APIClientDependency, Scope } from "@/shared/lib";
 
 export interface SignUpContext {
   profession?: ChooseProfessionInput;
@@ -29,6 +29,7 @@ export type SignUpEvent =
   | BackEvent
   | ErrorPlatformEvent
   | SaveEvent;
+
 
 export const signUpMachine = createMachine<SignUpContext, SignUpEvent>(
   {
@@ -125,6 +126,19 @@ export const signUpMachine = createMachine<SignUpContext, SignUpEvent>(
 
     services: {
       signUp: async (context) => {
+        throw new Error('signUp service not implemented');
+      }
+    },
+  }
+);
+
+
+export function createSignUpMachine(scope: Scope) {
+  const api = scope.get(APIClientDependency);
+
+  return signUpMachine.withConfig({
+    services: {
+      signUp: async (context) => {
         const { profession, account } = context as Required<SignUpContext>;
         const signUpInput = { profession, account };
 
@@ -133,6 +147,6 @@ export const signUpMachine = createMachine<SignUpContext, SignUpEvent>(
         if (result.error) throw result.error;
         return result.data;
       },
-    },
-  }
-);
+    }
+  })
+}
