@@ -254,3 +254,24 @@ export const paddingClasses = (
 ) => {
   return clsx(paddingXClass(size, options), paddingYClass(size, options));
 };
+
+
+export const radiusClass = (
+  size: SizeProp = "md",
+  options?: SizeToClassOptions
+) => {
+  return sizeToClass(size, {
+    scale: {
+      none: "",
+      xs: "rounded-xs",
+      sm: "rounded-sm",
+      md: "rounded-md",
+      lg: "rounded-lg",
+      xl: "rounded-xl",
+      "2xl": "rounded-2xl",
+      "3xl": "rounded-3xl",
+      "4xl": "rounded-4xl",
+    },
+    ...options,
+  });
+}

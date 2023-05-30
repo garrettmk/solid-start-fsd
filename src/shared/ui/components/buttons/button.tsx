@@ -1,4 +1,4 @@
-import { paddingClass, SizeProp, textSizeClass } from "@/shared/ui/helpers";
+import { paddingClass, radiusClass, SizeProp, textSizeClass } from "@/shared/ui/helpers";
 import clsx from "clsx";
 import { createMemo, JSX, Show, splitProps } from "solid-js";
 import * as styles from "./button-styles";
@@ -42,6 +42,7 @@ export function Button(props: ButtonProps) {
     return clsx(
       styles.base,
       props.disabled && styles.disabled,
+      radiusClass(size, { scale: styles.radiusScale }),
       paddingClass(size, { scale: paddingScale }),
       textSizeClass(size),
       styles.colors[color][state],
