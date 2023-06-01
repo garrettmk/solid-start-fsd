@@ -22,6 +22,10 @@ const meta = {
       description: 'The value of the button',
       control: 'text',
     },
+    containerProps: {
+      description: 'Props for the container element',
+      control: 'object',
+    }
   },
   args: {
     label: 'Label',
