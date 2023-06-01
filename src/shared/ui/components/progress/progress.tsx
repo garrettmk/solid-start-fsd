@@ -47,7 +47,7 @@ export function Progress(props: ProgressProps) {
     >
       <div
         class={clsx(
-          "bg-blue-600 rounded-full transition-all ease-in-out duration-1000",
+          "bg-blue-600 rounded-full transition-[width] ease-in-out duration-1000",
           styles.size[props.size ?? "md"]
         )}
         style={style()}
