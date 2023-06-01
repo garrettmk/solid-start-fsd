@@ -19,7 +19,7 @@ export function BlurOverlay(props: BlurOverlayProps) {
       ref={props.ref}
       class={clsx(
         props.position === "absolute" ? "absolute" : "fixed",
-        "fixed inset-0 overflow-x-hidden overflow-y-auto backdrop-blur-sm bg-slate-900/50",
+        "inset-0 overflow-x-hidden overflow-y-auto backdrop-blur-sm bg-slate-900/50",
         !props.isOpen && "hidden",
         props.class
       )}
