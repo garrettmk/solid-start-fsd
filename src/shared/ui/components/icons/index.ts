@@ -1,4 +1,5 @@
 export * from "./app-icon";
+export * from "./arrow-right-on-rectangle-icon";
 export * from "./beaker-icon";
 export * from "./building-storefront-icon";
 export * from "./calendar-icon";

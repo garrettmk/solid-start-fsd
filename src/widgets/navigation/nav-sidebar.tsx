@@ -1,4 +1,5 @@
-import { AppIcon, BuildingStorefrontIcon, Button, Cog6ToothIcon, HomeIcon, MoonIcon, UsersIcon } from "@/shared/ui";
+import { useSignOut } from "@/features/session/sign-out";
+import { AppIcon, ArrowRightOnRectangleIcon, BuildingStorefrontIcon, Button, Cog6ToothIcon, HomeIcon, MoonIcon, UsersIcon } from "@/shared/ui";
 import clsx from "clsx";
 import { A } from "solid-start";
 
@@ -23,6 +24,8 @@ const styles = {
 };
 
 export function NavSidebar() {
+  const signOut = useSignOut();
+
   return (
     <nav class={styles.base}>
       <div class="text-blue-700 h-10 flex items-center justify-center">
@@ -49,6 +52,10 @@ export function NavSidebar() {
 
       <Button color="ghost" size="xs" class={clsx(styles.link, 'mt-auto')}>
         <MoonIcon />
+      </Button>
+
+      <Button color="ghost" size="xs" class={clsx(styles.link)} onClick={signOut}>
+        <ArrowRightOnRectangleIcon />
       </Button>
     </nav>
   );
