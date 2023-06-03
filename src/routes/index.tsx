@@ -1,5 +1,3 @@
-import { HelloWorld } from "@/features/debug/hello-world";
-import { SessionDebug } from "@/features/debug/session";
 import { Button } from "@/shared/ui";
 
 export default function Home() {
@@ -21,21 +19,6 @@ export default function Home() {
             <a href="/app">
               <Button class="mr-3">Login</Button>
             </a>
-            <button
-              type="button"
-              class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-              id="user-menu-button"
-              aria-expanded="false"
-              data-dropdown-toggle="user-dropdown"
-              data-dropdown-placement="bottom"
-            >
-              <span class="sr-only">Open user menu</span>
-              <img
-                class="w-8 h-8 rounded-full"
-                src="/docs/images/people/profile-picture-3.jpg"
-                alt="user photo"
-              />
-            </button>
             <div
               class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
               id="user-dropdown"
@@ -157,8 +140,21 @@ export default function Home() {
         </div>
       </nav>
       <main>
-        {/* <HelloWorld /> */}
-        <SessionDebug />
+        <section class="bg-white dark:bg-gray-900">
+          <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+            <div class="mr-auto place-self-center lg:col-span-7">
+              <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
+                Hit the ground running
+              </h1>
+              <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
+                A SaaS starter kit built with the latest technologies.
+              </p>
+            </div>
+            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+              <img src="public/progressive-app.svg" alt="mockup" />
+            </div>
+          </div>
+        </section>
       </main>
     </>
   );

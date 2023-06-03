@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 export interface SwitchInputProps
   extends JSX.InputHTMLAttributes<HTMLInputElement> {
-  container?: JSX.HTMLAttributes<HTMLLabelElement>;
+  containerProps?: JSX.HTMLAttributes<HTMLLabelElement>;
   children?: JSX.Element;
 }
 
@@ -11,12 +11,12 @@ export function SwitchInput(props: SwitchInputProps) {
   const [, otherProps] = splitProps(props, [
     "ref",
     "children",
-    "container",
+    "containerProps",
     "ref",
     "id",
   ]);
 
-  const [, containerProps] = splitProps(props.container ?? {}, ["class"]);
+  const [, containerProps] = splitProps(props.containerProps ?? {}, ["class"]);
   const [, inputProps] = splitProps(otherProps, ["class"]);
 
   const inputId = () => props.id ?? props.name;
@@ -25,7 +25,7 @@ export function SwitchInput(props: SwitchInputProps) {
     <label
       class={clsx(
         "relative inline-flex items-center cursor-pointer space-x-3",
-        props.container?.class
+        props.containerProps?.class
       )}
       for={inputId()}
       {...containerProps}

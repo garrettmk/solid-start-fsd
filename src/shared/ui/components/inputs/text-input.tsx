@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 export interface TextInputProps
   extends JSX.InputHTMLAttributes<HTMLInputElement> {
-  container?: JSX.HTMLAttributes<HTMLDivElement>;
+  containerProps?: JSX.HTMLAttributes<HTMLDivElement>;
   label?: string;
   error?: string;
   size?: "sm" | "md" | "lg";
@@ -13,9 +13,9 @@ const styles = {
   label: {
     base: "block font-medium text-slate-600 dark:text-slate-400",
     size: {
-      sm: "text-xs",
-      md: "text-sm",
-      lg: "text-base",
+      sm: "text-xs mb-1.5 ml-0.5",
+      md: "text-sm mb-2 ml-1",
+      lg: "text-base mb-2 ml-1",
     },
   },
 
@@ -31,16 +31,16 @@ const styles = {
   error: {
     base: "mt-2 text-red-600 dark:text-red-400",
     size: {
-      sm: "text-xs",
-      md: "text-sm",
-      lg: "text-base",
+      sm: "text-xs ml-0.5",
+      md: "text-sm ml-1",
+      lg: "text-base ml-1",
     },
   },
 };
 
 export function TextInput(props: TextInputProps) {
   const [, inputProps] = splitProps(props, [
-    "container",
+    "containerProps",
     "class",
     "label",
     "ref",
@@ -52,7 +52,7 @@ export function TextInput(props: TextInputProps) {
   const errorId = () => inputId() && inputId() + "-error";
 
   return (
-    <div {...(props.container ?? {})}>
+    <div {...(props.containerProps ?? {})}>
       <label
         for={inputId()}
         class={clsx(styles.label.base, styles.label.size[props.size ?? "md"])}

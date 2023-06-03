@@ -6,10 +6,12 @@ import {
 import clsx from "clsx";
 import { JSX, Show, splitProps } from "solid-js";
 
-export type SignInOverlayProps = JSX.HTMLAttributes<HTMLDivElement>;
+export interface SignInOverlayProps extends JSX.HTMLAttributes<HTMLDivElement> {
+  noBackdrop?: boolean;
+}
 
 export function SignInOverlay(props: SignInOverlayProps) {
-  const [, divProps] = splitProps(props, ["class"]);
+  const [, divProps] = splitProps(props, ["class", 'noBackdrop']);
   const session = useSession();
   const isOpen = () => !session();
 
@@ -22,15 +24,16 @@ export function SignInOverlay(props: SignInOverlayProps) {
       tabindex="-1"
       aria-hidden={isOpen() ? "false" : "true"}
       class={clsx(
-        "fixed inset-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full backdrop-blur-sm backdrop-grayscale flex items-center justify-center",
+        "fixed inset-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full flex items-center justify-center",
         {
-          hidden: !isOpen(),
+          'backdrop-blur-sm backdrop-grayscale bg-slate-900/50': !props.noBackdrop,
+          'hidden': !isOpen(),
         },
         props.class
       )}
       {...divProps}
     >
-      <div class="relativew-full h-full max-w-md md:h-auto flex-auto">
+      <div class="relativew-full h-full max-w-md md:h-auto flex-auto shadow-2xl">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <button
             type="button"

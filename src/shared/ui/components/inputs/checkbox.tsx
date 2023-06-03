@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 export interface CheckboxProps
   extends JSX.InputHTMLAttributes<HTMLInputElement> {
-  container?: JSX.HTMLAttributes<HTMLDivElement>;
+  containerProps?: JSX.HTMLAttributes<HTMLDivElement>;
   children?: JSX.Element;
   indeterminate?: boolean;
   error?: string
@@ -13,7 +13,7 @@ export function Checkbox(props: CheckboxProps) {
   const [, inputProps] = splitProps(props, [
     "children",
     "class",
-    "container",
+    "containerProps",
     "ref",
     "id",
   ]);
@@ -24,7 +24,7 @@ export function Checkbox(props: CheckboxProps) {
   return (
     <div
       class={clsx("flex flex-wrap items-center", props.class)}
-      {...(props.container ?? {})}
+      {...(props.containerProps ?? {})}
     >
       <input
         id={inputId()}

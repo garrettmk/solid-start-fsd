@@ -2,8 +2,20 @@ import { SizeClassScale } from "@/shared/ui";
 import { ButtonProps } from "./button";
 
 export const base =
-  "rounded-lg font-medium focus:ring-4 focus:outline-none flex justify-center items-center basis-grow-0 basis-shrink-0";
+  "font-medium focus:ring-4 focus:outline-none flex justify-center items-center basis-grow-0 basis-shrink-0";
 export const disabled = "cursor-not-allowed";
+
+export const radiusScale: SizeClassScale = {
+  none: "",
+  xs: "rounded-md",
+  sm: "rounded-md",
+  md: "rounded-lg",
+  lg: "rounded-xl",
+  xl: "rounded-xl",
+  "2xl": "rounded-2xl",
+  "3xl": "rounded-2xl",
+  "4xl": "rounded-2xl",
+}
 
 export const paddingScale: SizeClassScale = {
   none: "",
