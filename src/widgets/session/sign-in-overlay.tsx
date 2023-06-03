@@ -26,14 +26,14 @@ export function SignInOverlay(props: SignInOverlayProps) {
       class={clsx(
         "fixed inset-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full flex items-center justify-center",
         {
-          'backdrop-blur-sm backdrop-grayscale': !props.noBackdrop,
+          'backdrop-blur-sm backdrop-grayscale bg-slate-900/50': !props.noBackdrop,
           'hidden': !isOpen(),
         },
         props.class
       )}
       {...divProps}
     >
-      <div class="relativew-full h-full max-w-md md:h-auto flex-auto">
+      <div class="relativew-full h-full max-w-md md:h-auto flex-auto shadow-2xl">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <button
             type="button"
