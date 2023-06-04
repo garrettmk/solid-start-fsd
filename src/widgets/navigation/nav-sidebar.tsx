@@ -54,7 +54,7 @@ export function NavSidebar() {
         <MoonIcon />
       </Button>
 
-      <Button color="ghost" size="xs" class={clsx(styles.link)} onClick={signOut}>
+      <Button data-testid="sign-out-button" color="ghost" size="xs" class={clsx(styles.link)} onClick={signOut}>
         <ArrowRightOnRectangleIcon />
       </Button>
     </nav>
