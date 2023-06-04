@@ -3,6 +3,7 @@ import {
   SignInWithPasswordForm,
   useSignInWithPassword
 } from "@/features/session/sign-in-with-password";
+import { Error } from "@/shared/ui";
 import clsx from "clsx";
 import { JSX, Show, splitProps } from "solid-js";
 
@@ -60,11 +61,9 @@ export function SignInOverlay(props: SignInOverlayProps) {
               Sign in to our platform
             </h3>
             <SignInWithPasswordForm onSubmit={signInWithPassword} />
-            <Show when={signInResult.error}>
-              <p class="mt-2 text-xs text-red-600 dark:text-red-400">
-                {signInResult.error?.message}
-              </p>
-            </Show>
+            <Error when={signInResult.error} class="mt-3 text-sm">
+              {signInResult.error?.message}
+            </Error>
           </div>
         </div>
       </div>

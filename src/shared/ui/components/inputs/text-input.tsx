@@ -67,8 +67,7 @@ export function TextInput(props: TextInputProps) {
       <Error
         when={props.error}
         id={errorId()}
-        size={adjustSize(props.size ?? "md", { adjust: -1 })}
-        class="mt-2"
+        class={clsx('mt-2', adjustSize(props.size ?? "md", { adjust: -1 }))}
       >
         {props.error}
       </Error>
