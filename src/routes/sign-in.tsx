@@ -17,7 +17,7 @@ export function SignIn() {
         <Heading class="text-2xl mb-4">Sign in to our platform</Heading>
         <SignInWithPasswordForm onSubmit={signInWithPassword} />
         <Show when={signInResult.error}>
-          <p class="mt-3 text-xs text-red-600 dark:text-red-400">
+          <p role="alert" class="mt-3 text-xs text-red-600 dark:text-red-400">
             {signInResult.error?.message}
           </p>
         </Show>
