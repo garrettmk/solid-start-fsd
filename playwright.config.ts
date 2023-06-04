@@ -14,7 +14,7 @@ dotenv.config();
  */
 export default defineConfig({
   testDir: './e2e',
-  testMatch: /.*\.{e2e}.ts$/,
+  testMatch: /.*\.e2e.ts$/,
   outputDir: './e2e/results',
   /* Run tests in files in parallel */
   fullyParallel: true,
