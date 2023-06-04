@@ -1,8 +1,7 @@
 import { useSession } from "@/entities/session";
 import { SignInWithPasswordForm, useSignInWithPassword } from "@/features/session/sign-in-with-password";
 import { AppURLDependency } from "@/shared/lib";
-import { Heading, Panel, Redirect, useContainer } from "@/shared/ui";
-import { Show } from "solid-js";
+import { Error, Heading, Panel, Redirect, useContainer } from "@/shared/ui";
 
 export function SignIn() {
   const appURL = useContainer(AppURLDependency);
@@ -16,11 +15,9 @@ export function SignIn() {
       <Panel class="p-6 w-96 min-w-lg shadow-2xl">
         <Heading class="text-2xl mb-4">Sign in to our platform</Heading>
         <SignInWithPasswordForm onSubmit={signInWithPassword} />
-        <Show when={signInResult.error}>
-          <p role="alert" class="mt-3 text-xs text-red-600 dark:text-red-400">
-            {signInResult.error?.message}
-          </p>
-        </Show>
+        <Error when={signInResult.error} class="mt-3">
+          {signInResult.error?.message}
+        </Error>
       </Panel>
     </main>
   );
