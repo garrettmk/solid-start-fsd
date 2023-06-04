@@ -1,5 +1,7 @@
 import { JSX, Show, splitProps } from "solid-js";
 import clsx from "clsx";
+import { Error } from "../text/error";
+import { adjustSize } from "../../helpers";
 
 export interface TextInputProps
   extends JSX.InputHTMLAttributes<HTMLInputElement> {
@@ -25,15 +27,6 @@ const styles = {
       sm: "text-sm p-1.5 pb-1",
       md: "text-md p-2.5 pb-2",
       lg: "text-lg p-3 pb-2.5",
-    },
-  },
-
-  error: {
-    base: "mt-2 text-red-600 dark:text-red-400",
-    size: {
-      sm: "text-xs ml-0.5",
-      md: "text-sm ml-1",
-      lg: "text-base ml-1",
     },
   },
 };
@@ -71,14 +64,14 @@ export function TextInput(props: TextInputProps) {
         aria-describedby={errorId()}
         {...inputProps}
       />
-      <Show when={props.error}>
-        <p
-          id={errorId()}
-          class={clsx(styles.error.base, styles.error.size[props.size ?? "md"])}
-        >
-          {props.error}
-        </p>
-      </Show>
+      <Error
+        when={props.error}
+        id={errorId()}
+        size={adjustSize(props.size ?? "md", { adjust: -1 })}
+        class="mt-2"
+      >
+        {props.error}
+      </Error>
     </div>
   );
 }
