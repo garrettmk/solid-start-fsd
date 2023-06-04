@@ -31,7 +31,7 @@ export function SignInWithPasswordForm(props: SignInFormProps) {
   });
 
   return (
-    <Form class="space-y-6" onSubmit={props.onSubmit ?? noop} {...formProps}>
+    <Form data-testid="sign-in-with-password-form" class="space-y-6" onSubmit={props.onSubmit ?? noop} {...formProps}>
       <Field name="email">
         {(field, props) => (
           <TextInput
