@@ -27,6 +27,7 @@ const meta = {
     }
   },
   args: {
+    id: 'checkbox-control',
     children: 'I like puppies',
   }
 } satisfies Meta<typeof Checkbox>;

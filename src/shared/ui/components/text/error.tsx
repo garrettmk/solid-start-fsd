@@ -10,15 +10,14 @@ export function Error(props: ErrorProps) {
   const [, elementProps] = splitProps(props, ["class"]);
 
   return (
-    <Show when={props.when}>
-      <p
-        role='alert'
-        class={clsx(
-          "text-red-500 dark:text-red-400",
-          props.class
-        )}
-        {...elementProps}
-      />
-    </Show>
+    <p
+      role='alert'
+      class={clsx(
+        "text-red-600 dark:text-red-400",
+        props.class
+      )}
+      hidden={!props.when}
+      {...elementProps}
+    />
   );
 }

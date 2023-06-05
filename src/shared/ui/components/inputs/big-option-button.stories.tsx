@@ -28,6 +28,7 @@ const meta = {
     }
   },
   args: {
+    id: 'big-option-button',
     label: 'Label',
     description: 'Description',
   }

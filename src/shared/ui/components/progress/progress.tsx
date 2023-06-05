@@ -32,11 +32,16 @@ export function Progress(props: ProgressProps) {
     "value",
     "background",
   ]);
+
+  const value = () => clamp(props.value ?? 0, { min: 0, max: 100 });
+
   const style = () =>
-    `width: ${clamp(props.value ?? 0, { min: 0, max: 100 })}%`;
+    `width: ${value()}%`;
 
   return (
     <div
+      role="progressbar"
+      aria-valuenow={value()}
       class={clsx(
         styles.base,
         styles.size[props.size ?? "md"],

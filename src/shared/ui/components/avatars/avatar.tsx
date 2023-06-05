@@ -49,6 +49,7 @@ export function Avatar(props: AvatarProps) {
           <img
             class="min-w-[calc(100%+theme(space.4))] min-h-[calc(100%+theme(space.4))] object-cover"
             src={props.src}
+            alt="Avatar image"
           />
         </Match>
         <Match when={props.initials}>

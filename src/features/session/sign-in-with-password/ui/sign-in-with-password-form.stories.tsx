@@ -1,12 +1,20 @@
 import type { Meta, StoryObj } from 'storybook-solidjs';
 import { SignInWithPasswordForm } from './sign-in-with-password-form';
+import { Router } from '@solidjs/router';
 
 const meta = {
   title: 'Features/Session/Sign In With Password/Sign In With Password Form',
   component: SignInWithPasswordForm,
   tags: ['autodocs'],
-  argTypes: {}
-};
+  argTypes: {},
+  decorators: [
+    Story => (
+      <Router>
+        <Story />
+      </Router>
+    )
+  ]
+} satisfies Meta<typeof SignInWithPasswordForm>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

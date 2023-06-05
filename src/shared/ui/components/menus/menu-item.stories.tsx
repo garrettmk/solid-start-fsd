@@ -22,6 +22,13 @@ const meta = {
   args: {
     children: 'A menu item',
   },
+  decorators: [
+    Story => (
+      <ul>
+        <Story />
+      </ul>
+    )
+  ]
 } satisfies Meta<typeof MenuItem>;
 
 export default meta;

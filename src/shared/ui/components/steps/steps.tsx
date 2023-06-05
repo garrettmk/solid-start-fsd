@@ -13,7 +13,7 @@ export function Steps(props: StepsProps) {
     <HStack<HTMLUListElement>
       as="ul"
       align="center"
-      class={clsx("text-gray-400", stepsProps.class)}
+      class={clsx("text-gray-500", stepsProps.class)}
       {...listProps}
     >
       {stepsProps.children}
@@ -50,7 +50,7 @@ export function Step(props: StepProps) {
           "flex flex-col items-center font-medium",
           {
             "text-slate-800 dark:text-white": isCurrent(),
-            "text-blue-500": isComplete(),
+            "text-blue-600": isComplete(),
           },
           stepProps.class
         )}

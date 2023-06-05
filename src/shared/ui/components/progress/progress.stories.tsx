@@ -25,6 +25,7 @@ const meta = {
     }
   },
   args: {
+    'aria-label': 'Progress bar',
     value: 75,
   },
 } satisfies Meta<typeof Progress>;

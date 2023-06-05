@@ -25,6 +25,9 @@ const meta = {
       ],
       defaultValue: 'blue'
     }
+  },
+  args: {
+    'aria-label': 'Loading',
   }
 };
 
