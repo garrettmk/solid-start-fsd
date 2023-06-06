@@ -13,7 +13,7 @@ const styles = {
   base: "w-full text-left text-slate-800 dark:text-slate-200",
 
   header: {
-    base: "uppercase bg-slate-100 text-slate-500  dark:bg-slate-700 dark:text-slate-400",
+    base: "uppercase bg-slate-100 text-slate-600  dark:bg-slate-700 dark:text-slate-400",
 
     size: {
       sm: "text-xs px-4 py-1",
@@ -66,6 +66,8 @@ export function Table<T, V>(props: TableProps<T, V>) {
     getCoreRowModel: getCoreRowModel(),
     ...props.options,
   });
+
+  const hasVisibleFooters = () => table.getAllLeafColumns().some((c) => c.columnDef.footer);
 
   return (
     <table class={clsx(styles.base, props.class)} {...tableProps}>
@@ -123,26 +125,28 @@ export function Table<T, V>(props: TableProps<T, V>) {
           )}
         </For>
       </tbody>
-      <tfoot>
-        <For each={table.getFooterGroups()}>
-          {(footerGroup) => (
-            <tr>
-              <For each={footerGroup.headers}>
-                {(header) => (
-                  <th>
-                    <Show when={!header.isPlaceholder}>
-                      {flexRender(
-                        header.column.columnDef.footer,
-                        header.getContext()
-                      )}
-                    </Show>
-                  </th>
-                )}
-              </For>
-            </tr>
-          )}
-        </For>
-      </tfoot>
+      <Show when={hasVisibleFooters()}>
+        <tfoot>
+          <For each={table.getFooterGroups()}>
+            {(footerGroup) => (
+              <tr>
+                <For each={footerGroup.headers}>
+                  {(header) => (
+                    <th scope="col">
+                      <Show when={!header.isPlaceholder}>
+                        {flexRender(
+                          header.column.columnDef.footer,
+                          header.getContext()
+                        )}
+                      </Show>
+                    </th>
+                  )}
+                </For>
+              </tr>
+            )}
+          </For>
+        </tfoot>
+      </Show>
     </table>
   );
 }
