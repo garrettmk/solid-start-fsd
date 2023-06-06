@@ -107,8 +107,8 @@ export const colors: Record<NonNullable<ButtonProps["color"]>, Record<"enabled" 
   blue: {
     enabled: `
       text-white
-      bg-blue-700           dark:bg-blue-600
-      hover:bg-blue-800     dark:hover:bg-blue-700
+      bg-blue-700           dark:bg-blue-700
+      hover:bg-blue-800     dark:hover:bg-blue-800
       focus:ring-blue-300   dark:focus:ring-blue-800
     `,
     disabled: `
@@ -120,8 +120,8 @@ export const colors: Record<NonNullable<ButtonProps["color"]>, Record<"enabled" 
   red: {
     enabled: `
       text-white
-      bg-red-700           dark:bg-red-600
-      hover:bg-red-800     dark:hover:bg-red-700
+      bg-red-700           dark:bg-red-700
+      hover:bg-red-800     dark:hover:bg-red-800
       focus:ring-red-300   dark:focus:ring-red-800
     `,
     disabled: `
@@ -133,8 +133,8 @@ export const colors: Record<NonNullable<ButtonProps["color"]>, Record<"enabled" 
   green: {
     enabled: `
       text-white
-      bg-green-700           dark:bg-green-600
-      hover:bg-green-800     dark:hover:bg-green-700
+      bg-green-700           dark:bg-green-700
+      hover:bg-green-800     dark:hover:bg-green-800
       focus:ring-green-300   dark:focus:ring-green-800
     `,
     disabled: `

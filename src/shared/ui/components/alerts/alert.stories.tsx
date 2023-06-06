@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { Alert } from './alert';
+import { withDarkMode } from "@/shared/storybook/decorators";
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/solid/writing-stories/introduction
 const meta = {
@@ -13,7 +14,7 @@ const meta = {
       options: ['blue', 'red', 'green'],
       defaultValue: 'blue',
     }
-  }
+  },
 } satisfies Meta<typeof Alert>;
 
 export default meta;
@@ -33,11 +34,36 @@ export const Blue: Story = {
   },
 };
 
+export const BlueDark: Story = {
+  args: {
+    ...Primary.args,
+  },
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    }
+  },
+  decorators: [withDarkMode]
+};
+
 export const Red: Story = {
   args: {
     ...Primary.args,
     color: "red",
   },
+};
+
+export const RedDark: Story = {
+  args: {
+    ...Primary.args,
+    color: 'red',
+  },
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    }
+  },
+  decorators: [withDarkMode]
 };
 
 export const Green: Story = {
@@ -46,3 +72,16 @@ export const Green: Story = {
     color: "green",
   },
 };
+
+export const GreenDark: Story = {
+  args: {
+    ...Primary.args,
+    color: 'green',
+  },
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    }
+  },
+  decorators: [withDarkMode]
+}

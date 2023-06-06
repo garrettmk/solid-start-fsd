@@ -21,5 +21,13 @@ const config: StorybookConfig = {
   docs: {
     autodocs: "tag",
   },
+  previewHead: (head) => `
+    ${head}
+    <style>
+      body {
+        transition: none !important;
+      }
+    </style>
+  `
 };
 export default config;

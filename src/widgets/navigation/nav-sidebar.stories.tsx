@@ -4,6 +4,7 @@ import { Router } from "@solidjs/router";
 import { Scope, provider } from "@/shared/lib";
 import { SignOutDependency } from "@/features/session/sign-out";
 import { ScopeProvider } from "@/shared/ui";
+import { withDarkMode } from "@/shared/storybook/decorators";
 
 const MockSignOutScope = new Scope(undefined, [
   provider({
@@ -43,4 +44,15 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {}
+};
+
+
+export const Dark: Story = {
+  ...Primary,
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    }
+  },
+  decorators: [withDarkMode]
 };

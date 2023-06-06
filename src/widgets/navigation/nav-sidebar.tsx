@@ -17,8 +17,9 @@ const styles = {
     -m-1.5 p-1.5
     flex items-center justify-center
     block rounded-md
-    text-slate-700 dark:text-slate-300
-    hover:bg-slate-100 active:bg-slate-200
+    text-slate-500 dark:text-slate-400
+    hover:bg-slate-100 hover:text-slate-800 hover:dark:text-slate-300
+    active:bg-slate-200 active:dark:text-slate-300
     dark:hover:bg-slate-700 dark:active:bg-slate-600
   `.trim()
 };

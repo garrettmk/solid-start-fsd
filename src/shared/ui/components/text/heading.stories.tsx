@@ -1,5 +1,6 @@
 import type { StoryObj } from "storybook-solidjs";
 import { Heading } from "./heading";
+import { withDarkMode } from "@/shared/storybook/decorators";
 
 const meta = {
   title: "Shared/UI/Components/Heading",
@@ -28,4 +29,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {},
+};
+
+export const Dark: Story = {
+  ...Primary,
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    }
+  },
+  decorators: [withDarkMode]
 };

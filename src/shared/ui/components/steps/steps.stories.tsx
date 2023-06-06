@@ -4,6 +4,7 @@ import { For } from "solid-js";
 import { IndexProvider } from "../../contexts";
 import { Button, ButtonNext, ButtonPrev } from "../buttons";
 import { HStack } from "../stacks";
+import { withDarkMode } from "@/shared/storybook/decorators";
 
 const meta = {
   title: "Shared/UI/Components/Steps",
@@ -19,7 +20,7 @@ export const Primary: Story = {
   args: {},
   render: props => (
     <div class="inline-block">
-      <IndexProvider initial={{ max: 3 }}>
+      <IndexProvider initial={{ max: 3, value: 1 }}>
         <Steps {...props}>
           <Step index={0}>Step 1</Step>
           <Step index={1}>Step 2</Step>
@@ -36,4 +37,14 @@ export const Primary: Story = {
       </IndexProvider>
     </div>
   )
+};
+
+export const Dark: Story = {
+  ...Primary,
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    }
+  },
+  decorators: [withDarkMode]
 };

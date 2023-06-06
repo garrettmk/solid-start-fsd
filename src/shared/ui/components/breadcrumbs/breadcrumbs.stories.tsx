@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "storybook-solidjs";
 import { Breadcrumbs, BreadcrumbsProps } from "./breadcrumbs";
 import { BreadcrumbItem } from "./breadcrumb-item";
 import { Router } from "@solidjs/router";
+import { withDarkMode } from "@/shared/storybook/decorators";
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/solid/writing-stories/introduction
 const meta = {
@@ -37,3 +38,15 @@ export const Primary: Story = {
     </Breadcrumbs>
   )
 };
+
+export const Dark: Story = {
+  ...Primary,
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    }
+  },
+  decorators: [
+    withDarkMode
+  ]
+}

@@ -24,7 +24,7 @@ export function Dropzone(props: DropzoneProps) {
     <label
       for={inputId()}
       class={clsx(
-        "block border-2 border-dashed border-slate-400 p-8 flex items-center justify-center bg-slate-200 hover:bg-slate-200 cursor-pointer [&_input]:hidden",
+        "block border-2 border-dashed border-slate-400 p-8 flex items-center justify-center bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-100 cursor-pointer [&_input]:hidden rounded-md",
         props.class
       )}
       {...(props.container ?? {})}

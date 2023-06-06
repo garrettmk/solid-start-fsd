@@ -42,12 +42,10 @@ export const Dark: Story = {
     backgrounds: {
       default: 'dark'
     },
+    theming: {
+      themeOverride: 'dark'
+    }
   },
-  render: props => (
-    <div class="dark">
-      <Progress {...props} />
-    </div>
-  )
 };
 
 export const Motion: Story = {

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { Button } from "./button";
 import { AppIcon } from "../icons";
+import { withDarkMode } from "@/shared/storybook/decorators";
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/solid/writing-stories/introduction
 const meta = {
@@ -80,6 +81,26 @@ export const Sizes: Story = {
 };
 
 export const Colors: Story = {
+  render: (props) => (
+    <div class="flex gap-5 items-center">
+      <Button {...props} color="light" />
+      <Button {...props} color="dark" />
+      <Button {...props} color="alternative" />
+      <Button {...props} color="ghost" />
+      <Button {...props} color="blue" />
+      <Button {...props} color="red" />
+      <Button {...props} color="green" />
+    </div>
+  )
+};
+
+export const Dark: Story = {
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    }
+  },
+  decorators: [withDarkMode],
   render: (props) => (
     <div class="flex gap-5 items-center">
       <Button {...props} color="light" />

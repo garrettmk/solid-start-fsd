@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "storybook-solidjs";
 import { Drawer, DrawerProps } from "./drawer";
 import { createToggle } from "../../helpers";
 import { Button } from "../buttons";
+import { withDarkMode } from "@/shared/storybook/decorators";
 
 function DrawerWithCloseButton(props: DrawerProps) {
   const isOpen = createToggle(props.isOpen);
@@ -56,3 +57,15 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   render: (props) => <DrawerWithCloseButton {...props} />
 };
+
+export const Dark: Story = {
+  render: (props) => <DrawerWithCloseButton {...props} />,
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    }
+  },
+  decorators: [
+    withDarkMode
+  ]
+}

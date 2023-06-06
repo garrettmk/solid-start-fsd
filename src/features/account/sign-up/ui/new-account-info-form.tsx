@@ -41,7 +41,7 @@ export function NewAccountInfoForm(props: NewAccountInfoFormProps) {
 
   return (
     <Form onSubmit={props.onSubmit ?? noop} {...formProps}>
-      <h2 class="text-2xl font-bold mb-6">Account Information</h2>
+      <h2 class="text-2xl font-bold mb-6 dark:text-slate-300">Account Information</h2>
       <div class="grid gap-x-6 gap-y-4 sm:grid-cols-1 md:grid-cols-2 mb-6">
         <Field name="fullName">
           {(field, props) => (
@@ -97,7 +97,7 @@ export function NewAccountInfoForm(props: NewAccountInfoFormProps) {
         {(field, props) => (
           <Checkbox {...props} checked={field.value} error={field.error} class="mb-4" required>
             I have read and agree to the{" "}
-            <a class="text-blue-600 underline" href="#">
+            <a class="text-blue-600 dark:text-blue-500 underline" href="#">
               Terms and Conditions
             </a>
           </Checkbox>
