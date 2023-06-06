@@ -1,21 +1,20 @@
-import type { Meta, StoryObj } from "storybook-solidjs";
+import { SignOutDependency } from "@/features/session/sign-out";
+import { Scope, provider } from "@/shared/lib";
 import { withDarkMode } from "@/shared/storybook/decorators";
+import { Heading, Panel, ScopeProvider } from "@/shared/ui";
+import { NavSidebar } from "@/widgets/navigation/nav-sidebar";
+import { Router } from "@solidjs/router";
+import type { Meta, StoryObj } from "storybook-solidjs";
 import { PageContent } from "./page-content";
 import { PageHeader } from "./page-header";
-import { Heading } from "../text";
-import { NavSidebar } from "@/widgets/navigation/nav-sidebar";
-import { Scope, provider } from "@/shared/lib";
-import { Session, SessionDependency } from "@/entities/session";
-import { ScopeProvider } from "../../contexts";
-import { SignOutDependency } from "@/features/session/sign-out";
-import { Router } from "@solidjs/router";
-import { Panel } from "../panels";
+import { DarkModeProvider } from "@/features/appearance";
 
 const MockPageScope = new Scope(undefined, [
   provider({
     provides: SignOutDependency,
     use: () => async () => { }
-  })
+  }),
+  DarkModeProvider
 ]);
 
 await MockPageScope.resolveAll();
@@ -47,7 +46,7 @@ function MockPage() {
 
 
 const meta = {
-  title: "Shared/UI/Components/Page",
+  title: "Widgets/Page",
   component: MockPage,
   tags: ["autodocs"],
   argTypes: {

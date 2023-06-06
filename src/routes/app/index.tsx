@@ -1,5 +1,6 @@
 import { SessionDebug } from "@/features/debug/session";
-import { Heading, PageContent, PageHeader, Panel } from "@/shared/ui";
+import { Heading, Panel } from "@/shared/ui";
+import { PageContent, PageHeader } from "@/widgets/page";
 
 export function App() {
   return (

@@ -14,7 +14,6 @@ export * from "./steps";
 export * from "./tabs";
 export * from "./tables";
 export * from "./text";
-export * from "./page";
 export * from "./panels";
 export * from "./progress";
 export * from "./module";
