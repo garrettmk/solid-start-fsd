@@ -15,6 +15,7 @@ export function PageHeader(props: PageHeaderProps) {
 
   return (
     <HStack
+      as='header'
       justify="between"
       align="center"
       class={clsx(

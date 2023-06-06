@@ -25,6 +25,7 @@ const meta = {
     }
   },
   args: {
+    'aria-label': 'Progress bar',
     value: 75,
   },
 } satisfies Meta<typeof Progress>;
@@ -41,12 +42,10 @@ export const Dark: Story = {
     backgrounds: {
       default: 'dark'
     },
+    theming: {
+      themeOverride: 'dark'
+    }
   },
-  render: props => (
-    <div class="dark">
-      <Progress {...props} />
-    </div>
-  )
 };
 
 export const Motion: Story = {

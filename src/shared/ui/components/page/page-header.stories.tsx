@@ -1,28 +1,18 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
-import { Panel } from "./panel";
 import { withDarkMode } from "@/shared/storybook/decorators";
+import { PageHeader } from "./page-header";
 
 const meta = {
-  title: "Shared/UI/Components/Panel",
-  component: Panel,
+  title: "Shared/UI/Components/Page/PageHeader",
+  component: PageHeader,
   tags: ["autodocs"],
   argTypes: {
-    children: {
-      description: 'The panel content',
-      control: 'none',
-    },
-    as: {
-      description: 'The element type',
-      control: 'select',
-      options: ["div", "nav", "aside", "section", "p"],
-      defaultValue: 'div'
+    title: {
+      description: "The title of the page (not the header content)",
+      control: "text",
     }
   },
-  args: {
-    children: "I'm in the panel!",
-    as: 'div',
-  },
-} satisfies Meta<typeof Panel>;
+} satisfies Meta<typeof PageHeader>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

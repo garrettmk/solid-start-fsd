@@ -22,7 +22,7 @@ const styles = {
   },
 
   input: {
-    base: "w-full bg-slate-50 border border-slate-300 text-slate-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
+    base: "w-full bg-slate-50 border border-slate-300 text-slate-900 placeholder-slate-400 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500",
     size: {
       sm: "text-sm p-1.5 pb-1",
       md: "text-md p-2.5 pb-2",
@@ -67,8 +67,7 @@ export function TextInput(props: TextInputProps) {
       <Error
         when={props.error}
         id={errorId()}
-        size={adjustSize(props.size ?? "md", { adjust: -1 })}
-        class="mt-2"
+        class={clsx('mt-2', adjustSize(props.size ?? "md", { adjust: -1 }))}
       >
         {props.error}
       </Error>

@@ -15,7 +15,7 @@ export function SignIn() {
       <Panel class="p-6 w-96 min-w-lg shadow-2xl">
         <Heading class="text-2xl mb-4">Sign in to our platform</Heading>
         <SignInWithPasswordForm onSubmit={signInWithPassword} />
-        <Error when={signInResult.error} class="mt-3">
+        <Error when={signInResult.error} class="mt-3 text-sm">
           {signInResult.error?.message}
         </Error>
       </Panel>

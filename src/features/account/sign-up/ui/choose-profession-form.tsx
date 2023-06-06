@@ -25,9 +25,9 @@ export function ChooseProfessionForm(props: SelectProfessionFormProps) {
 
   return (
     <Form onSubmit={props.onSubmit ?? noop} {...formProps}>
-      <h2 class="text-2xl font-bold mb-6">Tell us about yourself</h2>
+      <h2 class="text-2xl font-bold mb-6 dark:text-slate-300">Tell us about yourself</h2>
       <VStack as="fieldset" spacing="sm" align="stretch" class="mb-8">
-        <legend class="text-lg text-slate-400 mb-6">
+        <legend class="text-lg text-slate-600 dark:text-slate-400 mb-6">
           What is your profession?
         </legend>
         <Field name="profession">

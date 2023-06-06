@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { Menu } from "./menu";
 import { MenuItem } from "./menu-item";
+import { withDarkMode } from "@/shared/storybook/decorators";
 
 const meta = {
   title: "Shared/UI/Components/Menu/Menu",
@@ -44,4 +45,14 @@ export const Primary: Story = {
       <MenuItem inactive>Tea, Earl Grey, Hot</MenuItem>
     </Menu>
   )
+};
+
+export const Dark: Story = {
+  ...Primary,
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    }
+  },
+  decorators: [withDarkMode]
 };

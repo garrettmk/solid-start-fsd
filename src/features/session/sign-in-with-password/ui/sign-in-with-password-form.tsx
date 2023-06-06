@@ -3,6 +3,7 @@ import { Button, Checkbox, TextInput } from "@/shared/ui";
 import { createForm, zodForm } from "@modular-forms/solid";
 import { JSX, splitProps } from "solid-js";
 import { passwordCredentialsSchema } from "../schemas";
+import { A } from "solid-start";
 
 export type SignInFormData = {
   email: string;
@@ -66,24 +67,24 @@ export function SignInWithPasswordForm(props: SignInFormProps) {
           )}
         </Field>
 
-        <a
+        <A
           href="#"
-          class="text-sm text-blue-700 hover:underline dark:text-blue-500"
+          class="text-sm text-blue-700 underline dark:text-blue-500"
         >
           Lost Password?
-        </a>
+        </A>
       </div>
       <Button type="submit" size="lg" class="text-sm font-medium w-full">
         Login to your account
       </Button>
       <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
         Not registered?{" "}
-        <a
+        <A
           href="/sign-up"
-          class="text-blue-700 hover:underline dark:text-blue-500"
+          class="text-blue-700 underline dark:text-blue-500"
         >
           Create account
-        </a>
+        </A>
       </div>
     </Form>
   );

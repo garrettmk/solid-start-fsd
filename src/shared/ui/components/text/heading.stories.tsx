@@ -1,28 +1,28 @@
-import type { Meta, StoryObj } from "storybook-solidjs";
-import { Panel } from "./panel";
+import type { StoryObj } from "storybook-solidjs";
+import { Heading } from "./heading";
 import { withDarkMode } from "@/shared/storybook/decorators";
 
 const meta = {
-  title: "Shared/UI/Components/Panel",
-  component: Panel,
+  title: "Shared/UI/Components/Heading",
+  component: Heading,
   tags: ["autodocs"],
   argTypes: {
     children: {
-      description: 'The panel content',
-      control: 'none',
+      description: 'The heading text',
+      control: 'text',
     },
-    as: {
-      description: 'The element type',
+    level: {
+      description: 'The semantic heading level. Use the `class` prop to set the text size.',
+      type: 'number',
       control: 'select',
-      options: ["div", "nav", "aside", "section", "p"],
-      defaultValue: 'div'
+      options: [1, 2, 3, 4, 5, 6],
     }
   },
   args: {
-    children: "I'm in the panel!",
-    as: 'div',
-  },
-} satisfies Meta<typeof Panel>;
+    children: 'I am a heading',
+    level: 1
+  }
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;

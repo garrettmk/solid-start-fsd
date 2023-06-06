@@ -30,7 +30,7 @@ export function Spinner(props: SpinnerProps) {
   const [, divProps] = splitProps(props, ["size", "color"]);
 
   return (
-    <div role="status" {...divProps}>
+    <div role="progressbar" {...divProps}>
       <svg
         aria-hidden="true"
         class={clsx(

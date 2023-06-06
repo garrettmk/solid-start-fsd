@@ -17,8 +17,9 @@ const styles = {
     -m-1.5 p-1.5
     flex items-center justify-center
     block rounded-md
-    text-slate-700 dark:text-slate-300
-    hover:bg-slate-100 active:bg-slate-200
+    text-slate-500 dark:text-slate-400
+    hover:bg-slate-100 hover:text-slate-800 hover:dark:text-slate-300
+    active:bg-slate-200 active:dark:text-slate-300
     dark:hover:bg-slate-700 dark:active:bg-slate-600
   `.trim()
 };
@@ -32,29 +33,41 @@ export function NavSidebar() {
         <AppIcon />
       </div>
 
-      <A class={clsx(styles.link, "mt-10")} href="/app">
+      <A class={clsx(styles.link, "mt-10")} href="/app" aria-label="Home">
         <HomeIcon size="xs" />
       </A>
 
-      <A class={styles.link} href="/app/tenants">
+      <A class={styles.link} href="/app/tenants" aria-label="Tenants">
         <BuildingStorefrontIcon size="xs" />
       </A>
 
-      <A class={styles.link} href="/app/users">
+      <A class={styles.link} href="/app/users" aria-label="Users">
         <UsersIcon size="xs" />
       </A>
 
       <hr />
 
-      <A class={styles.link} href="/app/settings">
+      <A class={styles.link} href="/app/settings" aria-label="Settings">
         <Cog6ToothIcon size="xs" />
       </A>
 
-      <Button color="ghost" size="xs" class={clsx(styles.link, 'mt-auto')}>
+      <Button
+        color="ghost"
+        size="xs"
+        class={clsx(styles.link, 'mt-auto')}
+        aria-label="Toggle dark mode"
+      >
         <MoonIcon />
       </Button>
 
-      <Button data-testid="sign-out-button" color="ghost" size="xs" class={clsx(styles.link)} onClick={signOut}>
+      <Button
+        data-testid="sign-out-button"
+        aria-label="Sign out"
+        class={clsx(styles.link)}
+        color="ghost"
+        size="xs"
+        onClick={signOut}
+      >
         <ArrowRightOnRectangleIcon />
       </Button>
     </nav>

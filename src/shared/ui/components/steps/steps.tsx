@@ -13,7 +13,7 @@ export function Steps(props: StepsProps) {
     <HStack<HTMLUListElement>
       as="ul"
       align="center"
-      class={clsx("text-gray-400", stepsProps.class)}
+      class={clsx("text-gray-500 dark:text-slate-400", stepsProps.class)}
       {...listProps}
     >
       {stepsProps.children}
@@ -49,8 +49,8 @@ export function Step(props: StepProps) {
         class={clsx(
           "flex flex-col items-center font-medium",
           {
-            "text-slate-800 dark:text-white": isCurrent(),
-            "text-blue-500": isComplete(),
+            "text-slate-900 dark:text-slate-100": isCurrent(),
+            "text-blue-600 dark:text-blue-500": isComplete(),
           },
           stepProps.class
         )}
@@ -58,7 +58,7 @@ export function Step(props: StepProps) {
       >
         <Switch>
           <Match when={isComplete()}>
-            <CheckCircleSolidIcon class="w-6 h-6 mx-auto text-blue-600 mb-2" />
+            <CheckCircleSolidIcon class="w-6 h-6 mx-auto text-blue-600 dark:text-blue-500 mb-2" />
           </Match>
           <Match when={!isComplete()}>
             <span class="mb-2">{stepProps.index + 1}</span>

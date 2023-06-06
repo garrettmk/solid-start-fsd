@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { BigOptionButton } from "./big-option-button";
+import { withDarkMode } from "@/shared/storybook/decorators";
 
 const meta = {
   title: "Shared/UI/Components/BigOptionButton",
@@ -28,6 +29,7 @@ const meta = {
     }
   },
   args: {
+    id: 'big-option-button',
     label: 'Label',
     description: 'Description',
   }
@@ -38,4 +40,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {},
+};
+
+export const Dark: Story = {
+  ...Primary,
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    }
+  },
+  decorators: [withDarkMode]
 };

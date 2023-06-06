@@ -6,6 +6,7 @@ const config: StorybookConfig = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
+    "@storybook/addon-a11y",
     {
       name: "@storybook/addon-styling",
       options: {
@@ -20,5 +21,13 @@ const config: StorybookConfig = {
   docs: {
     autodocs: "tag",
   },
+  previewHead: (head) => `
+    ${head}
+    <style>
+      body {
+        transition: none !important;
+      }
+    </style>
+  `
 };
 export default config;
