@@ -1,11 +1,12 @@
 import { useSession } from "@/entities/session";
+import { Code } from "@/shared/ui";
 
 export function SessionDebug() {
   const session = useSession();
 
   return (
-    <pre class="bg-slate-200 p-4 inline-block rounded-md">
+    <Code>
       {JSON.stringify(session(), null, 2) ?? 'n/a'}
-    </pre>
+    </Code>
   );
 }

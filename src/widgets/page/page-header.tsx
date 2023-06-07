@@ -1,6 +1,6 @@
+import { HStack, HStackProps } from "@/shared/ui";
 import clsx from "clsx";
 import { splitProps } from "solid-js";
-import { HStack, HStackProps } from "../stacks/h-stack";
 
 export interface PageHeaderProps extends HStackProps {
   title?: string;

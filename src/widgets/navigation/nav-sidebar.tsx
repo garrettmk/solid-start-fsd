@@ -1,5 +1,6 @@
+import { ToggleDarkModeButton } from "@/features/appearance";
 import { useSignOut } from "@/features/session/sign-out";
-import { AppIcon, ArrowRightOnRectangleIcon, BuildingStorefrontIcon, Button, Cog6ToothIcon, HomeIcon, MoonIcon, UsersIcon } from "@/shared/ui";
+import { AppIcon, ArrowRightOnRectangleIcon, BuildingStorefrontIcon, Button, Cog6ToothIcon, HomeIcon, UsersIcon } from "@/shared/ui";
 import clsx from "clsx";
 import { A } from "solid-start";
 
@@ -51,14 +52,11 @@ export function NavSidebar() {
         <Cog6ToothIcon size="xs" />
       </A>
 
-      <Button
+      <ToggleDarkModeButton
         color="ghost"
         size="xs"
         class={clsx(styles.link, 'mt-auto')}
-        aria-label="Toggle dark mode"
-      >
-        <MoonIcon />
-      </Button>
+      />
 
       <Button
         data-testid="sign-out-button"

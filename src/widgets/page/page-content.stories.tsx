@@ -3,7 +3,7 @@ import { withDarkMode } from "@/shared/storybook/decorators";
 import { PageContent } from "./page-content";
 
 const meta = {
-  title: "Shared/UI/Components/Page/PageContent",
+  title: "Widgets/Page/PageContent",
   component: PageContent,
   tags: ["autodocs"],
   argTypes: {
