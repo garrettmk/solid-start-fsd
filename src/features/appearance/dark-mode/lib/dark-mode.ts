@@ -11,6 +11,10 @@ export interface DarkMode {
 }
 
 export function createDarkMode(initial?: boolean): DarkMode {
+  if (initial === undefined && typeof window !== "undefined") {
+    initial = window?.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+
   const [darkMode, setState] = createStore<DarkMode>({
     isDarkMode: initial ?? false,
     toggle: () => setState("isDarkMode", (prev) => !prev),
