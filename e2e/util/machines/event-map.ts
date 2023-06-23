@@ -13,7 +13,7 @@ export class EventMap<TTestContext = any> {
   protected exec: Map<string, EventExecutorFn<TTestContext>>;
   protected static dummyExec = async () => { };
 
-  public constructor(public readonly options: EventMapOptions = {}) {
+  public constructor(public readonly options: EventMapOptions<TTestContext> = {}) {
     this.data = new Map();
     this.exec = new Map();
 

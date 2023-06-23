@@ -2,11 +2,13 @@ import { get, isEmpty, isFunction, omit } from "radash";
 import { AnyEventObject, AnyState, AnyStateMachine } from "xstate";
 import { EventMap } from "./event-map.js";
 
+
 /**
  * A segment of a test path. Applies a single event to a state and tests
  * the resulting state.
  */
 export class TestSegment<TTestContext = any> {
+  protected _description: string;
 
   /**
    * 
@@ -16,30 +18,32 @@ export class TestSegment<TTestContext = any> {
    *             is applied to the state.
    */
   public constructor(
-    protected readonly machine: AnyStateMachine,
-    protected readonly state: AnyState = machine.initialState,
-    protected readonly events: EventMap<TTestContext> = new EventMap(),
-  ) { }
+    public readonly machine: AnyStateMachine,
+    public readonly state: AnyState = machine.initialState,
+    public readonly events: EventMap<TTestContext> = new EventMap(),
+  ) {
+    this._description = `${this.eventDescription} -> ${this.stateDescription}`;
+  }
 
   /**
-   * A description of the segment.
+   * A description of the segment
    */
   public get description() {
-    const { eventDescription, stateDescription } = this;
-    return `${eventDescription} -> ${stateDescription}`;
+    return this._description;
+    // return `${this.eventDescription} -> ${this.stateDescription}`;
   }
 
   /**
    * A description of the segment's `event`.
    */
   public get eventDescription() {
-    const { event } = this.state;
-    const eventData = omit(event, ['type']);
+    const eventData = omit(this.event, ['type']);
+    const hasData = !isEmpty(eventData);
 
-    if (isEmpty(eventData))
-      return event.type;
-
-    return `${event.type} ${JSON.stringify(eventData)}`;
+    if (hasData)
+      return `${this.event.type} ${JSON.stringify(eventData)}`;
+    else
+      return this.event.type;
   }
 
   /**
@@ -64,6 +68,58 @@ export class TestSegment<TTestContext = any> {
    */
   public get event() {
     return this.state.event;
+  }
+
+  /**
+   * Compares both the events and final states of the segments. Returns
+   * true if they are equal.
+   * 
+   * @param other The segment to compare to.
+   * @returns boolean
+   */
+  public matches(other: TestSegment) {
+    return this.description === other.description;
+  }
+
+  /**
+   * Compares the event types and final states of the segments. Returns
+   * true if they are equal.
+   * 
+   * @param other The segment to compare to.
+   * @returns boolean
+   */
+  public isSimilar(other: TestSegment) {
+    return this.hasSimilarEvent(other) && this.hasSameTarget(other);
+  }
+
+  /**
+   * Compares the final states of the segments. Returns true if they are
+   * equal.
+   * 
+   * @param other 
+   * @returns 
+   */
+  public hasSameTarget(other: TestSegment) {
+    return JSON.stringify(this.target) === JSON.stringify(other.target);
+  }
+
+  public hasSimilarEvent(other: TestSegment) {
+    return this.event.type === other.event.type;
+  }
+
+  /**
+   * Compares the final states of the segments. Returns true if they are
+   * not equal.
+   *  
+   * @param other
+   * @returns
+   */
+  public reachesState(state: AnyState) {
+    return JSON.stringify(this.target) === JSON.stringify(state.value);
+  }
+
+  public isFinal() {
+    return this.state.done || this.state.nextEvents.length === 0;
   }
 
   /**

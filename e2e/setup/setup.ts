@@ -1,23 +1,29 @@
+import { NewAccountInput } from '@/features/account/sign-up/index.js';
 import { test as base, expect } from '@playwright/test';
 import { AuthUser, SupabaseClient, createClient } from '@supabase/supabase-js';
 import path from 'path';
-import { AppHomePage } from './app-home-page.js';
-import { SignInPage } from './sign-in-page.js';
+import { AppHomePage } from '../tests/app/setup/app-home-page.js';
+import { SignInPage } from '../tests/features/session/setup/sign-in-page.js';
+import { SiteHomePage } from './site-home-page.js';
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL ?? 'http://localhost:3000';
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY ?? '';
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? '';
 
-type TestFixtures = {
+export type TestFixtures = {
+  siteHomePage: SiteHomePage;
+  signUpInfo: NewAccountInput;
   signInPage: SignInPage;
   appHomePage: AppHomePage;
 }
 
-type WorkerFixtures = {
+export type WorkerFixtures = {
   supabase: SupabaseClient;
   workerUser: AuthUser & { email: string, password: string };
   workerStorageState: string;
 };
+
+export type Fixtures = TestFixtures & WorkerFixtures;
 
 export const test = base.extend<TestFixtures, WorkerFixtures>({
   supabase: [async ({ }, use) => {
@@ -37,6 +43,9 @@ export const test = base.extend<TestFixtures, WorkerFixtures>({
     const password = 'test1234';
 
     const { data, error } = await supabase.auth.admin.createUser({
+      user_metadata: {
+        fullName: 'Test User'
+      },
       email,
       password,
       email_confirm: true
@@ -64,18 +73,13 @@ export const test = base.extend<TestFixtures, WorkerFixtures>({
 
   storageState: ({ workerStorageState }, use) => use(workerStorageState),
 
-  signInPage: async ({ browser }, use) => {
+  siteHomePage: async ({ browser }, use) => {
     const page = await browser.newPage({ storageState: undefined });
-    const signInPage = await SignInPage.from(page);
-    await use(signInPage);
-  },
-
-  appHomePage: async ({ page, workerUser }, use) => {
-    await page.goto('/app');
+    await page.goto('/');
     await page.waitForLoadState('networkidle');
 
-    await use(new AppHomePage(page));
-  }
+    await use(new SiteHomePage(page));
+  },
 });
 
 export { expect } from '@playwright/test';

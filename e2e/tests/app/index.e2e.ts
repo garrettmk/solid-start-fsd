@@ -1,16 +1,9 @@
-import { test, expect } from '../../setup/setup.js';
+import { test, expect } from './setup/setup.js';
 
 
-test('should redirect to sign-in if unauthenticated', async ({ page }) => {
+test('should show the sign-in overlay if unauthenticated', async ({ browser }) => {
+  const page = await browser.newPage({ storageState: undefined });
   await page.goto('/app');
-  await page.waitForURL('/sign-in');
 
-  await expect(page).toHaveURL(/sign-in$/);
-});
-
-
-test.describe('/app', async () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/app');
-  });
+  await expect(page.locator('#authentication-modal')).toBeVisible();
 });

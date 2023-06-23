@@ -1,7 +1,9 @@
 import {
   ChooseProfessionForm,
   NewAccountInfoForm,
+  createSignUpMachine,
   signUpMachine,
+  useSignUpMachine,
 } from "@/features/account/sign-up";
 import {
   Alert,
@@ -14,6 +16,7 @@ import {
   Spinner,
   Step,
   Steps,
+  useScopeContext,
   useStateIndex,
 } from "@/shared/ui";
 import { useMachine } from "@xstate/solid";
@@ -25,13 +28,12 @@ import { Title } from "solid-start";
  * @returns The sign up page
  */
 export function SignUpPage() {
-  const [state, send] = useMachine(signUpMachine, {
-    context: {
-      profession: {
-        profession: 'robot'
-      }
+  const [state, send] = useSignUpMachine({
+    profession: {
+      profession: 'robot'
     }
   });
+
   const index = useStateIndex(state, [
     "gettingProfession",
     "gettingAccountInfo",
@@ -90,71 +92,65 @@ export function SignUpPage() {
           {/**
            * Choose your profession
            */}
-          <Show when={state.matches("gettingProfession")}>
-            <ChooseProfessionForm
-              initialValues={{ ...state.context.profession }}
-              onSubmit={(payload) => {
-                send({ type: "SAVE", payload });
-                send({ type: "NEXT" });
-              }}
-            >
-              <Button type="submit" size="xl" class="mb-4 w-full">
-                Next: Account Info
-              </Button>
-            </ChooseProfessionForm>
-          </Show>
+          <ChooseProfessionForm
+            initialValues={{ ...state.context.profession }}
+            onSubmit={(payload) => {
+              send({ type: "SAVE", payload });
+              send({ type: "NEXT" });
+            }}
+            hidden={!state.matches("gettingProfession")}
+          >
+            <Button type="submit" size="xl" class="mb-4 w-full">
+              Next: Account Info
+            </Button>
+          </ChooseProfessionForm>
 
           {/**
            * Basic user info
            */}
-          <Show
-            when={
-              state.matches("gettingAccountInfo") || state.matches("signingUp")
-            }
+          <NewAccountInfoForm
+            initialValues={{ ...state.context.account }}
+            onSubmit={(payload) => {
+              send({ type: "SAVE", payload });
+              send({ type: "NEXT" });
+            }}
+            hidden={!(state.matches("gettingAccountInfo") || state.matches("signingUp"))}
           >
-            <NewAccountInfoForm
-              initialValues={{ ...state.context.account }}
-              onSubmit={(payload) => {
-                send({ type: "SAVE", payload });
-                send({ type: "NEXT" });
-              }}
-            >
-              <div class="columns-2 gap-6">
-                <Button
-                  onClick={() => send("BACK")}
-                  size="xl"
-                  class="w-full"
-                  color="alternative"
-                >
-                  Prev: Personal Info
-                </Button>
+            <div class="columns-2 gap-6">
+              <Button
+                onClick={() => send("BACK")}
+                size="xl"
+                class="w-full"
+                color="alternative"
+              >
+                Prev: Personal Info
+              </Button>
 
-                <Show when={!state.matches("signingUp")}>
-                  <Button
-                    type="submit"
-                    size="xl"
-                    class="w-full border border-blue-600"
-                  >
-                    Next: Create Account
-                  </Button>
-                </Show>
-                <Show when={state.matches("signingUp")}>
-                  <Button
-                    disabled
-                    size="xl"
-                    class="w-full border border-blue-600"
-                  >
-                    <Spinner
-                      color="white"
-                      size="sm"
-                      class="mr-3 dark:text-gray-400"
-                    />{" "}
-                    Please wait...
-                  </Button>
-                </Show>
-              </div>
-            </NewAccountInfoForm>
-          </Show>
+              <Show when={!state.matches("signingUp")}>
+                <Button
+                  type="submit"
+                  size="xl"
+                  class="w-full border border-blue-600"
+                >
+                  Next: Create Account
+                </Button>
+              </Show>
+              <Show when={state.matches("signingUp")}>
+                <Button
+                  disabled
+                  size="xl"
+                  class="w-full border border-blue-600"
+                >
+                  <Spinner
+                    color="white"
+                    size="sm"
+                    class="mr-3 dark:text-gray-400"
+                  />{" "}
+                  Please wait...
+                </Button>
+              </Show>
+            </div>
+          </NewAccountInfoForm>
 
           {/**
            * Errors

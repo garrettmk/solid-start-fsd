@@ -19,7 +19,7 @@ export class SignInPage {
     await signInPage.signIn(email, password);
   }
 
-  private constructor(public page: Page) {
+  public constructor(public page: Page) {
     this.emailInput = page.getByLabel(/email/i);
     this.passwordInput = page.getByLabel(/password/i);
     this.signInButton = page.getByRole('button', { name: /login/i });

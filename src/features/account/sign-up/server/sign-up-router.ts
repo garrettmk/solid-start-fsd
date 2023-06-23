@@ -1,5 +1,6 @@
 import { makeRouter, publicProcedure } from "@/shared/server";
 import { signUpInputSchema } from "../schemas";
+import { SupabaseDependency } from "@/shared/lib";
 
 export const signUpRouter = makeRouter({
   signUp: publicProcedure
@@ -7,8 +8,9 @@ export const signUpRouter = makeRouter({
     .mutation(async ({ ctx, input }) => {
       const { account } = input;
       const { email, password, ...otherData } = account;
+      const supabase = ctx.scope.get(SupabaseDependency)
 
-      return ctx.supabase.auth.signUp({
+      return supabase.auth.signUp({
         email,
         password,
         options: { data: otherData }

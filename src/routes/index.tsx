@@ -17,7 +17,7 @@ export default function Home() {
           </a>
           <div class="flex items-center md:order-2">
             <a href="/app">
-              <Button class="mr-3">Login</Button>
+              <Button class="mr-3">Sign In</Button>
             </a>
             <div
               class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"

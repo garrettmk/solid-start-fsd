@@ -1,4 +1,5 @@
-import { test, expect } from '../../../../setup/setup.js';
+import { test, expect } from './setup/setup.js';
+
 
 test.describe('dark mode', () => {
   test('should toggle dark mode', async ({ appHomePage }) => {

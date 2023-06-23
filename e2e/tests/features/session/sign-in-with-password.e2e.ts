@@ -1,14 +1,10 @@
-import { test } from '../../../setup/setup.js';
+import { test, expect } from './setup/setup.js';
 
 
 test.describe('sign-in-with-password', () => {
-  test('should be able to reach sign-in from home page', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
-    const loginButton = await page.getByRole('button', { name: /login/i });
-    await loginButton.click();
-    await page.waitForLoadState('networkidle');
-    await test.expect(page).toHaveURL('/sign-in');
+  test('should be able to reach sign-in from home page', async ({ siteHomePage, signInPage }) => {
+    await siteHomePage.signIn();
+    await expect(siteHomePage.page).toHaveURL(signInPage.page.url());
   });
 
   test('should sign in with password', async ({ signInPage, workerUser }) => {

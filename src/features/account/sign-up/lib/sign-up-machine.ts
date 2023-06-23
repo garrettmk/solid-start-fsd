@@ -2,6 +2,8 @@ import { omit } from "radash";
 import { assign, createMachine, ErrorPlatformEvent } from "xstate";
 import { ChooseProfessionInput, NewAccountInput } from "../schemas";
 import { APIClientDependency, Scope } from "@/shared/lib";
+import { useScopeContext } from "@/shared/ui";
+import { useMachine } from "@xstate/solid";
 
 export interface SignUpContext {
   profession?: ChooseProfessionInput;
@@ -133,20 +135,30 @@ export const signUpMachine = createMachine<SignUpContext, SignUpEvent>(
 );
 
 
-export function createSignUpMachine(scope: Scope) {
+export function createSignUpMachine(scope: Scope, context: SignUpContext = {}) {
   const api = scope.get(APIClientDependency);
 
-  return signUpMachine.withConfig({
-    services: {
-      signUp: async (context) => {
-        const { profession, account } = context as Required<SignUpContext>;
-        const signUpInput = { profession, account };
+  return signUpMachine
+    .withContext(context)
+    .withConfig({
+      services: {
+        signUp: async (context) => {
+          const { profession, account } = context as Required<SignUpContext>;
+          const signUpInput = { profession, account };
 
-        const result = await api.account.signUp.mutate(signUpInput);
+          const result = await api.account.signUp.mutate(signUpInput);
 
-        if (result.error) throw result.error;
-        return result.data;
-      },
-    }
-  })
+          if (result.error) throw result.error;
+          return result.data;
+        },
+      }
+    })
+}
+
+
+export function useSignUpMachine(context: SignUpContext = {}) {
+  const scope = useScopeContext();
+  const machine = createSignUpMachine(scope, context);
+
+  return useMachine(machine);
 }
