@@ -22,7 +22,7 @@ export class SignUpPage {
     public agreesToTermsErrorLabel = page.locator('#agreesToTerms-error'),
     public wantsMarketingInput = page.getByRole('checkbox', { name: /marketing/i }),
     public successHeader = page.getByText(/congratulations/i),
-    public failureHeader = page.getByText(/uh\-oh/i),
+    public failureHeader = page.getByText(/uh-oh/i),
   ) { }
 
   public goto() {
@@ -156,6 +156,7 @@ export class SignUpPage {
   }
 
   public async isSuccess() {
+    await this.successHeader.waitFor({ state: 'visible' });
     return this.successHeader.isVisible();
   }
 

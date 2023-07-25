@@ -1,10 +1,7 @@
 import { NewAccountInput } from "@/features/account/sign-up/index.js";
 import { newAccountInputSchema } from "@/features/account/sign-up/schemas/new-account-input-schema.js";
 import { assign, createMachine } from "xstate";
-import { signUpInfo } from "./data.js";
 import { InputAccountInfoEvent, InputProfessionEvent } from "./events.js";
-import { expect } from "./setup.js";
-import { TestContext } from "./types.js";
 
 
 export type MachineContext = {
@@ -26,20 +23,8 @@ export const machine = createMachine<MachineContext>({
     gettingProfession: {
       initial: 'robot',
       states: {
-        human: {
-          meta: {
-            test: async ({ signUpPage: signUp }: TestContext) => {
-              await expect(await signUp.isHuman()).toBe(true);
-            }
-          }
-        },
-        robot: {
-          meta: {
-            test: async ({ signUpPage: signUp }: TestContext) => {
-              await expect(await signUp.isRobot()).toBe(true);
-            }
-          },
-        },
+        human: {},
+        robot: {},
         history: {
           type: 'history',
           history: 'shallow'
@@ -66,11 +51,6 @@ export const machine = createMachine<MachineContext>({
               { target: 'submitted.invalid' }
             ]
           },
-          meta: {
-            test: async ({ signUpPage: signUp }: TestContext) => {
-              await expect(await signUp.hasError()).toBe(false);
-            }
-          }
         },
         submitted: {
           states: {
@@ -78,21 +58,11 @@ export const machine = createMachine<MachineContext>({
               on: {
                 NEXT: '#root.success'
               },
-              meta: {
-                test: async ({ signUpPage: signUp }: TestContext) => {
-                  await expect(await signUp.hasError()).toBe(false);
-                }
-              }
             },
             invalid: {
               on: {
                 NEXT: 'invalid'
               },
-              meta: {
-                test: async ({ signUpPage: signUp }: TestContext) => {
-                  await expect(await signUp.hasError()).toBe(true);
-                }
-              }
             }
           },
           on: {
@@ -120,40 +90,9 @@ export const machine = createMachine<MachineContext>({
 
     success: {
       type: 'final',
-      meta: {
-        test: async ({ signUpPage, supabase }: TestContext) => {
-          await signUpPage.page.waitForResponse(response => true);
-          await expect(await signUpPage.isSuccess()).toBe(true);
-
-          // Check for a user profile entry
-          const userID = await supabase.rpc('get_user_id_from_email', {
-            email_: signUpInfo.email
-          });
-
-          await expect(userID.error).toBeNull();
-          await expect(userID.data).not.toBeNull();
-
-          const profile = await supabase
-            .from('user_profiles')
-            .select('*')
-            .eq('id', userID.data);
-
-          await expect(profile.error).toBeNull();
-          await expect(profile.data).toHaveLength(1);
-
-          // Since this is a final state, we can do some cleanup here
-          // It's just easier to do it here than in the test itself
-          await supabase.auth.admin.deleteUser(userID.data);
-        }
-      },
     },
 
     error: {
-      meta: {
-        test: async ({ signUpPage: signUp }: TestContext) => {
-          await expect(await signUp.hasError()).toBe(true);
-        }
-      }
     },
   }
 }, {
@@ -161,7 +100,7 @@ export const machine = createMachine<MachineContext>({
     isHumanProfession: (ctx, event) => (event as InputProfessionEvent).payload === 'human',
     isRobotProfession: (ctx, event) => (event as InputProfessionEvent).payload === 'robot',
     isValidAccountInfo: (ctx, event) => newAccountInputSchema.safeParse((event as InputAccountInfoEvent).payload).success,
-    hasValidAccountInfo: (ctx, event) => newAccountInputSchema.safeParse(ctx.accountInfo).success,
+    hasValidAccountInfo: (ctx) => newAccountInputSchema.safeParse(ctx.accountInfo).success,
   },
 
   actions: {

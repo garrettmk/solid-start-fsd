@@ -1,26 +1,55 @@
-import { TestPath } from "@/e2e/util/machines/test-path.js";
-import { TestContext, eventMap, machine, test, expect } from "./setup/index.js";
+import { Path, TestRunner } from 'xstate-paths';
+import { eventCallbacks, eventSource, machine, stateCallbacks, test } from "./setup/index.js";
 
-const testPaths = await TestPath.makePaths<TestContext>(machine, eventMap, {
-  maxLength: 10,
-  filterSegment: (segment, path) =>
-    path.countMatches(segment) < 3 &&
-    path.lastSegment?.event.type !== segment.event.type &&
-    path.segments.filter(s => s.event.type === segment.event.type).length < 3,
+const paths = await Path.makePaths(machine, {
+  eventSource,
 
+  deduplicate: true,
 
-  // filterSegment: (segment, path) => !path.alreadyHasSimilarSegment(segment) && path.lastSegment?.event.type !== segment.event.type,
-  filterPath: (path) => path.isFinal() || path.length >= 10,
+  // Select paths that lead to the success state, or have been submitted with an error
+  // and then corrected
+  filterPath: (path) => (path.isFinal() || path.target === 'gettingAccountInfo.submitted.valid') && path.length < 7,
+
+  // Don't allow similar segments (no loops/repeats)
+  filterSegment: (segment, path) => path.countSimilarSegments(segment) < 1
 });
+
+const runner = new TestRunner(eventCallbacks, stateCallbacks);
 
 
 test.describe('sign-up', () => {
-  testPaths.forEach((path) => {
+  paths.forEach((path) => {
     test(path.description, async ({ signUpPage, supabase, signUpInfo }) => {
-      await path.run({ signUpPage, supabase });
+      await runner.run(path, signUpPage, supabase);
     });
   });
-})
+});
+
+
+
+// import { TestPath } from "@/e2e/util/machines/test-path.js";
+// import { TestContext, eventMap, machine, test, expect } from "./setup/index.js";
+
+// const testPaths = await TestPath.makePaths<TestContext>(machine, eventMap, {
+//   maxLength: 10,
+//   filterSegment: (segment, path) =>
+//     path.countMatches(segment) < 3 &&
+//     path.lastSegment?.event.type !== segment.event.type &&
+//     path.segments.filter(s => s.event.type === segment.event.type).length < 3,
+
+
+//   // filterSegment: (segment, path) => !path.alreadyHasSimilarSegment(segment) && path.lastSegment?.event.type !== segment.event.type,
+//   filterPath: (path) => path.isFinal() || path.length >= 10,
+// });
+
+
+// test.describe('sign-up', () => {
+//   testPaths.forEach((path) => {
+//     test(path.description, async ({ signUpPage, supabase, signUpInfo }) => {
+//       await path.run({ signUpPage, supabase });
+//     });
+//   });
+// })
 
 // const [successPaths, otherPaths] = fork(testPaths, path => path.target === 'success');
 
