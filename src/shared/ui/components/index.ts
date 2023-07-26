@@ -18,3 +18,4 @@ export * from "./panels";
 export * from "./progress";
 export * from "./module";
 export * from "./redirects";
+export * from './tooltips'
