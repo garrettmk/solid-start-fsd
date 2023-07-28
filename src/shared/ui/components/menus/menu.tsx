@@ -12,7 +12,7 @@ export interface MenuProps extends JSX.HTMLAttributes<HTMLUListElement> {
 const positioning = "fixed z-[5000]";
 const coloring =
   "bg-white dark:bg-slate-700 divide-slate-100 dark:divide-slate-600";
-const listStyle = "list-none divide-y shadow";
+const listStyle = "list-none divide-y shadow-xl";
 const textStyles =
   "normal-case font-normal text-base text-slate-900 dark:text-slate-300";
 
