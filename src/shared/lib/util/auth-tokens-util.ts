@@ -14,17 +14,17 @@ export type AuthTokens = {
 const ACCESS_TOKEN_KEY = "access_token";
 const REFRESH_TOKEN_KEY = "refresh_token";
 
+// Safari/Ephiphany won't set secure cookies on localhost. I *could* secure localhost
+// with a certificate, but this is much easier.
+const IS_LOCALHOST = typeof window !== "undefined" && window.location.hostname === "localhost";
+
 /**
  * Check storage for authentication tokens
  *
  * @returns true if the storage has auth tokens, false otherwise
  */
 export function storageHasAuthTokens(): boolean {
-  // if (!IS_CLIENT)
-  //   return false;
-
   const cookies = parseCookies(document.cookie);
-
   return cookies.has(ACCESS_TOKEN_KEY) && cookies.has(REFRESH_TOKEN_KEY);
 }
 
@@ -67,9 +67,9 @@ export function getAuthTokensFromRequest(req: Request): AuthTokens | undefined {
 export function saveAuthTokensInStorage(tokens: AuthTokens) {
   const { accessToken, refreshToken } = tokens;
   const options: CookieSerializeOptions = {
-    maxAge: 100 * 365 * 24 * 60 * 60, // 100 years, never expires
+    maxAge: 7 * 24 * 60 * 60, // 7 days
     sameSite: "lax",
-    secure: true,
+    secure: !IS_LOCALHOST,
     path: "/",
   };
 
@@ -84,7 +84,7 @@ export function removeAuthTokensFromStorage() {
   const options: CookieSerializeOptions = {
     maxAge: 0,
     sameSite: "lax",
-    secure: true,
+    secure: !IS_LOCALHOST,
     path: "/",
   };
 
