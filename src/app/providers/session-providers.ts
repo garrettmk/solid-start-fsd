@@ -1,5 +1,6 @@
-import { Session, SessionDependency, toSession } from "@/entities/session";
-import { IsClientDependency, SupabaseDependency } from "@/shared/lib";
+import { Session, SessionDependency, toSession, SessionProfileDependency } from "@/entities/session";
+import { UserProfile } from "@/entities/user-profile";
+import { APIClientDependency, IsClientDependency, SupabaseDependency } from "@/shared/lib";
 import {
   AuthTokens,
   getAuthSession,
@@ -12,9 +13,11 @@ import {
   toPartialAuthSession
 } from "@/shared/lib";
 import { AuthSession } from "@supabase/supabase-js";
-import { createSignal } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 
-
+/**
+ * Provides a Session for the current user, or undefined.
+ */
 export const SessionProvider = provider({
   provides: SessionDependency,
   requires: [SupabaseDependency, IsClientDependency],
@@ -48,7 +51,6 @@ export const SessionProvider = provider({
     // On mount, set up the auth state change listener and sign in with tokens from storage if they exist.
     if (isClient) {
       supabase.auth.onAuthStateChange(async (event, authSession) => {
-        console.log('auth state change', event, authSession);
         if (isSignInEvent(event) && authSession) handleSignIn(authSession);
         else if (isSignOutEvent(event) || !authSession) handleSignOut();
       });
@@ -61,4 +63,26 @@ export const SessionProvider = provider({
 
     return session;
   }
-})
+});
+
+/**
+ * Provides a UserProfile for the current user, or undefined.
+ */
+export const SessionProfileProvider = provider({
+  provides: SessionProfileDependency,
+  requires: [SessionDependency, APIClientDependency],
+  use: (session, api) => {
+    const [profile, setProfile] = createSignal<undefined | UserProfile>(undefined); 
+
+    createEffect(() => {
+      const user = session()?.user;
+
+      if (user)
+        api.user.viewProfile.query(user.id).then(setProfile);
+      else
+        setProfile(undefined);
+    });
+
+      return profile;
+    }
+});

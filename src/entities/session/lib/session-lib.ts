@@ -4,6 +4,7 @@ import { Accessor } from "solid-js";
 import { sessionSchema, Session } from "../schemas";
 import { AuthSession } from "@supabase/supabase-js";
 import { z } from "zod";
+import { UserProfile } from "@/entities/user-profile";
 
 
 /**
@@ -43,3 +44,21 @@ export function toSession(authSession: AuthSession): Session {
   });
 }
 
+
+/**
+ * A Dependency that provides a UserProfile for the current user
+ */
+export const SessionProfileDependency = dependency<Accessor<UserProfile | undefined>>({
+  name: 'SESSION_PROFILE',
+  validate: value => z.function().parse(value)
+});
+
+
+/**
+ * Returns the UserProfile for the current user from the local Scope.
+ * 
+ * @returns 
+ */
+export function useSessionProfile() {
+  return useContainer(SessionProfileDependency);
+}
