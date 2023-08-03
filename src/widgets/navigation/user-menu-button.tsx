@@ -1,4 +1,4 @@
-import { useSessionProfile } from "@/entities/user-profile";
+import { useSessionProfile } from "@/entities/session";
 import { useDarkMode } from "@/features/appearance";
 import { useSignOut } from "@/features/session/sign-out";
 import { ArrowRightOnRectangleIcon, Avatar, ButtonMenu, ButtonMenuProps, MenuItem, MoonIcon, PencilIcon, SunIcon, UserIcon } from "@/shared/ui";
@@ -9,7 +9,7 @@ export type UserMenuButtonProps = Omit<ButtonMenuProps, "content">;
 export function UserMenuButton(props: UserMenuButtonProps) {
   const darkMode = useDarkMode();
   const signOut = useSignOut();
-  const profile = useSessionProfile();
+  const [profile] = useSessionProfile();
 
   return (
     <ButtonMenu content={<UserIcon/>} {...props}>
@@ -20,7 +20,7 @@ export function UserMenuButton(props: UserMenuButtonProps) {
         />
         <span class="text-lg font-bold mt-2">{profile()?.fullName}</span>
       </MenuItem>
-      <MenuItem>
+      <MenuItem href="/app/account/profile">
         <PencilIcon class="inline-block mr-4" size='xs'/>
         Edit profile
       </MenuItem>

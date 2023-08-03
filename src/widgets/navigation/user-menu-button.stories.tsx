@@ -5,7 +5,7 @@ import { withDarkMode } from "@/shared/storybook";
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { UserMenuButton } from "./user-menu-button";
 import { ScopeProvider } from "@/shared/ui";
-import { SessionProfileDependency } from "@/entities/user-profile";
+import { SessionProfileDependency } from "@/entities/session";
 
 const MockScope = new Scope(undefined, [
   provider({

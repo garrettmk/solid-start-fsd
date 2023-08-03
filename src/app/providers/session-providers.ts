@@ -1,9 +1,6 @@
-import { Session, SessionDependency, toSession, SessionProfileDependency } from "@/entities/session";
-import { UserProfile } from "@/entities/user-profile";
-import { APIClientDependency, IsClientDependency, SupabaseDependency } from "@/shared/lib";
+import { Session, SessionDependency, SessionProfileDependency, toSession } from "@/entities/session";
 import {
-  AuthTokens,
-  getAuthSession,
+  APIClientDependency, AuthTokens, IsClientDependency, SupabaseDependency, getAuthSession,
   getAuthTokensFromStorage,
   isSignInEvent,
   isSignOutEvent, provider, removeAuthTokensFromStorage,
@@ -12,8 +9,9 @@ import {
   toAuthTokens,
   toPartialAuthSession
 } from "@/shared/lib";
+import { ReactiveContextDependency, runWithOwner } from "@/shared/ui";
 import { AuthSession } from "@supabase/supabase-js";
-import { createEffect, createSignal } from "solid-js";
+import { createResource, createSignal } from "solid-js";
 
 /**
  * Provides a Session for the current user, or undefined.
@@ -70,19 +68,15 @@ export const SessionProvider = provider({
  */
 export const SessionProfileProvider = provider({
   provides: SessionProfileDependency,
-  requires: [SessionDependency, APIClientDependency],
-  use: (session, api) => {
-    const [profile, setProfile] = createSignal<undefined | UserProfile>(undefined); 
-
-    createEffect(() => {
-      const user = session()?.user;
-
-      if (user)
-        api.user.viewProfile.query(user.id).then(setProfile);
-      else
-        setProfile(undefined);
-    });
-
-      return profile;
-    }
+  requires: [SessionDependency, APIClientDependency, ReactiveContextDependency],
+  use: async (session, api, owner) => 
+    runWithOwner(owner, () => 
+      createResource(
+        () => session()?.userId, 
+        async (userId) => {
+          if (userId) 
+            return api.userProfiles.viewProfile.query(userId)
+        }
+      )
+    )
 });

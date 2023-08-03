@@ -8,12 +8,12 @@ import { getEnv, provider } from "@/shared/lib";
 
 export const IsServerProvider = provider({
   provides: IsServerDependency,
-  use: () => Boolean(getEnv('SSR'))
+  use: () => !!getEnv('SSR')
 });
 
 export const IsClientProvider = provider({
   provides: IsClientDependency,
-  use: () => !Boolean(getEnv('SSR'))
+  use: () => !getEnv('SSR')
 });
 
 export const AppModeProvider = provider({

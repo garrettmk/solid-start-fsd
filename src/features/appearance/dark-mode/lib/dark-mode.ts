@@ -1,3 +1,4 @@
+import { ReactiveContextDependency, runWithOwner } from "@/shared/ui";
 import { dependency, provider } from "@/shared/lib";
 import { useContainer } from "@/shared/ui";
 import { createEffect } from "solid-js";
@@ -26,7 +27,7 @@ export function createDarkMode(initial?: boolean): DarkMode {
     } else {
       document?.documentElement.classList.remove("dark");
     }
-  })
+  });
 
   return darkMode;
 }
@@ -41,7 +42,8 @@ export const DarkModeDependency = dependency<DarkMode>({
 
 export const DarkModeProvider = provider({
   provides: DarkModeDependency,
-  use: () => createDarkMode(),
+  requires: [ReactiveContextDependency],
+  use: async (owner) => await runWithOwner(owner, () => createDarkMode()),
 });
 
 export function useDarkMode(): DarkMode {

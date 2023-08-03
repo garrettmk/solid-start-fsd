@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
-import { Spinner } from "./spinner";
-import { withDarkMode } from "@/shared/storybook/decorators";
+import { Spinner, SpinnerProps } from "./spinner";
+import { withDarkMode } from "@/shared/storybook";
 
 const meta = {
   title: "Shared/UI/Components/Spinner",
@@ -10,7 +10,7 @@ const meta = {
     size: {
       description: 'The size of the spinner',
       control: 'select',
-      options: ["sm", "md", "lg"],
+      options: ['xs', "sm", "md", "lg", "xl", "2xl", "3xl", "4xl"],
       defaultValue: 'md'
     },
     color: {
@@ -30,7 +30,7 @@ const meta = {
   args: {
     'aria-label': 'Loading',
   }
-};
+} satisfies Meta<SpinnerProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

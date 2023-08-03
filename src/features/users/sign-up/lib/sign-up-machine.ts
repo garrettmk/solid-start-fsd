@@ -146,7 +146,7 @@ export function createSignUpMachine(scope: Scope, context: SignUpContext = {}) {
           const { profession, account } = context as Required<SignUpContext>;
           const signUpInput = { profession, account };
 
-          const result = await api.account.signUp.mutate(signUpInput);
+          const result = await api.users.signUp.mutate(signUpInput);
 
           if (result.error) throw result.error;
           return result.data;

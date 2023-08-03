@@ -15,7 +15,7 @@ import {
  */
 export function shakeFalsyValues<T = object>(obj: object): T {
   return Object.fromEntries(
-    Object.entries(obj).filter(([, value]) => !value)
+    Object.entries(obj).filter(([, value]) => !!value)
   ) as T;
 }
 
@@ -70,4 +70,17 @@ export function recursively<T = object>(
   };
 
   return self;
+}
+
+
+export function pick<T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([key]) => keys.includes(key as K))
+  ) as Pick<T, K>;
+}
+
+export function omit<T extends object, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([key]) => !keys.includes(key as K))
+  ) as Omit<T, K>;
 }

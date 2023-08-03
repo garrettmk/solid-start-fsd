@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from 'storybook-solidjs';
+import { withDarkMode } from '@/shared/storybook';
+import type { StoryObj } from 'storybook-solidjs';
 import { NewAccountInfoForm } from './new-account-info-form';
-import { withDarkMode } from '@/shared/storybook/decorators';
 
 const meta = {
   title: 'Features/Account/Sign Up/New Account Info Form',

@@ -1,4 +1,4 @@
-import { NewAccountInput } from "@/features/account/sign-up/schemas/new-account-input-schema.js";
+import { NewAccountInput } from "@/features/users/sign-up-user/schemas/new-account-input-schema.js";
 import { Page } from "playwright";
 
 export class SignUpPage {

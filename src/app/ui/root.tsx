@@ -1,6 +1,6 @@
 // @refresh reload
-import { ScopeProvider } from "@/shared/ui";
-import { Suspense } from "solid-js";
+import { ScopeProvider, Spinner } from "@/shared/ui";
+import { Show, Suspense, createSignal, onMount } from "solid-js";
 import {
   Body,
   ErrorBoundary,
@@ -12,10 +12,18 @@ import {
   Scripts,
   Title
 } from "solid-start";
-import { clientScope } from "@/app/scopes";
+import { createClientScope } from "@/app/scopes";
 import "./root.css";
 
 export default function Root() {
+  const clientScope = createClientScope();
+  const [isResolved, setIsResolved] = createSignal(false);
+
+  onMount(async () => {
+    await clientScope.resolveAll();
+    setIsResolved(true);
+  });
+
   return (
     <Html lang="en">
       <Head>
@@ -24,13 +32,19 @@ export default function Root() {
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Body class="bg-slate-50 dark:bg-slate-900">
-        <Suspense>
+        <Suspense fallback={(
+          <div class="flex items-center justify-center h-screen">
+            <Spinner size="2xl" />
+          </div>
+        )}>
           <ErrorBoundary>
-            <ScopeProvider scope={clientScope}>
-              <Routes>
-                <FileRoutes />
-              </Routes>
-            </ScopeProvider>
+            <Show when={isResolved()}>
+              <ScopeProvider scope={clientScope}>
+                <Routes>
+                  <FileRoutes />
+                </Routes>
+              </ScopeProvider>
+            </Show>
           </ErrorBoundary>
         </Suspense>
         <Scripts />

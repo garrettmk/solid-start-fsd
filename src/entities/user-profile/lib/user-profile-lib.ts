@@ -6,6 +6,6 @@ export function useUserProfile(id: Accessor<string>) {
   const client = useContainer(APIClientDependency);
   
   return createResource(id, (id) => {
-    return client.user.viewProfile.query(id);
+    return client.userProfiles.viewProfile.query(id);
   });
 }

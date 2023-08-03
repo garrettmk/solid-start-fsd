@@ -1,4 +1,4 @@
-import { NewAccountInput } from "@/features/account/sign-up/index.js";
+import { NewAccountInput } from "@/features/users/sign-up-user/index.js";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { EventSource, TransitionCallbackMap } from "xstate-paths";
 import { crossMerge } from "../../../../../util/cross-merge.js";

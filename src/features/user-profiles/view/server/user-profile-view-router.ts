@@ -3,12 +3,12 @@ import { SupabaseDependency, camelizeObject, shakeNullValues } from "@/shared/li
 import { makeRouter, protectedProcedure } from "@/shared/server";
 import { z } from "zod";
 
-export const userProfilesRouter = makeRouter({
+export const userProfileViewRouter = makeRouter({
   viewProfile: protectedProcedure
     .input(z.string())
     .output(userProfileSchema)
     .query(async ({ ctx, input }) => {
-      const supabase = ctx.scope.get(SupabaseDependency);
+      const supabase = await ctx.scope.resolve(SupabaseDependency);
       
       const { data: userProfile, error } = await supabase
         .from("user_profiles")

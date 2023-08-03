@@ -1,4 +1,4 @@
-import type { NewAccountInput } from '@/features/account/sign-up';
+import type { NewAccountInput } from '@/features/users/sign-up-user';
 
 
 export const signUpInfo: NewAccountInput = {

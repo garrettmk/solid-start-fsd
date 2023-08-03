@@ -1,7 +1,7 @@
 import {
   NewAccountInput,
   newAccountInputSchema,
-} from "@/features/account/sign-up";
+} from "@/features/users/sign-up";
 import { noop } from "@/shared/lib";
 import { Checkbox, TextInput } from "@/shared/ui";
 import { ValidateForm, createForm, zodForm } from "@modular-forms/solid";
@@ -20,12 +20,21 @@ const formValidator: ValidateForm<NewAccountInput> = async (values) => {
   return errors;
 };
 
+/**
+ * Props for NewAccountInfoForm
+ */
 export interface NewAccountInfoFormProps
   extends Omit<JSX.HTMLAttributes<HTMLFormElement>, "onSubmit"> {
   initialValues?: Partial<NewAccountInput>;
   onSubmit?: (data: NewAccountInput) => void;
 }
 
+/**
+ * A form for gathering new account information
+ * 
+ * @param props 
+ * @returns 
+ */
 export function NewAccountInfoForm(props: NewAccountInfoFormProps) {
   const { initialValues } = props;
   const [, formProps] = splitProps(props, [

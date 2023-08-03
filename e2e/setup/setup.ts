@@ -1,4 +1,4 @@
-import { NewAccountInput } from '@/features/account/sign-up/index.js';
+import { NewAccountInput } from '@/features/users/sign-up-user/index.js';
 import { test as base, expect } from '@playwright/test';
 import { AuthUser, SupabaseClient, createClient } from '@supabase/supabase-js';
 import path from 'path';

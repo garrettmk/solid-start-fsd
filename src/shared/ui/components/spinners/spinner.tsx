@@ -1,8 +1,9 @@
 import { JSX, splitProps } from "solid-js";
 import clsx from "clsx";
+import { SizeProp } from "@/shared/ui/helpers";
 
 export interface SpinnerProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  size?: "sm" | "md" | "lg";
+  size?: SizeProp;
   color?: "blue" | "white" | "green" | "red" | "yellow" | "pink";
 }
 
@@ -10,10 +11,15 @@ const styles = {
   base: "inline animate-spin text-gray-200 dark:text-gray-600",
 
   size: {
+    none: '',
+    xs: "w-2 h-2",
     sm: "w-4 h-4",
     md: "w-6 h-6",
     lg: "w-8 h-8",
     xl: "w-10 h-10",
+    '2xl': "w-12 h-12",
+    '3xl': "w-16 h-16",
+    '4xl': "w-20 h-20",
   },
 
   color: {

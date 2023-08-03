@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from 'storybook-solidjs';
-import { ChooseProfessionForm } from './choose-profession-form';
-import { withDarkMode } from '@/shared/storybook/decorators';
+import { withDarkMode } from '@/shared/storybook';
 import { Button } from '@/shared/ui';
+import type { StoryObj } from 'storybook-solidjs';
+import { ChooseProfessionForm } from './choose-profession-form';
 
 
 const meta = {

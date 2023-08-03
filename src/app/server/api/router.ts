@@ -1,14 +1,24 @@
 import { helloWorldRouter } from "@/features/debug/hello-world/server";
-import { signUpRouter } from "@/features/account/sign-up/server";
-import { userProfilesRouter } from "@/entities/user-profile/server";
+import { userSignUpRouter } from "@/features/users/sign-up/server";
+import { userProfileViewRouter } from "@/features/user-profiles/view/server";
+import { userProfileUpdateRouter } from "@/features/user-profiles/update/server";
 import { makeRouter } from "@/shared/server";
 import { mergeRouters } from "@/shared/server";
 
 
 export const apiRouter = makeRouter({
-  debug: mergeRouters(helloWorldRouter),
-  account: mergeRouters(signUpRouter),
-  user: mergeRouters(userProfilesRouter)
+  debug: mergeRouters(
+    helloWorldRouter
+  ),
+  
+  users: mergeRouters(
+    userSignUpRouter
+  ),
+
+  userProfiles: mergeRouters(
+    userProfileViewRouter, 
+    userProfileUpdateRouter
+  )
 });
 
 export type APIRouter = typeof apiRouter;

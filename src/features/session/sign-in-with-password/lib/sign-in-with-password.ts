@@ -13,7 +13,7 @@ export const SignInWithPasswordProvider = provider({
   provides: SignInWithPasswordDependency,
   requires: [SupabaseDependency],
   use: (supabase) => async (credentials: PasswordCredentials) => {
-    const { data, error } = await supabase.auth.signInWithPassword(credentials);
+    const { error } = await supabase.auth.signInWithPassword(credentials);
     if (error)
       throw error;
   }

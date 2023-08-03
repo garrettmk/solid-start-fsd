@@ -26,7 +26,7 @@ export function SignInWithPasswordForm(props: SignInFormProps) {
     "children",
   ]);
 
-  const [form, { Form, Field }] = createForm<SignInFormData>({
+  const [, { Form, Field }] = createForm<SignInFormData>({
     initialValues,
     validate: zodForm(passwordCredentialsSchema),
   });

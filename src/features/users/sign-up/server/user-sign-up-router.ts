@@ -2,7 +2,7 @@ import { makeRouter, publicProcedure } from "@/shared/server";
 import { signUpInputSchema } from "../schemas";
 import { SupabaseDependency } from "@/shared/lib";
 
-export const signUpRouter = makeRouter({
+export const userSignUpRouter = makeRouter({
   signUp: publicProcedure
     .input(signUpInputSchema)
     .mutation(async ({ ctx, input }) => {

@@ -1,5 +1,5 @@
-import { NewAccountInput } from "@/features/account/sign-up/index.js";
-import { newAccountInputSchema } from "@/features/account/sign-up/schemas/new-account-input-schema.js";
+import { NewAccountInput } from "@/features/users/sign-up-user/index.js";
+import { newAccountInputSchema } from "@/features/users/sign-up-user/schemas/new-account-input-schema.js";
 import { assign, createMachine } from "xstate";
 import { InputAccountInfoEvent, InputProfessionEvent } from "./events.js";
 

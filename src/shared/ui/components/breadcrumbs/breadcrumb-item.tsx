@@ -13,7 +13,7 @@ export function BreadcrumbItem(props: BreadcrumbItemProps) {
   return (
     <li
       class={clsx(
-        "inline-flex items-center text-slate-600 last:text-slate-900 dark:text-slate-400 dark:last:text-white text-sm",
+        "inline-flex items-center text-slate-600 last:text-slate-900 dark:text-slate-400 dark:last:text-white",
         props.class
       )}
       {...liProps}

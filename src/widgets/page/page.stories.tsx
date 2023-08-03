@@ -1,8 +1,8 @@
 import { SignOutDependency } from "@/features/session/sign-out";
 import { Scope, provider } from "@/shared/lib";
-import { withDarkMode } from "@/shared/storybook/decorators";
+import { withDarkMode } from "@/shared/storybook";
 import { Heading, Panel, ScopeProvider } from "@/shared/ui";
-import { NavSidebar } from "@/widgets/navigation/nav-sidebar";
+import { NavSidebar } from "@/widgets/navigation";
 import { Router } from "@solidjs/router";
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { PageContent } from "./page-content";
@@ -12,7 +12,7 @@ import { DarkModeProvider } from "@/features/appearance";
 const MockPageScope = new Scope(undefined, [
   provider({
     provides: SignOutDependency,
-    use: () => async () => { }
+    use: () => async () => { null; }
   }),
   DarkModeProvider
 ]);

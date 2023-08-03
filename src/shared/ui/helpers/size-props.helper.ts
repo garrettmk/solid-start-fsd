@@ -51,6 +51,9 @@ export type ClampSizeOptions = {
  * @returns a SizeProp value
  */
 export const adjustSize = (size: SizeProp, options?: ClampSizeOptions) => {
+  if (size === "none") 
+    return "none";
+    
   const min = sizePropValues.indexOf(options?.min ?? sizePropValues[0]);
   const max = sizePropValues.indexOf(
     options?.max ?? sizePropValues[sizePropValues.length - 1]

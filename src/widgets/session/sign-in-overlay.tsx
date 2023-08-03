@@ -5,7 +5,7 @@ import {
 } from "@/features/session/sign-in-with-password";
 import { Error } from "@/shared/ui";
 import clsx from "clsx";
-import { JSX, Show, splitProps } from "solid-js";
+import { JSX, splitProps } from "solid-js";
 
 export interface SignInOverlayProps extends JSX.HTMLAttributes<HTMLDivElement> {
   noBackdrop?: boolean;

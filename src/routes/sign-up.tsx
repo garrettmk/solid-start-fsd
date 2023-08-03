@@ -1,10 +1,8 @@
 import {
   ChooseProfessionForm,
   NewAccountInfoForm,
-  createSignUpMachine,
-  signUpMachine,
-  useSignUpMachine,
-} from "@/features/account/sign-up";
+  useSignUpMachine
+} from "@/features/users/sign-up";
 import {
   Alert,
   Button,
@@ -16,11 +14,9 @@ import {
   Spinner,
   Step,
   Steps,
-  useScopeContext,
-  useStateIndex,
+  useStateIndex
 } from "@/shared/ui";
-import { useMachine } from "@xstate/solid";
-import { Show, createEffect } from "solid-js";
+import { Show } from "solid-js";
 import { Title } from "solid-start";
 
 /**

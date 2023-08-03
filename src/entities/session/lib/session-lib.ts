@@ -1,10 +1,11 @@
 import { dependency } from "@/shared/lib";
 import { useContainer } from "@/shared/ui";
-import { Accessor } from "solid-js";
+import { Accessor, ResourceReturn } from "solid-js";
 import { sessionSchema, Session } from "../schemas";
 import { AuthSession } from "@supabase/supabase-js";
 import { z } from "zod";
 import { UserProfile } from "@/entities/user-profile";
+import { resourceReturnSchema } from "@/shared/schemas";
 
 
 /**
@@ -35,12 +36,9 @@ export function useSession() {
  */
 export function toSession(authSession: AuthSession): Session {
   return sessionSchema.parse({
+    userId: authSession.user.id,
+    role: authSession.user.role,
     expiresAt: authSession.expires_at,
-    user: {
-      id: authSession.user.id,
-      role: authSession.user.role,
-      email: authSession.user.email,
-    },
   });
 }
 
@@ -48,9 +46,9 @@ export function toSession(authSession: AuthSession): Session {
 /**
  * A Dependency that provides a UserProfile for the current user
  */
-export const SessionProfileDependency = dependency<Accessor<UserProfile | undefined>>({
+export const SessionProfileDependency = dependency<ResourceReturn<UserProfile | undefined>>({
   name: 'SESSION_PROFILE',
-  validate: value => z.function().parse(value)
+  validate: value => resourceReturnSchema.parse(value)
 });
 
 
