@@ -1,4 +1,4 @@
-import { test, expect } from './setup/setup.js';
+import { test, expect } from './sign-in-e2e-setup.js';
 
 
 test.describe('sign-in-with-password', () => {
@@ -16,7 +16,7 @@ test.describe('sign-in-with-password', () => {
   });
 
   test('should fail if given wrong email', async ({ signInPage, workerUser }) => {
-    const { password, email } = workerUser;
+    const { password } = workerUser;
     const wrongEmail = 'nottherightemail@foo.com';
 
     await signInPage.signIn(wrongEmail, password);
@@ -25,7 +25,7 @@ test.describe('sign-in-with-password', () => {
   });
 
   test('should fail if given wrong password', async ({ signInPage, workerUser }) => {
-    const { password, email } = workerUser;
+    const { email } = workerUser;
     const wrongPassword = 'nottherightpassword';
 
     await signInPage.signIn(email, wrongPassword);

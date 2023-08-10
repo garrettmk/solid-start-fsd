@@ -1,9 +1,9 @@
-import { Path, TestRunner } from 'xstate-paths';
-import { eventCallbacks, eventSource, machine, stateCallbacks, test } from "./setup/index.js";
+import { Path } from 'xstate-paths';
+import { signUpRunner, signUpEvents, signUpMachine } from './sign-up-e2e-machine.js';
+import { test } from "./sign-up-e2e-setup.js";
 
-const paths = await Path.makePaths(machine, {
-  eventSource,
-
+const paths = await Path.makePaths(signUpMachine, {
+  eventSource: signUpEvents,
   deduplicate: true,
 
   // Select paths that lead to the success state, or have been submitted with an error
@@ -14,13 +14,11 @@ const paths = await Path.makePaths(machine, {
   filterSegment: (segment, path) => path.countSimilarSegments(segment) < 1
 });
 
-const runner = new TestRunner(eventCallbacks, stateCallbacks);
-
 
 test.describe('sign-up', () => {
   paths.forEach((path) => {
-    test(path.description, async ({ signUpPage, supabase, signUpInfo }) => {
-      await runner.run(path, signUpPage, supabase);
+    test(path.description, async ({ signUpPage, supabase }) => {
+      await signUpRunner.run(path, signUpPage, supabase);
     });
   });
 });

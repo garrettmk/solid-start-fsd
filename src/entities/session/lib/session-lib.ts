@@ -1,11 +1,12 @@
-import { dependency } from "@/shared/lib";
+import { SupabaseDependency, camelizeObject, dependency, pick } from "@/shared/lib";
 import { useContainer } from "@/shared/ui";
-import { Accessor, ResourceReturn } from "solid-js";
+import { Accessor, ResourceReturn, createResource } from "solid-js";
 import { sessionSchema, Session } from "../schemas";
 import { AuthSession } from "@supabase/supabase-js";
 import { z } from "zod";
 import { UserProfile } from "@/entities/user-profile";
 import { resourceReturnSchema } from "@/shared/schemas";
+import { User } from "@/entities/user";
 
 
 /**
@@ -59,4 +60,22 @@ export const SessionProfileDependency = dependency<ResourceReturn<UserProfile | 
  */
 export function useSessionProfile() {
   return useContainer(SessionProfileDependency);
+}
+
+
+/**
+ * A Dependency that provides a User for the current session
+ */
+export const SessionUserDependency = dependency<ResourceReturn<User | undefined>>({
+  name: 'SESSION_USER',
+  validate: value => resourceReturnSchema.parse(value)
+});
+
+
+/**
+ * Returns the User for the current session
+ * @returns 
+ */
+export function useSessionUser() {
+  return useContainer(SessionUserDependency);
 }

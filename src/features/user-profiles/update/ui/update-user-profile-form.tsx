@@ -2,7 +2,7 @@ import { UserProfile } from "@/entities/user-profile";
 import { noop, shakeFalsyValues } from "@/shared/lib";
 import { Dropzone, TextInput, createObjectURL, encodeFile } from "@/shared/ui";
 import { createForm, zodForm } from "@modular-forms/solid";
-import { JSX, splitProps } from "solid-js";
+import { JSX, createEffect, splitProps } from "solid-js";
 import { UserProfileUpdate, UserProfileUpdateFormData, userProfileUpdateFormSchema } from "../schemas";
 
 export interface UpdateUserProfileFormProps extends Omit<JSX.HTMLAttributes<HTMLFormElement>, "onSubmit"> {
@@ -13,7 +13,6 @@ export interface UpdateUserProfileFormProps extends Omit<JSX.HTMLAttributes<HTML
 
 
 export function UpdateUserProfileForm(props: UpdateUserProfileFormProps) {
-  const { initialValues } = props;
   const [, formProps] = splitProps(props, [
     'initialValues',
     'onSubmit',
@@ -24,7 +23,7 @@ export function UpdateUserProfileForm(props: UpdateUserProfileFormProps) {
   const disabled = () => props.disabled;
 
   const [, { Form, Field }] = createForm<UserProfileUpdateFormData>({
-    initialValues: initialValues ?? {},
+    initialValues: props.initialValues,
     validate: zodForm(userProfileUpdateFormSchema)
   });
 
@@ -32,7 +31,6 @@ export function UpdateUserProfileForm(props: UpdateUserProfileFormProps) {
 
   const handleSubmit = async (data: UserProfileUpdateFormData) => {
     data = shakeFalsyValues(data);
-    console.log('submitting form data', data);
     const file = data.avatarImage as File | undefined;
 
     const avatarImage = file && {
@@ -45,7 +43,7 @@ export function UpdateUserProfileForm(props: UpdateUserProfileFormProps) {
 
     props.onSubmit?.({
       ...data,
-      id: initialValues?.id,
+      id: props.initialValues?.id,
       avatarImage,
       avatarImageData,
     });

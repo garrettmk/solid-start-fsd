@@ -1,5 +1,6 @@
 import { helloWorldRouter } from "@/features/debug/hello-world/server";
 import { userSignUpRouter } from "@/features/users/sign-up/server";
+import { usersViewRouter } from "@/features/users/view/server";
 import { userProfileViewRouter } from "@/features/user-profiles/view/server";
 import { userProfileUpdateRouter } from "@/features/user-profiles/update/server";
 import { makeRouter } from "@/shared/server";
@@ -12,7 +13,8 @@ export const apiRouter = makeRouter({
   ),
   
   users: mergeRouters(
-    userSignUpRouter
+    userSignUpRouter,
+    usersViewRouter
   ),
 
   userProfiles: mergeRouters(

@@ -46,18 +46,20 @@ export function ProfilePage() {
           <Heading class="text-2xl mb-6">
             Edit Your Profile
           </Heading>
-          <UpdateUserProfileForm
-            initialValues={profile()}
-            onSubmit={updateProfile}
-            disabled={updating.pending}
-          >
-            <Button type="submit" class="w-full" disabled={updating.pending}>
-              <Show when={updating.pending}>
-                <Spinner class="mr-2" size="sm" color="white"/>
-              </Show>
-              Save
-            </Button>
-          </UpdateUserProfileForm>
+          <Show when={profile()}>
+            <UpdateUserProfileForm
+              initialValues={profile()}
+              onSubmit={updateProfile}
+              disabled={updating.pending}
+            >
+              <Button type="submit" class="w-full" disabled={updating.pending}>
+                <Show when={updating.pending}>
+                  <Spinner class="mr-2" size="sm" color="white"/>
+                </Show>
+                Save
+              </Button>
+            </UpdateUserProfileForm>
+          </Show>
         </Panel>
       </PageContent>
     </>

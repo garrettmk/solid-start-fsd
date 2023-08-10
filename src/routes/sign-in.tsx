@@ -12,7 +12,10 @@ export function SignIn() {
   return (
     <main class="fixed inset-0 bg-gradient-to-r from-blue-700  via-blue-500 to-sky-500 animate-gradient bg-[size:400%] flex items-center justify-center">
       <Redirect to={appURL} when={isSignedIn()} />
-      <Panel class="p-6 w-96 min-w-lg shadow-2xl">
+      <Panel
+        id="authentication-modal"
+        class="p-6 w-96 min-w-lg shadow-2xl"
+      >
         <Heading class="text-2xl mb-4">Sign in to our platform</Heading>
         <SignInWithPasswordForm onSubmit={signInWithPassword} />
         <Error when={signInResult.error} class="mt-3 text-sm">

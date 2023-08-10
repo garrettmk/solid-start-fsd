@@ -1,9 +1,9 @@
-import { test as baseSetup, expect } from '@/e2e/setup/setup.js';
-import { SignInPage } from './sign-in-page.js';
-import { AppHomePage } from '@/e2e/tests/app/setup/app-home-page.js';
+import { testWithWorkerUser, expect } from '@/e2e/setup/worker-user-setup.js';
+import { SignInPage } from './sign-in-e2e-page.js';
+import { AppHomePage } from '../app-index-e2e-page.js';
 export { expect };
 
-export const test = baseSetup.extend({
+export const test = testWithWorkerUser.extend({
   appHomePage: async ({ page }, use) => {
     await page.goto('/app');
     await page.waitForLoadState('networkidle');

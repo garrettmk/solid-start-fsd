@@ -1,9 +1,9 @@
-import { test as baseSetup, expect } from '@/e2e/setup/setup.js';
-import { signUpInfo } from './data.js';
+import { testWithWorkerUser, expect } from '@/e2e/setup/worker-user-setup.js';
 import { SignUpPage } from './sign-up-page.js';
+import { signUpInfo } from './sign-up-e2e-machine.js';
 export { expect };
 
-export const test = baseSetup.extend({
+export const test = testWithWorkerUser.extend({
   signUpPage: async ({ page }, use) => {
     await page.goto('/sign-up');
     await page.waitForLoadState('networkidle');
@@ -14,7 +14,7 @@ export const test = baseSetup.extend({
   signUpInfo: async ({ supabase }, use) => {
     await use(signUpInfo);
 
-    const { data: userId, error } = await supabase.rpc(
+    const { data: userId } = await supabase.rpc(
       'get_user_id_from_email',
       { email_: signUpInfo.email }
     );

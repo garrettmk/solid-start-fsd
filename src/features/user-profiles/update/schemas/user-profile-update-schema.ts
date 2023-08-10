@@ -25,7 +25,7 @@ export const userProfileUpdateSchemaBase = z.object({
 
   avatarInitials: z
     .string()
-    .regex(/^[a-zA-Z]{2}$/, { message: 'Avatar initials must be exactly 2 letters' })
+    .regex(/^[a-zA-Z0-9]{2}$/, { message: 'Avatar initials must be exactly 2 letters' })
     .optional(),
 
   avatarImage: z

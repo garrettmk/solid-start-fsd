@@ -1,9 +1,10 @@
-import { Session, SessionDependency, SessionProfileDependency, toSession } from "@/entities/session";
+import { Session, SessionDependency, SessionProfileDependency, SessionUserDependency, toSession } from "@/entities/session";
+import { User } from "@/entities/user";
 import {
-  APIClientDependency, AuthTokens, IsClientDependency, SupabaseDependency, getAuthSession,
+  APIClientDependency, AuthTokens, IsClientDependency, SupabaseDependency, camelizeObject, getAuthSession,
   getAuthTokensFromStorage,
   isSignInEvent,
-  isSignOutEvent, provider, removeAuthTokensFromStorage,
+  isSignOutEvent, pick, provider, removeAuthTokensFromStorage,
   saveAuthTokensInStorage,
   storageHasAuthTokens,
   toAuthTokens,
@@ -11,7 +12,7 @@ import {
 } from "@/shared/lib";
 import { ReactiveContextDependency, runWithOwner } from "@/shared/ui";
 import { AuthSession } from "@supabase/supabase-js";
-import { createResource, createSignal } from "solid-js";
+import { createResource, createSignal, observable } from "solid-js";
 
 /**
  * Provides a Session for the current user, or undefined.
@@ -76,6 +77,28 @@ export const SessionProfileProvider = provider({
         async (userId) => {
           if (userId) 
             return api.userProfiles.viewProfile.query(userId)
+        }
+      )
+    )
+});
+
+/**
+ * Provides a User for the current session, or undefined
+ */
+
+export const SessionUserProvider = provider({
+  provides: SessionUserDependency,
+  requires: [SessionDependency, SupabaseDependency, ReactiveContextDependency],
+  use: async (session, supabase, owner) =>
+    runWithOwner(owner, () =>
+      createResource(session, async () => {
+          const user = (await supabase.auth.getSession()).data.session?.user;
+
+          return user && camelizeObject(pick(user, [
+            'id',
+            'email',
+            'created_at'
+          ])) as User;
         }
       )
     )
