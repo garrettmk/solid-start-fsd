@@ -1,4 +1,4 @@
-import { AppIcon, BuildingStorefrontIcon, Cog6ToothIcon, HomeIcon, UsersIcon } from "@/shared/ui";
+import { AppIcon, BuildingStorefrontIcon, Cog6ToothIcon, HomeIcon, Tooltipped, UsersIcon, WrenchScrewdriverIcon } from "@/shared/ui";
 import clsx from "clsx";
 import { A } from "solid-start";
 import { UserMenuButton } from "./user-menu-button";
@@ -31,26 +31,44 @@ export function NavSidebar() {
         <AppIcon />
       </div>
 
-      <A class={clsx(styles.link, "mt-10")} href="/app" aria-label="Home">
-        <HomeIcon size="xs" />
-      </A>
+      <Tooltipped text="Home" placement='right'>
+        <A class={clsx(styles.link, "mt-10")} href="/app" aria-label="Home">
+          <HomeIcon size="xs" />
+        </A>
+      </Tooltipped>
 
-      <A class={styles.link} href="/app/tenants" aria-label="Tenants">
-        <BuildingStorefrontIcon size="xs" />
-      </A>
+      <Tooltipped text="Tenants" placement='right'>
+        <A class={styles.link} href="/app/tenants" aria-label="Tenants">
+          <BuildingStorefrontIcon size="xs" />
+        </A>
+      </Tooltipped>
 
-      <A class={styles.link} href="/app/users" aria-label="Users">
-        <UsersIcon size="xs" />
-      </A>
+      <Tooltipped text="Users" placement='right'>
+        <A class={styles.link} href="/app/users" aria-label="Users">
+          <UsersIcon size="xs" />
+        </A>
+      </Tooltipped>
 
       <hr />
 
-      <A class={styles.link} href="/app/settings" aria-label="Settings">
-        <Cog6ToothIcon size="xs" />
-      </A>
+      <Tooltipped text="Settings" placement='right'>
+        <A class={styles.link} href="/app/settings" aria-label="Settings">
+          <Cog6ToothIcon size="xs" />
+        </A>
+      </Tooltipped>
+
+      <Tooltipped text="Administration" placement='right'>
+        <A
+          class={clsx(styles.link, 'mt-auto')}
+          href="/app/admin"
+          aria-label="Administration"
+        >
+          <WrenchScrewdriverIcon size="xs" />
+        </A>
+      </Tooltipped>
 
       <UserMenuButton 
-        class={clsx(styles.link, "mt-auto")}
+        class={styles.link}
         color="ghost"
         size="xs"
         placement="right-end"
