@@ -10,12 +10,22 @@ export function createTooltip(options?: FloatingUIOptions) {
   });
 
   createEffect(() => {
-    tooltip.anchorEl()?.addEventListener('mouseover', tooltip.open);
-    tooltip.anchorEl()?.addEventListener('mouseleave', tooltip.close);
+    let timeout: NodeJS.Timeout;
+    const opener = () => {
+      timeout = setTimeout(tooltip.open, 500);
+    };
+
+    const closer = () => {
+      clearTimeout(timeout);
+      tooltip.close();
+    };
+
+    tooltip.anchorEl()?.addEventListener('mouseenter', opener);
+    tooltip.anchorEl()?.addEventListener('mouseleave', closer);
 
     return () => {
-      tooltip.anchorEl()?.removeEventListener('mouseover', tooltip.open);
-      tooltip.anchorEl()?.removeEventListener('mouseleave', tooltip.close);
+      tooltip.anchorEl()?.removeEventListener('mouseenter', opener);
+      tooltip.anchorEl()?.removeEventListener('mouseleave', closer);
     }
   });
 
