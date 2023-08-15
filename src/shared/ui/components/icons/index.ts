@@ -24,3 +24,4 @@ export * from "./user-circle-icon";
 export * from "./user-icon";
 export * from "./users-icon";
 export * from "./x-mark-icon";
+export * from './wrench-screwdriver-icon';
