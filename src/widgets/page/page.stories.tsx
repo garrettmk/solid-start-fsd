@@ -1,5 +1,5 @@
 import { SignOutDependency } from "@/features/session/sign-out";
-import { Scope, provider } from "@/shared/lib";
+import { Scope, provider } from "tidi";
 import { withDarkMode } from "@/shared/storybook";
 import { Heading, Panel, ScopeProvider } from "@/shared/ui";
 import { NavSidebar } from "@/widgets/navigation";
@@ -9,7 +9,7 @@ import { PageContent } from "./page-content";
 import { PageHeader } from "./page-header";
 import { DarkModeProvider } from "@/features/appearance";
 
-const MockPageScope = new Scope(undefined, [
+const MockPageScope = new Scope([
   provider({
     provides: SignOutDependency,
     use: () => async () => { null; }

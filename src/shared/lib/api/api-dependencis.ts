@@ -1,4 +1,4 @@
-import { dependency } from "../di";
+import { dependency } from "tidi";
 import { z } from "zod";
 import { APIClient } from "./api-create-client";
 

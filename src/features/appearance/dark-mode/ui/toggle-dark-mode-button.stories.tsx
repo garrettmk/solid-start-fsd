@@ -1,12 +1,12 @@
-import { Scope } from "@/shared/lib";
-import { withDarkMode } from "@/shared/storybook/decorators";
+import { Scope } from "tidi";
+import { withDarkMode } from "@/shared/storybook";
 import { ScopeProvider } from "@/shared/ui";
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { DarkModeProvider } from "../lib";
 import { ToggleDarkModeButton } from "./toggle-dark-mode-button";
 
 
-const MockDarkModeScope = new Scope(undefined, [
+const MockDarkModeScope = new Scope([
   DarkModeProvider
 ]);
 

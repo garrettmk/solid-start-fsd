@@ -1,4 +1,4 @@
-import { dependency, provider } from "@/shared/lib";
+import { dependency, provider } from "tidi";
 import { SupabaseDependency } from "@/shared/lib";
 import { useContainer } from "@/shared/ui";
 

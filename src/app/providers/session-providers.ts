@@ -4,7 +4,7 @@ import {
   APIClientDependency, AuthTokens, IsClientDependency, SupabaseDependency, camelizeObject, getAuthSession,
   getAuthTokensFromStorage,
   isSignInEvent,
-  isSignOutEvent, pick, provider, removeAuthTokensFromStorage,
+  isSignOutEvent, pick, removeAuthTokensFromStorage,
   saveAuthTokensInStorage,
   storageHasAuthTokens,
   toAuthTokens,
@@ -12,7 +12,8 @@ import {
 } from "@/shared/lib";
 import { ReactiveContextDependency, runWithOwner } from "@/shared/ui";
 import { AuthSession } from "@supabase/supabase-js";
-import { createResource, createSignal, observable } from "solid-js";
+import { createResource, createSignal } from "solid-js";
+import { provider } from "tidi";
 
 /**
  * Provides a Session for the current user, or undefined.

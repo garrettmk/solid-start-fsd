@@ -1,4 +1,5 @@
-import { getEnv, provider } from "@/shared/lib";
+import { getEnv } from "@/shared/lib";
+import { provider } from "tidi";
 import { SupabaseAnonKeyDependency, SupabaseURLDependency, SupabaseDependency } from "@/shared/lib";
 import { createSupabaseClient } from "@/shared/lib";
 

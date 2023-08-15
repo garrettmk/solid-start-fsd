@@ -4,7 +4,8 @@ import {
   SupabaseServiceRoleKeyDependency,
   SupabaseURLDependency
 } from "@/shared/lib";
-import { getEnv, provider } from "@/shared/lib";
+import { getEnv } from "@/shared/lib";
+import { provider } from "tidi";
 import { createSupabaseClient } from "@/shared/lib";
 
 export const SupabaseServiceRoleKeyProvider = provider({

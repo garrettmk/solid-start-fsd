@@ -1,4 +1,4 @@
-import { dependency } from "@/shared/lib";
+import { dependency } from "tidi";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 

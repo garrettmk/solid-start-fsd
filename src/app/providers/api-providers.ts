@@ -1,5 +1,6 @@
 import { APIClientDependency, APIURLDependency } from "@/shared/lib";
-import { createAPIClient, getEnv, provider } from "@/shared/lib";
+import { createAPIClient, getEnv } from "@/shared/lib";
+import { provider } from "tidi";
 
 export const APIURLProvider = provider({
   provides: APIURLDependency,

@@ -1,5 +1,5 @@
 import { ReactiveContextDependency, runWithOwner } from "@/shared/ui";
-import { dependency, provider } from "@/shared/lib";
+import { dependency, provider } from "tidi";
 import { useContainer } from "@/shared/ui";
 import { createEffect } from "solid-js";
 import { createStore } from "solid-js/store";

@@ -1,7 +1,7 @@
-import { dependency } from "@/shared/lib";
 import { User, userSchema } from "./user-schema";
 import { useContainer } from "@/shared/ui";
 import { Resource } from "solid-js";
+import { dependency } from "tidi";
 
 
 export const SignedInUserDependency = dependency<Resource<User>>({

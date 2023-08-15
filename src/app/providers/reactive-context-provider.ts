@@ -1,4 +1,4 @@
-import { provider } from "@/shared/lib";
+import { provider } from "tidi";
 import { ReactiveContextDependency } from "@/shared/ui";
 import { Owner } from "solid-js";
 

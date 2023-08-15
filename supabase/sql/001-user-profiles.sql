@@ -49,8 +49,8 @@ AS $$
     WHERE 
       id = auth.uid();
     RETURN result;
-  END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+  END; 
+  $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 /*
     User profiles

@@ -4,7 +4,8 @@ import { AppMode } from "@/shared/lib";
 import { AppModeDependency } from "@/shared/lib";
 import { IsProductionDependency } from "@/shared/lib";
 import { IsServerDependency, IsClientDependency } from "@/shared/lib";
-import { getEnv, provider } from "@/shared/lib";
+import { getEnv } from "@/shared/lib";
+import { provider } from "tidi";
 
 export const IsServerProvider = provider({
   provides: IsServerDependency,

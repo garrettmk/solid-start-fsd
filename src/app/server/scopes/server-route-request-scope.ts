@@ -1,8 +1,6 @@
-import { Scope } from "@/shared/lib";
+import { Scope } from "tidi";
 import { APIProviders } from "../providers";
 
 export async function makeRouteRequestScope(requestScope: Scope) {
-  return requestScope.sub([
-    ...APIProviders
-  ]);
+  return new Scope(requestScope, APIProviders)
 }

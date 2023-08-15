@@ -1,12 +1,12 @@
-import { SupabaseDependency, camelizeObject, dependency, pick } from "@/shared/lib";
-import { useContainer } from "@/shared/ui";
-import { Accessor, ResourceReturn, createResource } from "solid-js";
-import { sessionSchema, Session } from "../schemas";
-import { AuthSession } from "@supabase/supabase-js";
-import { z } from "zod";
+import { User } from "@/entities/user";
 import { UserProfile } from "@/entities/user-profile";
 import { resourceReturnSchema } from "@/shared/schemas";
-import { User } from "@/entities/user";
+import { useContainer } from "@/shared/ui";
+import { AuthSession } from "@supabase/supabase-js";
+import { Accessor, ResourceReturn } from "solid-js";
+import { dependency } from "tidi";
+import { z } from "zod";
+import { Session, sessionSchema } from "../schemas";
 
 
 /**

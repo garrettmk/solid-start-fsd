@@ -1,4 +1,4 @@
-import { dependency, provider } from "@/shared/lib";
+import { dependency, provider } from "tidi";
 import { FetchEvent } from "solid-start";
 import { z } from "zod";
 

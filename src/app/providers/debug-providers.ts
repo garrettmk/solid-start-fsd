@@ -1,5 +1,5 @@
 import { IsClientDependency, IsDevDependency } from "@/shared/lib";
-import { ScopeDependency, dependency, provider } from "@/shared/lib";
+import { ScopeDependency, dependency, provider } from "tidi";
 import { SessionDependency } from "@/entities/session";
 
 export const DebugDependency = dependency<void>({

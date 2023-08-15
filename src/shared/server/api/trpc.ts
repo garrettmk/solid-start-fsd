@@ -1,5 +1,7 @@
+// eslint-disable-next-line boundaries/element-types
 import { AuthUserDependency } from "@/app/server";
-import { delay, Scope } from "@/shared/lib";
+import { delay } from "@/shared/lib";
+import { Scope } from "tidi";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { ZodError } from "zod";
 

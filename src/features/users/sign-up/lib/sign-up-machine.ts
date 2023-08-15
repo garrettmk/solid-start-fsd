@@ -1,7 +1,8 @@
 import { omit } from "radash";
 import { assign, createMachine, ErrorPlatformEvent } from "xstate";
 import { ChooseProfessionInput, NewAccountInput } from "../schemas";
-import { APIClientDependency, Scope } from "@/shared/lib";
+import { APIClientDependency } from "@/shared/lib";
+import { Scope } from "tidi";
 import { useScopeContext } from "@/shared/ui";
 import { useMachine } from "@xstate/solid";
 

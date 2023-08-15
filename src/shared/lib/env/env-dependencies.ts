@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { dependency } from "../di";
+import { dependency } from "tidi";
 
 export const IsServerDependency = dependency<boolean>({
   name: 'IS_SERVER',

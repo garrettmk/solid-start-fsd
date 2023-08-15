@@ -1,7 +1,7 @@
 // eslint-disable-next-line boundaries/element-types
 import { apiRouter } from "@/app/server";
 import { APIURLDependency } from "@/shared/lib";
-import { Scope } from "@/shared/lib";
+import { Scope } from "tidi";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { APIEvent } from "solid-start";
 

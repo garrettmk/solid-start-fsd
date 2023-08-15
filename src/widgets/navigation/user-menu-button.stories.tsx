@@ -1,13 +1,13 @@
 import { DarkModeProvider } from "@/features/appearance";
 import { SignOutDependency } from "@/features/session/sign-out";
-import { Scope, provider } from "@/shared/lib";
+import { Scope, provider } from "tidi";
 import { withDarkMode } from "@/shared/storybook";
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { UserMenuButton } from "./user-menu-button";
 import { ScopeProvider } from "@/shared/ui";
 import { SessionProfileDependency } from "@/entities/session";
 
-const MockScope = new Scope(undefined, [
+const MockScope = new Scope([
   provider({
     provides: SignOutDependency,
     use: () => async () => { null }

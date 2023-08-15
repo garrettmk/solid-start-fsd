@@ -1,4 +1,4 @@
-import { Dependency, Scope } from "@/shared/lib";
+import { Dependency, Scope } from "tidi";
 import { JSX, createContext, useContext } from "solid-js";
 
 export const ScopeContext = createContext<Scope>();

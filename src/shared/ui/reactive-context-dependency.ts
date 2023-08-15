@@ -1,4 +1,4 @@
-import { dependency } from '@/shared/lib';
+import { dependency } from 'tidi';
 import { Owner, runWithOwner as solidRunWithOwner } from 'solid-js';
 
 export const ReactiveContextDependency = dependency<Owner | null>({

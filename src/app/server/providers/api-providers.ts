@@ -1,4 +1,4 @@
-import { ScopeDependency, provider } from "@/shared/lib";
+import { ScopeDependency, provider } from "tidi";
 import { APICallerDependency } from "@/shared/server";
 import { apiRouter } from "../api";
 import { SupabaseDependency } from "@/shared/lib";

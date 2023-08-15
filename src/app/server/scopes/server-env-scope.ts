@@ -1,7 +1,7 @@
 import { APIURLProvider, EnvProviders, SupabaseURLProvider } from "@/app/providers";
-import { Scope } from "@/shared/lib";
+import { Scope } from "tidi";
 
-export const serverEnvScope = new Scope(undefined, [
+export const serverEnvScope = new Scope([
   ...EnvProviders,
   APIURLProvider,
   SupabaseURLProvider,

@@ -1,7 +1,8 @@
 import { AuthUserDependency, RequestURLDependency, makeRequestScope, makeRouteRequestScope } from "@/app/server";
 import { redirect } from "solid-start";
 import { StartServer, createHandler, renderAsync } from "solid-start/entry-server";
-import { APIURLDependency, AppURLDependency, Scope, SignInURLDependency } from "@/shared/lib";
+import { APIURLDependency, AppURLDependency, SignInURLDependency } from "@/shared/lib";
+import { Scope } from 'tidi';
 
 export default createHandler(
   ({ forward }) =>

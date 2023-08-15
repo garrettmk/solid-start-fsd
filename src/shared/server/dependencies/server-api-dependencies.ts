@@ -1,6 +1,5 @@
-import { dependency } from "@/shared/lib";
+import { dependency } from "tidi";
 import type { APICaller } from "../api";
-import { z } from "zod";
 
 
 export const APICallerDependency = dependency<APICaller>({

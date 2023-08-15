@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { NavSidebar } from "./nav-sidebar";
 import { Router } from "@solidjs/router";
-import { Scope, provider } from "@/shared/lib";
+import { Scope, provider } from "tidi";
 import { SignOutDependency } from "@/features/session/sign-out";
 import { ScopeProvider } from "@/shared/ui";
 import { withDarkMode } from "@/shared/storybook";
 import { DarkModeProvider } from "@/features/appearance";
 
-const MockSignOutScope = new Scope(undefined, [
+const MockSignOutScope = new Scope([
   provider({
     provides: SignOutDependency,
     use: () => async () => {

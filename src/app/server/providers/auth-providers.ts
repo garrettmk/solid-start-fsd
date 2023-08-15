@@ -1,7 +1,7 @@
-import { SupabaseDependency } from "@/shared/lib";
-import { dependency, getAuthTokensFromRequest, provider, useAuthTokens } from "@/shared/lib";
+import { SupabaseDependency, getAuthTokensFromRequest, useAuthTokens } from "@/shared/lib";
 import { AuthTokens, authTokensSchema } from "@/shared/schemas";
 import { AuthUser } from "@supabase/supabase-js";
+import { dependency, provider } from "tidi";
 import { z } from "zod";
 import { RequestDependency } from "./request-providers";
 
