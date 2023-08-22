@@ -51,6 +51,7 @@ export function HStack<E extends HTMLElement = HTMLDivElement>(
     "class",
     "spacing",
     "align",
+    "justify"
   ]);
 
   return (
