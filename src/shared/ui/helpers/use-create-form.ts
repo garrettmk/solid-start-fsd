@@ -16,6 +16,7 @@ export type UseCreateFormResult<T extends FieldValues> = {
 export function useCreateForm<T extends FieldValues>(options: UseCreateFormOptions<T> = {}): UseCreateFormResult<T> {
   const [store, { Form, Field }] = createForm<T>({
     initialValues: options.initialValues,
+    validate: options.validate,
   });
 
   return {

@@ -5,6 +5,7 @@ import { userProfileViewRouter } from "@/features/user-profiles/view/server";
 import { userProfileUpdateRouter } from "@/features/user-profiles/update/server";
 import { makeRouter } from "@/shared/server";
 import { mergeRouters } from "@/shared/server";
+import { tenantsRouter } from "@/entities/tenant/server";
 
 
 export const apiRouter = makeRouter({
@@ -20,7 +21,9 @@ export const apiRouter = makeRouter({
   userProfiles: mergeRouters(
     userProfileViewRouter, 
     userProfileUpdateRouter
-  )
+  ),
+
+  tenants: tenantsRouter
 });
 
 export type APIRouter = typeof apiRouter;

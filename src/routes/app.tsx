@@ -5,10 +5,10 @@ import { Outlet } from "solid-start";
 export function AppLayout() {
   return (
     <>
-      <NavSidebar />
       <div class="ml-14">
         <Outlet />
       </div>
+      <NavSidebar />
       <SignInOverlay />
     </>
   )
