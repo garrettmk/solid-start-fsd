@@ -1,18 +1,18 @@
 import clsx from "clsx";
 import { JSX, splitProps } from "solid-js";
 
-export interface ErrorProps extends JSX.HTMLAttributes<HTMLParagraphElement> {
+export interface SuccessProps extends JSX.HTMLAttributes<HTMLParagraphElement> {
   when?: unknown
 }
 
-export function Error(props: ErrorProps) {
+export function Success(props: SuccessProps) {
   const [, elementProps] = splitProps(props, ["class"]);
 
   return (
     <p
       role='alert'
       class={clsx(
-        "text-red-600 dark:text-red-400",
+        "text-green-600 dark:text-green-400",
         props.class
       )}
       hidden={!props.when}
