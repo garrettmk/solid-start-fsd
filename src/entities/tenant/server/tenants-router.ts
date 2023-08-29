@@ -1,8 +1,13 @@
 import { makeRouter, protectedProcedure } from "@/shared/server";
-import { Tenant, createTenantInputSchema, tenantSchema } from "../schemas";
+import { Tenant, createTenantInputSchema, findManyTenantsInputSchema, tenantSchema } from "../schemas";
 import { SupabaseDependency, camelizeObject } from "@/shared/lib";
+import { paginatedTenantsSchema } from "../schemas";
 
 export const tenantsRouter = makeRouter({
+
+  /**
+   * Creates a tenant.
+   */
   create: protectedProcedure
     .input(createTenantInputSchema)
     .output(tenantSchema)
@@ -31,4 +36,30 @@ export const tenantsRouter = makeRouter({
 
       return camelizeObject<Tenant>(data);
     }),
+
+  /**
+   * Finds many tenants.
+   */
+  findMany: protectedProcedure
+    .input(findManyTenantsInputSchema)
+    .output(paginatedTenantsSchema)
+    .query(async ({ ctx, input }) => {
+      const { keywords } = input;
+      const supabase = await ctx.scope.resolve(SupabaseDependency);
+
+      const { data, error } = await supabase
+        .from("tenants")
+        .select("*")
+        .order("name", { ascending: true });
+
+      if (error)
+        throw error;
+
+      return {
+        data: data.map(camelizeObject<Tenant>),
+        offset: 0,
+        count: data.length,
+        total: data.length
+      };
+    })
 });

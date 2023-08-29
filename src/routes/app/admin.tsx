@@ -1,5 +1,5 @@
 import { CreateTenantForm, useCreateTenantAPI, useCreateTenantForm } from "@/entities/tenant";
-import { Button, CancelButton, Drawer, Error, HStack, Heading, ModuleSidebar, SubmitButton, Success, useDrawer } from "@/shared/ui";
+import { Button, Drawer, Error, Heading, ModuleSidebar, Success, useDrawer } from "@/shared/ui";
 import { PageHeader } from "@/widgets/page";
 import { reset } from "@modular-forms/solid";
 import { createEffect } from "solid-js";
@@ -39,23 +39,20 @@ export function AdminLayout() {
         backdrop={true}
         class="p-4"
       >
-        <Heading level="2" class="text-lg mb-4">Create Tenant</Heading>
-          <CreateTenantForm 
-            form={createTenantForm} 
-            onSubmit={createTenant}
-            disabled={creatingTenant.pending}
-          >
-            <HStack justify='end' spacing="sm" class="pt-4">
-              <CancelButton onClick={createTenantDrawer.close}/>
-              <SubmitButton/>
-            </HStack>
-          </CreateTenantForm>
-          <Error class="mt-4" when={creatingTenant.error}>
-            {creatingTenant.error?.message}
-          </Error>
-          <Success class="mt-4" when={creatingTenant.result && !creatingTenant.error}>
-            Tenant created successfully!
-          </Success>
+        <Heading level="2" class="text-lg mb-4">
+          Create Tenant
+        </Heading>
+        <CreateTenantForm 
+          form={createTenantForm} 
+          onSubmit={createTenant}
+          onCancel={createTenantDrawer.close}
+        />
+        <Error class="mt-4" when={creatingTenant.error}>
+          {creatingTenant.error?.message}
+        </Error>
+        <Success class="mt-4" when={creatingTenant.result && !creatingTenant.error}>
+          Tenant created successfully!
+        </Success>
       </Drawer>
     </>
   );
