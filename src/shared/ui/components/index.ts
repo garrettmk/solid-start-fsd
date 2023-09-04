@@ -20,3 +20,4 @@ export * from "./module";
 export * from "./redirects";
 export * from './tooltips';
 export * from './forms';
+export * from './notifications'

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { Panel } from "./panel";
-import { withDarkMode } from "@/shared/storybook/decorators";
+import { withDarkMode } from "@/shared/storybook";
 
 const meta = {
   title: "Shared/UI/Components/Panel",

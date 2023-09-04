@@ -1,11 +1,14 @@
+import { ReactiveContextProvider } from "@/app/providers";
+import { SessionProfileDependency } from "@/entities/session";
+import { UserProfile } from "@/entities/user-profile";
 import { DarkModeProvider } from "@/features/appearance";
 import { SignOutDependency } from "@/features/session/sign-out";
-import { Scope, provider } from "tidi";
 import { withDarkMode } from "@/shared/storybook";
+import { ReactiveContextDependency, ScopeProvider, runWithOwner } from "@/shared/ui";
+import { createResource, getOwner } from "solid-js";
 import type { Meta, StoryObj } from "storybook-solidjs";
+import { Scope, provider } from "tidi";
 import { UserMenuButton } from "./user-menu-button";
-import { ScopeProvider } from "@/shared/ui";
-import { SessionProfileDependency } from "@/entities/session";
 
 const MockScope = new Scope([
   provider({
@@ -14,17 +17,22 @@ const MockScope = new Scope([
   }),
   
   DarkModeProvider,
+  ReactiveContextProvider(getOwner()),
 
   provider({
     provides: SessionProfileDependency,
-    use: () => () => ({
-      id: '1',
-      fullName: 'John Doe',
-      preferredName: 'John Doe',
-      avatarUrl: 'https://avatars.githubusercontent.com/u/1?v=4',
-      avatarInitials: 'JD',
-      createdAt: new Date().toISOString(),
-    })
+    requires: [ReactiveContextDependency],
+    use: (reactiveContext) => 
+      runWithOwner(reactiveContext, () => 
+        createResource(async () => ({
+          id: '1',
+          fullName: 'John Doe',
+          preferredName: 'John Doe',
+          avatarUrl: 'https://avatars.githubusercontent.com/u/1?v=4',
+          avatarInitials: 'JD',
+          createdAt: new Date().toISOString(),
+        } as UserProfile | undefined))
+      )
   })
 ]);
 

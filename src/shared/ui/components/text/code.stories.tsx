@@ -1,6 +1,6 @@
 import type { StoryObj } from "storybook-solidjs";
 import { Code } from './code';
-import { withDarkMode } from "@/shared/storybook/decorators";
+import { withDarkMode } from "@/shared/storybook";
 
 const meta = {
   title: "Shared/UI/Components/Code",

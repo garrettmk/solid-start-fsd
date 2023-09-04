@@ -3,6 +3,7 @@
   "scripts": {
     "dev": "solid-start dev",
     "build": "solid-start build",
+    "build:docs": "npx typedoc",
     "start": "solid-start start",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "format": "prettier --ignore-path .gitignore --write ./src",
@@ -51,6 +52,7 @@
     "storybook-solidjs": "^1.0.0-beta.2",
     "storybook-solidjs-vite": "^1.0.0-beta.2",
     "supabase": "^1.51.0",
+    "typedoc": "^0.25.0",
     "typescript": "^4.9.4",
     "vite": "^4.1.4",
     "vitest": "^0.31.1",

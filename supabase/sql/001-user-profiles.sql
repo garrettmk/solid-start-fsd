@@ -3,8 +3,6 @@
     Utilities
 */
 
-DROP FUNCTION get_user_id_from_email;
-
 CREATE OR REPLACE FUNCTION get_user_id_from_email(email_ TEXT) RETURNS UUID
 AS $$
   DECLARE

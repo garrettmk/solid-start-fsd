@@ -50,7 +50,7 @@ export const tenantsRouter = makeRouter({
       const { data, error } = await supabase
         .from("tenants")
         .select("*")
-        .order("name", { ascending: true });
+      .order("name", { ascending: true });
 
       if (error)
         throw error;

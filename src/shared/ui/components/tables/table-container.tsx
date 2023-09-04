@@ -9,7 +9,7 @@ export function TableContainer(props: TableContainerProps) {
   return (
     <div
       class={clsx(
-        "overflow-hidden rounded-t-lg border border-slate-200 dark:border-slate-700 [&_table]:-mb-[2px]",
+        "overflow-hidden rounded-t-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 [&_table]:-mb-[2px]",
         props.class
       )}
       {...divProps}

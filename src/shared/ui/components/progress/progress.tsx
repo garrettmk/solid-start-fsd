@@ -23,6 +23,9 @@ export interface ProgressProps extends JSX.HTMLAttributes<HTMLDivElement> {
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   value?: number;
   background?: "none" | "default";
+  reverse?: boolean;
+  duration?: number;
+  easing?: string;
 }
 
 export function Progress(props: ProgressProps) {
@@ -31,12 +34,16 @@ export function Progress(props: ProgressProps) {
     "class",
     "value",
     "background",
+    "reverse",
   ]);
 
   const value = () => clamp(props.value ?? 0, { min: 0, max: 100 });
 
-  const style = () =>
-    `width: ${value()}%`;
+  const style = () => `
+    width: ${value()}%; 
+    transition-duration: ${props.duration ?? 4000}ms;
+    transition-timing-function: ${props.easing ?? 'ease-in-out'};
+  `.trim();
 
   return (
     <div
@@ -52,7 +59,9 @@ export function Progress(props: ProgressProps) {
     >
       <div
         class={clsx(
-          "bg-blue-600 rounded-full transition-[width] ease-in-out duration-1000",
+          `bg-blue-600 rounded-full transition-[width]`,
+          props.easing ?? 'ease-in-out',
+          props.reverse && "ml-auto",
           styles.size[props.size ?? "md"]
         )}
         style={style()}

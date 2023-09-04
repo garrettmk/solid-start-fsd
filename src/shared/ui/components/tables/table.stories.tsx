@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
-import { withDarkMode } from "@/shared/storybook/decorators";
+import { withDarkMode } from "@/shared/storybook";
 import { TableContainer } from "./table-container";
 import { Table } from "./table";
 import { ColumnDef } from "@tanstack/solid-table";

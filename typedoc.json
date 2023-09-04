@@ -1,0 +1,11 @@
+{
+  "entryPoints": [
+    "./src/entry-client.tsx",
+    "./src/entry-server.tsx"
+  ],
+  "exclude": [
+    "**/*+(test|spec|stories).tsx?",
+    "node_modules/**/*"
+  ],
+  "out": "./dist/docs",
+}

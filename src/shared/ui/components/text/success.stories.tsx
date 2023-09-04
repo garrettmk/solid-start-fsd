@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "storybook-solidjs";
 import { Success } from "./success";
 
 const meta = {
-  title: "Shared/UI/Components/Error",
+  title: "Shared/UI/Components/Success",
   component: Success,
   tags: ["autodocs"],
   argTypes: {

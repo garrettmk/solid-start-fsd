@@ -12,10 +12,10 @@ export function Error(props: ErrorProps) {
     <p
       role='alert'
       class={clsx(
-        "text-red-600 dark:text-red-400",
+        "text-red-600 dark:text-red-400 whitespace-normal",
         props.class
       )}
-      hidden={!props.when}
+      hidden={'when' in props && !props.when}
       {...elementProps}
     />
   );
