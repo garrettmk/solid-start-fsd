@@ -1,5 +1,8 @@
 // @refresh reload
+import { createClientScope } from "@/app/scopes";
+import { QueryClientDependency } from "@/shared/lib";
 import { ScopeProvider, Spinner } from "@/shared/ui";
+import { QueryClientProvider } from "@tanstack/solid-query";
 import { Show, Suspense, createSignal, onMount } from "solid-js";
 import {
   Body,
@@ -12,7 +15,6 @@ import {
   Scripts,
   Title
 } from "solid-start";
-import { createClientScope } from "@/app/scopes";
 import "./root.css";
 
 export default function Root() {
@@ -40,9 +42,11 @@ export default function Root() {
           <ErrorBoundary>
             <Show when={isResolved()}>
               <ScopeProvider scope={clientScope}>
-                <Routes>
-                  <FileRoutes />
-                </Routes>
+                <QueryClientProvider client={clientScope.get(QueryClientDependency)}>
+                  <Routes>
+                    <FileRoutes />
+                  </Routes>
+                </QueryClientProvider>
               </ScopeProvider>
             </Show>
           </ErrorBoundary>

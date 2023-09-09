@@ -3,8 +3,7 @@ import { SignInWithPasswordProvider } from "@/features/session/sign-in-with-pass
 import { SignOutProvider } from "@/features/session/sign-out";
 import { Scope } from "tidi";
 import { Owner, getOwner } from "solid-js";
-import { APIClientProviders, DebugProvider, EnvProviders, ReactiveContextProvider, SessionProfileProvider, SessionProvider, SessionUserProvider, SupabaseClientProviders } from "../providers";
-
+import { APIClientProviders, DebugProvider, EnvProviders, ReactiveContextProvider, SessionProfileProvider, SessionProvider, SessionUserProvider, SupabaseClientProviders, QueryClientProvider } from "../providers";
 
 export function makeClientScope(owner: Owner | null): Scope {
   return new Scope([
@@ -20,6 +19,7 @@ export function makeClientScope(owner: Owner | null): Scope {
     SessionProfileProvider,
     SessionUserProvider,
     DarkModeProvider,
+    QueryClientProvider,
   ]);
 }
 
