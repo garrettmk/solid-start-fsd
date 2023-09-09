@@ -54,7 +54,7 @@ export const adjustSize = (size: SizeProp, options?: ClampSizeOptions) => {
   if (size === "none") 
     return "none";
     
-  const min = sizePropValues.indexOf(options?.min ?? sizePropValues[0]);
+  const min = sizePropValues.indexOf(options?.min ?? sizePropValues[1]);
   const max = sizePropValues.indexOf(
     options?.max ?? sizePropValues[sizePropValues.length - 1]
   );
@@ -64,10 +64,21 @@ export const adjustSize = (size: SizeProp, options?: ClampSizeOptions) => {
   return sizePropValues[valueIndex];
 };
 
+
+/**
+ * Options for converting a size prop to a class
+ */
 export type SizeToClassOptions = ClampSizeOptions & {
   scale?: SizeClassScale;
 };
 
+/**
+ * Convert a SizeProp to a class, using the given options.
+ * 
+ * @param size 
+ * @param options 
+ * @returns 
+ */
 export const sizeToClass = (size: SizeProp, options: SizeToClassOptions) => {
   const adjustedSize = adjustSize(size, options);
   return options.scale?.[adjustedSize] ?? "";
@@ -120,6 +131,9 @@ export const heightClass = (
     ...options,
   });
 
+/**
+ * Options for `sizeClasses`
+ */
 export type SizeClassesOptions = ClampSizeOptions & {
   widthScale?: SizeClassScale;
   heightScale?: SizeClassScale;
@@ -259,6 +273,13 @@ export const paddingClasses = (
 };
 
 
+/**
+ * Returns a radius class for a given size.
+ * 
+ * @param size 
+ * @param options 
+ * @returns 
+ */
 export const radiusClass = (
   size: SizeProp = "md",
   options?: SizeToClassOptions
