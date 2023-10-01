@@ -96,8 +96,6 @@ export function Pagination(props: PaginationProps) {
     const { offset, limit, total } = value();
     const nextPageOffset = offset + limit;
     const lastPageOffset = Math.floor(total / limit) * limit - limit;
-
-    console.log({ nextPageOffset, lastPageOffset, offset: Math.min(nextPageOffset, lastPageOffset) })
     
     props.onChange?.({
       limit,
