@@ -28,7 +28,7 @@ export function TableSortIndicator(props: TableSortIndicatorProps) {
     <ChevronDownIcon
       {...iconProps}
       size={adjustSize(props.size ?? 'md', { adjust: -2 })}
-      class={clsx('inline-block transition-[transform,opacity]', {
+      class={clsx('inline-block transition-[transform,opacity] translate-y-[-5%]', {
         'transform rotate-180': props.direction === 'asc',
         'opacity-0': !props.direction,
       }, props.class)}
