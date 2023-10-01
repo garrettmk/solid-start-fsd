@@ -95,7 +95,9 @@ export function Pagination(props: PaginationProps) {
   const handleNext = () => {
     const { offset, limit, total } = value();
     const nextPageOffset = offset + limit;
-    const lastPageOffset = Math.floor(total / limit) * limit;
+    const lastPageOffset = Math.floor(total / limit) * limit - limit;
+
+    console.log({ nextPageOffset, lastPageOffset, offset: Math.min(nextPageOffset, lastPageOffset) })
     
     props.onChange?.({
       limit,
@@ -105,8 +107,8 @@ export function Pagination(props: PaginationProps) {
 
   // Handle a click on a page number
   const handlePage = (page: number) => {
-    const { limit } = value();
-    const lastPageOffset = Math.floor(value().total / limit) * limit;
+    const { limit, total } = value();
+    const lastPageOffset = Math.floor(total / limit) * limit - limit;
     const gotoOffset = clamp((page - 1) * limit, {
       min: 0,
       max: lastPageOffset
