@@ -142,4 +142,21 @@ export const colors: Record<NonNullable<ButtonProps["color"]>, Record<"enabled" 
       bg-green-400           dark:bg-green-500
     `,
   },
+
+  table: {
+    enabled: `
+      text-slate-600        dark:text-slate-400
+      bg-slate-100          dark:bg-slate-700
+      !border-none
+      hover:bg-slate-200    dark:hover:bg-slate-800
+      !font-bold !uppercase
+      !ring-inset
+    `,
+    disabled: `
+      text-slate-400        dark:text-slate-500
+      bg-slate-100          dark:bg-slate-700
+      !font-bold !uppercase
+      !ring-inset
+    `,
+  }
 };

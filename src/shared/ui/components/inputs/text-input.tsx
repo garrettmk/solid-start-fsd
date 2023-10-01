@@ -1,7 +1,7 @@
-import { JSX, Show, splitProps } from "solid-js";
 import clsx from "clsx";
-import { Error } from "../text/error";
+import { JSX, splitProps } from "solid-js";
 import { adjustSize } from "../../helpers";
+import { Error } from "../text/error";
 
 export interface TextInputProps
   extends JSX.InputHTMLAttributes<HTMLInputElement> {
@@ -71,6 +71,9 @@ export function TextInput(props: TextInputProps) {
       >
         {props.error}
       </Error>
+
+      {props.children}
+      
     </div>
   );
 }

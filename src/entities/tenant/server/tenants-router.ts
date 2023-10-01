@@ -1,7 +1,8 @@
-import { makeRouter, protectedProcedure } from "@/shared/server";
-import { Tenant, createTenantInputSchema, findManyTenantsInputSchema, tenantSchema } from "../schemas";
 import { SupabaseDependency, camelizeObject } from "@/shared/lib";
-import { paginatedTenantsSchema } from "../schemas";
+import { defaultPaginationInput, findManyInputSchema, findManyResultSchema } from "@/shared/schemas";
+import { makeRouter, protectedProcedure } from "@/shared/server";
+import { snake } from "radash";
+import { Tenant, createTenantInputSchema, tenantSchema } from "../schemas";
 
 export const tenantsRouter = makeRouter({
 
@@ -41,25 +42,42 @@ export const tenantsRouter = makeRouter({
    * Finds many tenants.
    */
   findMany: protectedProcedure
-    .input(findManyTenantsInputSchema)
-    .output(paginatedTenantsSchema)
+    .input(findManyInputSchema)
+    .output(findManyResultSchema)
     .query(async ({ ctx, input }) => {
-      const { keywords } = input;
+      const { search, sorting = [], pagination = defaultPaginationInput } = input;
       const supabase = await ctx.scope.resolve(SupabaseDependency);
 
-      const { data, error } = await supabase
+      // Include the total in the query
+      const tenantsQuery = supabase
         .from("tenants")
-        .select("*")
-      .order("name", { ascending: true });
+        .select('*', { count: 'exact' });
 
-      if (error)
-        throw error;
+      // Apply keywords search
+      if (search?.keywords)
+        tenantsQuery.textSearch("search_text", search?.keywords, { config: "english" });
+
+      // Apply sorting
+      sorting.forEach(({ id, desc }) => {
+        tenantsQuery.order(snake(id), { ascending: !desc });
+      });
+
+      // Apply pagination
+      tenantsQuery.range(pagination.offset, pagination.offset + pagination.limit - 1);
+
+      // Execute query
+      const { data, count, error } = await tenantsQuery;
+      if (error) throw error;
 
       return {
         data: data.map(camelizeObject<Tenant>),
-        offset: 0,
-        count: data.length,
-        total: data.length
+        paginated: {
+          offset: Math.min(pagination?.offset ?? 0, count ?? 0),
+          limit: pagination?.limit ?? 10,
+          total: count ?? 0,
+        },
+        search: search ?? {},
+        sorting: sorting ?? [],
       };
     })
 });

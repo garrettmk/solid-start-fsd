@@ -1,23 +1,15 @@
-import { CreateTenantForm, useCreateTenantAPI, useCreateTenantForm, useFindManyTenantsAPI } from "@/entities/tenant";
-import { Error, BreadcrumbItem, Breadcrumbs, Button, Code, DateAndTimeCell, Drawer, HStack, Heading, PlusIcon, Table, TableContainer, useDrawer, useNotifications, SearchInput } from "@/shared/ui";
+import { CreateTenantForm, useCreateTenantAPI, useCreateTenantForm } from "@/entities/tenant";
+import { BreadcrumbItem, Breadcrumbs, Button, Code, Drawer, Error, Heading, useDrawer, useNotifications } from "@/shared/ui";
 import { PageContent, PageHeader } from "@/widgets/page";
+import { FindManyTenantsTable } from "@/widgets/tenants";
 import { reset } from "@modular-forms/solid";
 import { createEffect } from "solid-js";
 
 export function AdminIndex() {
   const { notify } = useNotifications();
-  const [tenants] = useFindManyTenantsAPI(() => ({}));
   const [creatingTenant, createTenant] = useCreateTenantAPI();
   const createTenantDrawer = useDrawer();
   const createTenantForm = useCreateTenantForm();
-
-  
-  const notifySuccess = () => notify({
-    type: 'success',
-    message: "Something happened!",
-    timeout: 4000,
-  });
-
 
   createEffect(() => {
     if (!createTenantDrawer.isOpen) {
@@ -50,7 +42,6 @@ export function AdminIndex() {
       })
   });
 
-
   return (
     <>
       <PageHeader>
@@ -59,44 +50,12 @@ export function AdminIndex() {
           <BreadcrumbItem>&gt;</BreadcrumbItem>
           <BreadcrumbItem href="/app/admin">Admin</BreadcrumbItem>
         </Breadcrumbs>
-
-        <Button size="sm" onClick={notifySuccess}>
-          Notify
+        <Button size="sm" {...createTenantDrawer.buttonProps}>
+          Create Tenant
         </Button>
       </PageHeader>
       <PageContent class="h-100">
-        <TableContainer>
-          <HStack class="p-6" spacing="sm" align="center">
-            <Heading level="2" class="flex-grow text-2xl font-bold">All Tenants</Heading>
-            <SearchInput
-              placeholder="Search tenants..."
-            />
-            <Button size="sm" {...createTenantDrawer.buttonProps}>
-              <PlusIcon class="mr-1" size="xs"/>
-              New Tenant
-            </Button>
-          </HStack>
-          <Table
-            columns={[
-              {
-                header: "Name",
-                accessorKey: "name",
-              },
-              {
-                header: "Slug",
-                accessorKey: "slug",
-              },
-              {
-                header: "Created",
-                accessorKey: "createdAt",
-                cell: ({ getValue }) => (
-                  <DateAndTimeCell value={getValue() as string}/>
-                )
-              }
-            ]}
-            data={tenants()?.data ?? []}
-          />
-        </TableContainer>
+        <FindManyTenantsTable/>
       </PageContent>
       <Drawer 
         {...createTenantDrawer.drawerProps}

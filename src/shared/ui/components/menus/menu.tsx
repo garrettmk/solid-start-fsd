@@ -9,6 +9,7 @@ export interface MenuProps extends JSX.HTMLAttributes<HTMLUListElement> {
   onClickItem?: () => void;
 }
 
+const base = 'drop-shadow-2xl';
 const positioning = "fixed z-[5000]";
 const coloring =
   "bg-white dark:bg-slate-700 divide-slate-100 dark:divide-slate-600";
@@ -37,7 +38,7 @@ export function Menu(props: MenuProps) {
     <Panel
       as="ul"
       ref={props.ref}
-      class={clsx(positioning, coloring, listStyle, textStyles, props.class)}
+      class={clsx(base, positioning, coloring, listStyle, textStyles, props.class)}
       onClick={handleClick}
       {...elementProps}
     >

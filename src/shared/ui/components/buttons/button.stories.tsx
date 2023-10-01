@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { Button } from "./button";
 import { AppIcon } from "../icons";
-import { withDarkMode } from "@/shared/storybook/decorators";
+import { withDarkMode } from "@/shared/storybook";
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/solid/writing-stories/introduction
 const meta = {
@@ -44,6 +44,14 @@ const meta = {
       control: 'select',
       options: ['button', 'submit', 'reset'],
       defaultValue: 'button'
+    },
+    radius: {
+      description: 'The border radius of the button. If not specified, the radius will be based on the size of the button.',
+      control: 'select',
+      options: ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'],
+    },
+    onClick: {
+      action: 'clicked'
     }
   },
   args: {

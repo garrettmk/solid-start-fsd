@@ -19,6 +19,7 @@ export * from './exclamation-triangle-icon';
 export * from "./home-icon";
 export * from "./icon";
 export * from './information-circle-icon';
+export * from './magnifying-glass-icon';
 export * from "./moon-icon";
 export * from "./pencil-icon";
 export * from "./plus-icon";

@@ -12,8 +12,10 @@ export interface ButtonProps extends JSX.HTMLAttributes<HTMLButtonElement> {
   | "ghost"
   | "blue"
   | "red"
-  | "green";
+  | "green"
+  | "table";
   size?: SizeProp;
+  radius?: SizeProp;
   description?: string;
   icon?: boolean;
   disabled?: boolean;
@@ -29,11 +31,13 @@ export function Button(props: ButtonProps) {
     "description",
     "icon",
     "ref",
+    "radius",
   ]);
 
   const classes = createMemo(() => {
     const state = props.disabled ? "disabled" : "enabled";
     const size = props.size ?? "md";
+    const radius = props.radius ?? props.size;
     const color = props.color ?? "blue";
     const paddingScale = props.icon
       ? styles.iconPaddingScale
@@ -42,7 +46,7 @@ export function Button(props: ButtonProps) {
     return clsx(
       styles.base,
       props.disabled && styles.disabled,
-      radiusClass(size, { scale: styles.radiusScale }),
+      radiusClass(radius, { scale: styles.radiusScale }),
       paddingClass(size, { scale: paddingScale }),
       textSizeClass(size),
       styles.colors[color][state],

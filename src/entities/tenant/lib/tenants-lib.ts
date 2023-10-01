@@ -1,9 +1,9 @@
 import { APIClientDependency } from "@/shared/lib";
-import { UseCreateFormOptions, useContainer, useCreateForm } from "@/shared/ui";
+import { UseCreateFormOptions, createFindManyQuery, useContainer, useCreateForm } from "@/shared/ui";
 import { zodForm } from "@modular-forms/solid";
 import { Accessor, createResource } from "solid-js";
 import { createRouteAction } from "solid-start";
-import { CreateTenantInput, FindManyTenantsInput, createTenantInputSchema } from "../schemas";
+import { CreateTenantInput, FindManyTenantsInput, FindManyTenantsResult, createTenantInputSchema } from "../schemas";
 
 
 /**
@@ -12,11 +12,11 @@ import { CreateTenantInput, FindManyTenantsInput, createTenantInputSchema } from
  * @returns a `RouteAction` for `api.tenants.create.mutate`
  */
 export function useCreateTenantAPI() {
-    const api = useContainer(APIClientDependency);
-    
-    return createRouteAction(async (input: CreateTenantInput) => {
-        return api.tenants.create.mutate(input);
-    });
+  const api = useContainer(APIClientDependency);
+
+  return createRouteAction(async (input: CreateTenantInput) => {
+    return api.tenants.create.mutate(input);
+  });
 }
 
 /**
@@ -26,18 +26,18 @@ export function useCreateTenantAPI() {
  * @returns 
  */
 export function useCreateTenantForm(options: Omit<UseCreateFormOptions<CreateTenantInput>, 'validate'> = {
-    initialValues: {
-      name: '',
-      slug: ''
-    }
-  }) {
-    const validate = zodForm(createTenantInputSchema);
-  
-    return useCreateForm<CreateTenantInput>({
-      ...options,
-      validate
-    });
+  initialValues: {
+    name: '',
+    slug: ''
   }
+}) {
+  const validate = zodForm(createTenantInputSchema);
+
+  return useCreateForm<CreateTenantInput>({
+    ...options,
+    validate
+  });
+}
 
 
 /**
@@ -46,10 +46,20 @@ export function useCreateTenantForm(options: Omit<UseCreateFormOptions<CreateTen
  * @param input 
  * @returns 
  */
-export function useFindManyTenantsAPI(input: Accessor<FindManyTenantsInput>) {
-    const api = useContainer(APIClientDependency);
-    
-    return createResource(input, async (input: FindManyTenantsInput) => {
-        return api.tenants.findMany.query(input);
-    });
+export function createFindManyTenantsResource(input: Accessor<FindManyTenantsInput>) {
+  const api = useContainer(APIClientDependency);
+
+  return createResource(input, async (input: FindManyTenantsInput) => {
+    return api.tenants.findMany.query(input);
+  });
+}
+
+/**
+ * Returns a `CreateQueryResult` for a list of tenants.
+ * 
+ * @param input 
+ * @returns 
+ */
+export function createFindManyTenantsQuery(input: Accessor<FindManyTenantsInput>) {
+  return createFindManyQuery<FindManyTenantsResult>(['tenants', 'findMany'], input);
 }

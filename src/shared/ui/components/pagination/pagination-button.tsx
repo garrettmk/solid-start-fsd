@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import { splitProps, createMemo } from "solid-js";
-import { SizeProp, adjustSize } from "../../helpers";
-import { ButtonProps, Button } from "../buttons";
+import { createMemo, splitProps } from "solid-js";
+import { SizeProp, radiusClass } from "../../helpers";
+import { Button, ButtonProps } from "../buttons";
 
 const radiusClasses: Record<SizeProp, string> = {
   'none': '!rounded-none',
@@ -13,6 +13,18 @@ const radiusClasses: Record<SizeProp, string> = {
   '2xl': '!rounded-none first:!rounded-l-2xl last:!rounded-r-2xl',
   '3xl': '!rounded-none first:!rounded-l-3xl last:!rounded-r-3xl',
   '4xl': '!rounded-none first:!rounded-l-4xl last:!rounded-r-4xl',
+};
+
+const currentPageClasses: Record<NonNullable<ButtonProps['color']>, string> = {
+  'none': '',
+  'light': '!text-blue-700 dark:!text-white !bg-slate-100 dark:!bg-slate-700',
+  'dark': '!bg-slate-900 !text-white dark:!bg-slate-900 dark:!text-white',
+  'alternative': '!text-blue-700 dark:!text-white !bg-slate-100 dark:!bg-slate-700',
+  'ghost': '!bg-slate-100 dark:!bg-slate-700',
+  'blue': '!bg-blue-800 dark:!bg-blue-800',
+  'red': '!bg-red-800 dark:!bg-red-800',
+  'green': '!bg-green-800 dark:!bg-green-800',
+  'table': '!bg-slate-200 dark:!bg-slate-800'
 };
 
 /**
@@ -31,8 +43,9 @@ export type PaginationButtonProps = ButtonProps & {
 export function PaginationButton(props: PaginationButtonProps) {
   const [, buttonProps] = splitProps(props, ['class', 'isCurrentPage']);
   const classes = createMemo(() => clsx(
-    radiusClasses[adjustSize(props.size ?? 'md', { adjust: 2 })],
-    props.isCurrentPage && '!text-blue-700 dark:!text-white !bg-slate-100 dark:!bg-slate-700',
+    '!ring-inset',
+    radiusClass(props.radius ?? props.size ?? 'md', { adjust: 2, scale: radiusClasses }),
+    props.isCurrentPage && currentPageClasses[props.color ?? 'alternative'],
     props.class
   ));
 

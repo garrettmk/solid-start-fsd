@@ -24,7 +24,7 @@ export function ButtonMenu(props: ButtonMenuProps) {
 
   const menu = createFloatingUI({
     placement: props.placement ?? "right-end",
-    offset: props.offset ?? { mainAxis: 12 },
+    offset: props.offset,
   });
 
   useOnClickOutside(menu.anchorEl, menu.floatingEl, menu.close);
