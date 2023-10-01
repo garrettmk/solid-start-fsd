@@ -52,14 +52,12 @@ export interface TableProps<T = unknown, V = T> extends JSX.HTMLAttributes<HTMLT
   table: TableInstance<T>;
   expandedComponent?: Component<{ row: Row<T> }>;
   size?: SizeProp;
-  isLoading?: boolean;
 }
 
 export function Table<T, V>(props: TableProps<T, V>) {
   const [, tableProps] = splitProps(props, [
     "class",
     "size",
-    "isLoading",
     "table"
   ]);
 
