@@ -23,7 +23,7 @@ export function PaginationTotalLabel(props: PaginationTotalLabelProps) {
 
   const total = () => pagination().total.toLocaleString();
   const offset = () => pagination().offset.toLocaleString();
-  const limit = () => pagination().limit.toLocaleString();
+  const limit = () => Math.min(pagination().limit, pagination().total).toLocaleString();
 
   return (
     <span {...props}>

@@ -82,7 +82,7 @@ export function usePaginationInputFrom(findManyInput: Accessor<FindManyInput>, s
     const resolvedPaginationInput: PaginationInput = typeof newPaginationInput === 'function' 
       ? newPaginationInput(paginationInput()) 
       : newPaginationInput;
-    
+
     setFindManyInput(current => ({ ...current, pagination: resolvedPaginationInput }));
     return resolvedPaginationInput;
   }
@@ -132,11 +132,11 @@ export function usePaginatedResultFrom(query: CreateQueryResult<FindManyResult>)
  */
 export function createFindManyQuery<T extends FindManyResult>(queryKey: string[], input: Accessor<FindManyInput>): CreateQueryResult<T> {
   const api = useContainer(APIClientDependency);
-  const fetcher = get(api, queryKey.join('.')) as (input: FindManyInput) => T;
+  const fetcher = get(api, [...queryKey, 'query'].join('.')) as (input: FindManyInput) => T;
 
   const query = createQuery(
-    () => queryKey, 
-    () => fetcher(input())
+    () => [...queryKey, input()],
+    () => fetcher(input()),
   );
 
   return query;
