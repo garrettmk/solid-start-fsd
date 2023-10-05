@@ -1,10 +1,10 @@
 import { SessionDebug } from "@/features/debug/session";
 import { Heading, Panel } from "@/shared/ui";
-import { PageContent, PageHeader } from "@/widgets/page";
+import { PageContainer, PageContent, PageHeader } from "@/widgets/page";
 
 export function App() {
   return (
-    <>
+    <PageContainer>
       <PageHeader>
         <Heading class="text-lg font-medium">Welcome to the App</Heading>
       </PageHeader>
@@ -16,7 +16,7 @@ export function App() {
           <SessionDebug />
         </Panel>
       </PageContent>
-    </>
+    </PageContainer>
   );
 }
 

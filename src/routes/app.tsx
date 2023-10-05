@@ -1,15 +1,18 @@
-import { NotificationsProvider } from "@/shared/ui";
+import { LoadingOverlay, NotificationsProvider } from "@/shared/ui";
 import { NavSidebar } from "@/widgets/navigation/nav-sidebar";
 import { SignInOverlay } from "@/widgets/session";
+import { Suspense } from "solid-js";
 import { Outlet } from "solid-start";
 
 export function AppLayout() {
   return (
     <NotificationsProvider>
-      <div class="ml-14">
-        <Outlet />
+      <div class="relative h-screen flex items-stretch">
+        <NavSidebar/>
+        <Suspense fallback={<LoadingOverlay position="absolute"/>}>
+          <Outlet />
+        </Suspense>
       </div>
-      <NavSidebar />
       <SignInOverlay />
     </NotificationsProvider>
   )

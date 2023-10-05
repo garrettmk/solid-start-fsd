@@ -1,8 +1,9 @@
 import { CreateTenantForm, useCreateTenantAPI, useCreateTenantForm } from "@/entities/tenant";
-import { BreadcrumbItem, Breadcrumbs, Button, Code, Drawer, Error, Heading, useDrawer, useNotifications } from "@/shared/ui";
-import { PageContent, PageHeader } from "@/widgets/page";
+import { BreadcrumbItem, Breadcrumbs, Button, Code, Drawer, Error as ErrorLabel, Heading, useDrawer, useNotifications } from "@/shared/ui";
+import { PageContainer, PageContent, PageHeader } from "@/widgets/page";
 import { FindManyTenantsTable } from "@/widgets/tenants";
 import { reset } from "@modular-forms/solid";
+import { useQueryClient } from "@tanstack/solid-query";
 import { createEffect } from "solid-js";
 
 export function AdminIndex() {
@@ -10,6 +11,7 @@ export function AdminIndex() {
   const [creatingTenant, createTenant] = useCreateTenantAPI();
   const createTenantDrawer = useDrawer();
   const createTenantForm = useCreateTenantForm();
+  const queryClient = useQueryClient();
 
   createEffect(() => {
     if (!createTenantDrawer.isOpen) {
@@ -18,7 +20,7 @@ export function AdminIndex() {
   });
 
   createEffect(() => {
-    if (creatingTenant.error)
+    if (creatingTenant.error) {
       notify({
         type: 'error',
         dismissable: true,
@@ -26,24 +28,27 @@ export function AdminIndex() {
         body: () => {
           return (
             <Code>
-              <Error>
+              <ErrorLabel>
                 {creatingTenant.error?.message}
-              </Error>
+              </ErrorLabel>
             </Code>
           );
         }
-      })
-    else if (creatingTenant.result)
+      });
+    } else if (creatingTenant.result) {
       notify({
         type: 'success',
         message: 'Tenant created successfully!',
         timeout: 5000,
         dismissable: true,
-      })
+      });
+
+      queryClient.invalidateQueries({ queryKey: ['tenants'] });
+    }
   });
 
   return (
-    <>
+    <PageContainer>
       <PageHeader>
         <Breadcrumbs class="text-lg font-medium">
           <BreadcrumbItem href="/app">Home</BreadcrumbItem>
@@ -72,7 +77,7 @@ export function AdminIndex() {
           onCancel={createTenantDrawer.close}
         />
       </Drawer>
-    </>
+    </PageContainer>
   );
 }
 

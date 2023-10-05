@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { Alert } from './alert';
-import { withDarkMode } from "@/shared/storybook/decorators";
+import { withDarkMode } from "@/shared/storybook";
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/solid/writing-stories/introduction
 const meta = {

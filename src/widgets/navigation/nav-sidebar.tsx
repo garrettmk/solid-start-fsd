@@ -5,7 +5,7 @@ import { UserMenuButton } from "./user-menu-button";
 
 const styles = {
   base: `
-    fixed top-0 left-0 h-screen w-14 p-3
+    w-14 p-3
     border-r border-slate-200 dark:border-slate-700
     bg-white dark:bg-slate-900
     flex flex-col
@@ -24,9 +24,13 @@ const styles = {
   `.trim()
 };
 
-export function NavSidebar() {
+export type NavSidebarProps = {
+  class?: string
+}
+
+export function NavSidebar(props: NavSidebarProps) {
   return (
-    <nav class={styles.base}>
+    <nav class={clsx(styles.base, props.class)}>
       <div class="text-blue-700 h-10 flex items-center justify-center">
         <AppIcon />
       </div>

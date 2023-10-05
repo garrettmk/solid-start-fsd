@@ -1,7 +1,7 @@
 import { useSessionProfile } from "@/entities/session";
 import { UpdateUserProfileForm, useUserProfileUpdate } from "@/features/user-profiles/update";
 import { Avatar, BreadcrumbItem, Breadcrumbs, Button, HStack, Heading, Panel, Spinner, VStack } from "@/shared/ui";
-import { PageContent, PageDivider, PageHeader } from "@/widgets/page";
+import { PageContainer, PageContent, PageDivider, PageHeader } from "@/widgets/page";
 import { Show, createEffect } from "solid-js";
 
 export function ProfilePage() {
@@ -13,8 +13,16 @@ export function ProfilePage() {
       refetchProfile();
   });
 
+  const formattedCreatedDate = () => {
+    const createdAt = profile()?.createdAt;
+    
+    return createdAt
+      ? new Date(createdAt).toLocaleDateString()
+      : 'n/a';
+  }
+
   return (
-    <>
+    <PageContainer>
       <PageHeader>
         <Breadcrumbs class="text-lg font-medium">
           <BreadcrumbItem href="/app">Home</BreadcrumbItem>
@@ -37,7 +45,7 @@ export function ProfilePage() {
               { profile()?.fullName }
             </Heading>
             <span class="text-md font-medium ml-1.5">
-              User since { profile() ? new Date(profile()!.createdAt).toLocaleDateString() : 'n/a'}
+              User since { formattedCreatedDate() }
             </span>
           </VStack>
         </HStack>
@@ -62,7 +70,7 @@ export function ProfilePage() {
           </Show>
         </Panel>
       </PageContent>
-    </>
+    </PageContainer>
   );
 }
 
