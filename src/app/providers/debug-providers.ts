@@ -1,6 +1,6 @@
 import { IsClientDependency, IsDevDependency } from "@/shared/lib";
 import { ScopeDependency, dependency, provider } from "tidi";
-import { SessionDependency } from "@/entities/session";
+import { IsSignedInDependency, SessionDependency } from "@/entities/session";
 
 export const DebugDependency = dependency<void>({
   name: 'DEBUG',
@@ -8,12 +8,15 @@ export const DebugDependency = dependency<void>({
 
 export const DebugProvider = provider({
   provides: DebugDependency,
-  requires: [IsDevDependency, IsClientDependency, ScopeDependency, SessionDependency],
-  use: (isDev, isClient, scope) => {
+  requires: [IsDevDependency, IsClientDependency, ScopeDependency, SessionDependency, IsSignedInDependency],
+  use: (isDev, isClient, scope, session, isSignedIn) => {
     if (isDev && isClient)
       Object.assign(window, {
         scope,
-        SessionDependency
+        session,
+        isSignedIn,
+        SessionDependency,
+        IsSignedInDependency
       });
   }
 })

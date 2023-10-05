@@ -17,7 +17,6 @@ export const SessionDependency = dependency<Accessor<Session | undefined>>({
   validate: value => z.function().parse(value)
 });
 
-
 /**
  * Returns the Session from the local Scope.
  * 
@@ -27,6 +26,30 @@ export function useSession() {
   return useContainer(SessionDependency);
 }
 
+/**
+ * A Dependency that provides a boolean indicating whether the user is signed in
+ */
+export const IsSignedInDependency = dependency<Accessor<boolean>>({
+  name: 'IS_SIGNED_IN',
+  validate: value => z.function().parse(value)
+});
+
+/**
+ * Returns a boolean indicating whether the user is signed in from the local Scope.
+ */
+export function useIsSignedIn() {
+  return useContainer(IsSignedInDependency);
+}
+
+/**
+ * Returns true if the session has expired
+ * 
+ * @param session 
+ * @returns 
+ */
+export function isExpired(session: Session) {
+  return (session.expiresAt * 1000) < Date.now();
+}
 
 
 /**

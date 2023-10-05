@@ -1,4 +1,4 @@
-import { useSession } from "@/entities/session";
+import { useIsSignedIn } from "@/entities/session";
 import {
   SignInWithPasswordForm,
   useSignInWithPassword
@@ -13,8 +13,8 @@ export interface SignInOverlayProps extends JSX.HTMLAttributes<HTMLDivElement> {
 
 export function SignInOverlay(props: SignInOverlayProps) {
   const [, divProps] = splitProps(props, ["class", 'noBackdrop']);
-  const session = useSession();
-  const isOpen = () => !session();
+  const isSignedIn = useIsSignedIn();
+  const isOpen = () => !isSignedIn();
 
   const [signInResult, signInWithPassword] = useSignInWithPassword();
 

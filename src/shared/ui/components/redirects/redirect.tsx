@@ -3,14 +3,14 @@ import { useNavigate } from "solid-start";
 
 export interface RedirectProps {
   to: string;
-  when: boolean;
+  when?: boolean;
 }
 
 export function Redirect(props: RedirectProps) {
   const navigate = useNavigate();
 
   createEffect(() => {
-    if (props.when)
+    if (props.when || props.when === undefined)
       navigate(props.to);
   });
 

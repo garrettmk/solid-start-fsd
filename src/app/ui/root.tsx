@@ -16,6 +16,7 @@ import {
   Title
 } from "solid-start";
 import "./root.css";
+import { AuthErrorBoundary } from "./auth-error-boundary";
 
 export default function Root() {
   const clientScope = createClientScope();
@@ -33,7 +34,7 @@ export default function Root() {
         <Meta charset="utf-8" />
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Body class="bg-slate-50 dark:bg-slate-900">
+      <Body class="bg-slate-50 dark:bg-slate-900 w-screen h-screen">
         <Suspense fallback={(
           <div class="flex items-center justify-center h-screen">
             <Spinner size="2xl" />
@@ -42,11 +43,13 @@ export default function Root() {
           <ErrorBoundary>
             <Show when={isResolved()}>
               <ScopeProvider scope={clientScope}>
-                <QueryClientProvider client={clientScope.get(QueryClientDependency)}>
-                  <Routes>
-                    <FileRoutes />
-                  </Routes>
-                </QueryClientProvider>
+                <AuthErrorBoundary>
+                  <QueryClientProvider client={clientScope.get(QueryClientDependency)}>
+                    <Routes>
+                      <FileRoutes />
+                    </Routes>
+                  </QueryClientProvider>
+                </AuthErrorBoundary>
               </ScopeProvider>
             </Show>
           </ErrorBoundary>

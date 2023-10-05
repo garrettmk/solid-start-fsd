@@ -9,9 +9,10 @@ import { snakeifyObject } from "../util";
  * @param event 
  * @returns 
  */
-export function isSignInEvent(event: AuthChangeEvent): boolean {
+export function isSignInOrRefreshEvent(event: AuthChangeEvent): boolean {
   return event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED';
 }
+
 
 /**
  * Returns true if the event is a sign-out event
@@ -58,6 +59,7 @@ export function toPartialAuthSession(tokens: AuthTokens): Pick<AuthSession, "acc
 
 /**
  * Derive AuthTokens from an AuthSession and validate the result
+ * 
  * @param authSession 
  * @returns 
  */
@@ -88,4 +90,15 @@ export async function useAuthTokens(
   if (error) console.log(error);
 
   return data.user ?? undefined;
+}
+
+
+/**
+ * Returns the number of milliseconds until the token should be renewed.
+ * 
+ * @param authSession 
+ * @returns 
+ */
+export function toRenewalTimeout(authSession: AuthSession): number {
+  return Math.min((authSession.expires_in - 60) * 1000, 10_000);
 }
