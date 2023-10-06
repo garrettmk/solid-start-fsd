@@ -22,12 +22,12 @@ export function PaginationTotalLabel(props: PaginationTotalLabelProps) {
   };
 
   const total = () => pagination().total.toLocaleString();
-  const offset = () => pagination().offset.toLocaleString();
-  const limit = () => Math.min(pagination().limit, pagination().total).toLocaleString();
+  const start = () => (pagination().offset + 1).toLocaleString();
+  const end = () => Math.min(pagination().offset + pagination().limit, pagination().total).toLocaleString();
 
   return (
     <span {...props}>
-      {offset()} - {limit()} of {total()}
+      {start()} - {end()} of {total()}
     </span>
   );
 }
