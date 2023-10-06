@@ -134,10 +134,11 @@ export function createFindManyQuery<T extends FindManyResult>(queryKey: string[]
   const api = useContainer(APIClientDependency);
   const fetcher = get(api, [...queryKey, 'query'].join('.')) as (input: FindManyInput) => T;
 
-  const query = createQuery(
-    () => [...queryKey, input()],
-    () => fetcher(input()),
-  );
+  const query = createQuery({
+    queryKey: () => [...queryKey, input()],
+    queryFn: () => fetcher(input()),
+    keepPreviousData: true,
+  });
 
   return query;
 }

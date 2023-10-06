@@ -1,5 +1,5 @@
 import { FindManyTenantsInput, createFindManyTenantsQuery } from "@/entities/tenant";
-import { DateAndTimeCell, HStack, Heading, LoadingOverlay, SearchForm, Table, TableContainer, TableContainerProps, TablePagination, createFindManyInput, usePaginatedResultFrom, usePaginationInputFrom, useQueryDataFrom, createSearchForm, useSearchInputFrom, useSortingInputFrom, createTable } from "@/shared/ui";
+import { DateAndTimeCell, HStack, Heading, LoadingOverlay, SearchForm, Table, TableContainer, TableContainerProps, TablePagination, createFindManyInput, usePaginatedResultFrom, usePaginationInputFrom, useQueryDataFrom, createSearchForm, useSearchInputFrom, useSortingInputFrom, createTable, Spinner } from "@/shared/ui";
 import clsx from "clsx";
 import { Show, splitProps } from "solid-js";
 
@@ -20,7 +20,7 @@ export function FindManyTenantsTable(props: FindManyTenantsTableProps) {
   const [, tableContainerProps] = splitProps(props, ['class', "initialQuery"]);
   const searchForm = createSearchForm();
   
-  // Input signals
+  // Query inputs
   const [findManyInput, setFindManyInput] = createFindManyInput();
   const [sorting, setSorting] = useSortingInputFrom(findManyInput, setFindManyInput);
   const [, setSearchInput] = useSearchInputFrom(findManyInput, setFindManyInput);
@@ -29,9 +29,11 @@ export function FindManyTenantsTable(props: FindManyTenantsTableProps) {
   // Query
   const query = createFindManyTenantsQuery(findManyInput);
 
-  // Output signals
+  // Query outputs
   const data = useQueryDataFrom(query);
   const paginated = usePaginatedResultFrom(query);
+  const isLoading = () => query.isLoading || (query.isFetching && query.isPreviousData);
+  const isBackgroundLoading = () => query.isFetching && !query.isLoading && !query.isPreviousData;
 
   // Create a table instance
   const table = createTable({
@@ -63,7 +65,11 @@ export function FindManyTenantsTable(props: FindManyTenantsTableProps) {
   return (
     <TableContainer {...tableContainerProps} class={clsx("relative", props.class)}>
       <HStack class="px-6 py-6" spacing="sm">
-        <Heading level="2" class="text-2xl font-bold flex-grow">Tenants</Heading>
+        <Heading level="2" class="text-2xl font-bold">Tenants</Heading>
+        <Show when={isBackgroundLoading()}>
+          <Spinner />
+        </Show>
+        <span class="grow"/>
         <SearchForm form={searchForm} placeholder="Search..." onSubmit={setSearchInput} />
       </HStack>
 
@@ -80,7 +86,7 @@ export function FindManyTenantsTable(props: FindManyTenantsTableProps) {
         </div>
       </Show>
 
-      <Show when={query.isLoading}>
+      <Show when={isLoading()}>
         <LoadingOverlay position="absolute" />
       </Show>
 
