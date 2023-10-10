@@ -100,5 +100,5 @@ export async function useAuthTokens(
  * @returns 
  */
 export function toRenewalTimeout(authSession: AuthSession): number {
-  return Math.min((authSession.expires_in - 60) * 1000, 10_000);
+  return Math.max((authSession.expires_in - 60) * 1000, 10_000);
 }
