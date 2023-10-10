@@ -1,29 +1,29 @@
 import clsx from "clsx";
-import { JSX, splitProps } from "solid-js";
+import { splitProps } from "solid-js";
+import { Overlay, OverlayProps } from "./overlay";
 
-export interface BlurOverlayProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  isOpen?: boolean;
-  position?: "fixed" | "absolute";
-}
+/**
+ * Props for `BlurOverlay`
+ */
+export type BlurOverlayProps = OverlayProps;
 
+/**
+ * An `Overlay` with a blurred, darkened background.
+ * 
+ * @param props 
+ * @returns 
+ */
 export function BlurOverlay(props: BlurOverlayProps) {
-  const [, divProps] = splitProps(props, [
-    "ref",
-    "class",
-    "isOpen",
-    "position",
+  const [, overlayProps] = splitProps(props, [
+    'ref',
+    'class'
   ]);
 
   return (
-    <div
+    <Overlay
       ref={props.ref}
-      class={clsx(
-        props.position === "absolute" ? "absolute" : "fixed",
-        "inset-0 overflow-x-hidden overflow-y-auto backdrop-blur-sm bg-slate-900/50",
-        !props.isOpen && "hidden",
-        props.class
-      )}
-      {...divProps}
+      class={clsx('backdrop-blur-sm bg-slate-900/50', props.class)}
+      {...overlayProps}
     />
   );
 }

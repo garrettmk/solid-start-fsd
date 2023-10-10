@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
-import { LoadingOverlay } from "./loading-overlay";
+import { Overlay } from "./overlay";
 
 const meta = {
-  title: "Shared/UI/Components/LoadingOverlay",
-  component: LoadingOverlay,
+  title: "Shared/UI/Components/Overlay",
+  component: Overlay,
   tags: ["autodocs"],
   argTypes: {
     isOpen: {
@@ -17,7 +17,7 @@ const meta = {
     }
   },
   args: {
-    isOpen: true
+    isOpen: true,
   },
   parameters: {
     layout: 'padded',
@@ -40,7 +40,7 @@ const meta = {
       </>
     )
   ]
-} satisfies Meta<typeof LoadingOverlay>;
+} satisfies Meta<typeof Overlay>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
