@@ -26,6 +26,11 @@ export const SessionProvider = provider({
   use: (supabase, isClient) => {
     const [session, setSession] = createSignal<Session | undefined>(undefined);
 
+    // Set a timeout to renew the session automatically
+    const setRenewalTimeout = (timeout: number) => {
+      setTimeout(() => supabase.auth.refreshSession(), timeout);
+    }
+    
     // On sign-in, derive the session from the auth session and save the auth tokens in storage.
     const handleSignInOrRefresh = (authSession: AuthSession) => {
       const session = toSession(authSession);
@@ -53,11 +58,6 @@ export const SessionProvider = provider({
         await supabase.auth.signOut();
       }
     };
-
-    // Set a timeout to renew the session automatically
-    const setRenewalTimeout = (timeout: number) => {
-      setTimeout(() => supabase.auth.refreshSession(), timeout);
-    }
 
     // On mount, set up the auth state change listener and sign in with tokens from storage if they exist.
     if (isClient) {
