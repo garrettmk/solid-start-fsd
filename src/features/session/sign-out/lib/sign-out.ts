@@ -6,7 +6,7 @@ import { useContainer } from "@/shared/ui";
  * A dependency for a function that signs the current user out.
  */
 export const SignOutDependency = dependency<() => Promise<void>>({
-  name: 'SignOut'
+  name: 'SIGN_OUT'
 });
 
 /**
