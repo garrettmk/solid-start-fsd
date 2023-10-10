@@ -2,18 +2,15 @@ import type { Meta, StoryObj } from "storybook-solidjs";
 import { Drawer, DrawerProps } from "./drawer";
 import { createToggle } from "../../helpers";
 import { Button } from "../buttons";
-import { withDarkMode } from "@/shared/storybook/decorators";
+import { withDarkMode } from "@/shared/storybook";
 
 function DrawerWithCloseButton(props: DrawerProps) {
   const isOpen = createToggle(props.isOpen);
 
   return (
     <>
-      <Button class="mx-auto" onClick={isOpen.on}>Open</Button>
+      <Button class="mx-auto" onClick={isOpen.toggle}>Toggle</Button>
       <Drawer {...props} class="flex items-center justify-center" isOpen={isOpen.value}>
-        <Button onClick={isOpen.off}>
-          Close
-        </Button>
       </Drawer>
     </>
   )
@@ -38,16 +35,17 @@ const meta = {
       options: ['top', 'right', 'bottom', 'left'],
       defaultValue: { summary: 'left' },
     },
-    backdrop: {
-      description: 'Obscures the content under the drawer',
-      control: 'boolean',
-      defaultValue: { summary: false },
-    }
+    size: {
+      description: 'The size of the drawer',
+      control: 'select',
+      options: ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'],
+      defaultValue: { summary: 'md' },
+    },
   },
   args: {
     isOpen: false,
     placement: 'left',
-    backdrop: false,
+    size: 'md'
   }
 } satisfies Meta<typeof Drawer>;
 

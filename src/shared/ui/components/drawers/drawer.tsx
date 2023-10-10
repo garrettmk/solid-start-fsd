@@ -1,20 +1,75 @@
-import { JSX, Show, splitProps } from "solid-js";
 import clsx from "clsx";
+import { JSX, mergeProps, splitProps } from "solid-js";
+import { SizeProp } from "../../helpers";
 
+/**
+ * Props for `Drawer`
+ */
 export interface DrawerProps extends JSX.HTMLAttributes<HTMLDivElement> {
   isOpen?: boolean;
   placement?: "left" | "right" | "top" | "bottom";
-  backdrop?: boolean;
+  size?: SizeProp;
 }
 
+// Styles for `Drawer`
 const styles = {
   base: "fixed z-40 transition-transform bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 dark:text-slate-100",
 
   placement: {
-    left: "top-0 left-0 h-screen overflow-y-auto w-80 border-r ",
-    right: "top-0 right-0 h-screen overflow-y-auto w-80 border-l",
-    top: "top-0 left-0 w-screen overlow-x-auto h-80 border-b",
-    bottom: "bottom-0 left-0 w-screen overflow-x-auto h-80 border-t",
+    left: "top-0 left-0 h-screen overflow-y-auto border-r ",
+    right: "top-0 right-0 h-screen overflow-y-auto border-l",
+    top: "top-0 left-0 w-screen overlow-x-auto border-b",
+    bottom: "bottom-0 left-0 w-screen overflow-x-auto border-t",
+  },
+
+  size: {
+    left: {
+      none: '',
+      xs: 'w-8',
+      sm: 'w-16',
+      md: 'w-64',
+      lg: 'w-80',
+      xl: 'w-96',
+      '2xl': 'w-[576px]',
+      '3xl': 'w-[768px]',
+      '4xl': 'w-[1024px]',
+    },
+
+    right: {
+      none: '',
+      xs: 'w-8',
+      sm: 'w-16',
+      md: 'w-64',
+      lg: 'w-80',
+      xl: 'w-96',
+      '2xl': 'w-[576px]',
+      '3xl': 'w-[768px]',
+      '4xl': 'w-[1024px]',
+    },
+
+    top: {
+      none: '',
+      xs: 'h-8',
+      sm: 'h-16',
+      md: 'h-64',
+      lg: 'h-80',
+      xl: 'h-96',
+      '2xl': 'h-[576px]',
+      '3xl': 'h-[768px]',
+      '4xl': 'h-[1024px]',
+    },
+
+    bottom: {
+      none: '',
+      xs: 'h-8',
+      sm: 'h-16',
+      md: 'h-64',
+      lg: 'h-80',
+      xl: 'h-96',
+      '2xl': 'h-[576px]',
+      '3xl': 'h-[768px]',
+      '4xl': 'h-[1024px]',
+    },
   },
 
   closed: {
@@ -23,31 +78,40 @@ const styles = {
     top: "-translate-y-full",
     bottom: "translate-y-full",
   },
-
-  overlay: "fixed inset-0 z-39 backdrop-blur-[2px] bg-slate-900/50",
 };
 
+const defaultProps = {
+  isOpen: false,
+  placement: 'left',
+  size: 'md'
+} as const;
+
+/**
+ * A drawer component that slides in from the left, right, top, or bottom of the screen.
+ * 
+ * @param props 
+ * @returns 
+ */
 export function Drawer(props: DrawerProps) {
-  const [, elementProps] = splitProps(props, [
+  const propsWithDefaults = mergeProps(defaultProps, props);
+  const [, elementProps] = splitProps(propsWithDefaults, [
     "ref",
     "class",
     "isOpen",
+    'placement',
+    'size',
     "children",
-    "backdrop",
   ]);
 
   return (
-    <>
-      <Show when={props.backdrop}>
-        <div class={clsx(styles.overlay, !props.isOpen && "hidden")} />
-      </Show>
       <div
         id="drawer-left-example"
         ref={props.ref}
         class={clsx(
           styles.base,
-          styles.placement[props.placement ?? "left"],
-          !props.isOpen && styles.closed[props.placement ?? "left"],
+          styles.placement[propsWithDefaults.placement],
+          styles.size[propsWithDefaults.placement][propsWithDefaults.size],
+          !props.isOpen && styles.closed[propsWithDefaults.placement],
           props.class
         )}
         tabindex="-1"
@@ -55,6 +119,5 @@ export function Drawer(props: DrawerProps) {
       >
         {props.children}
       </div>
-    </>
   );
 }
