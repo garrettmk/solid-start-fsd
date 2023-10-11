@@ -1,10 +1,8 @@
-import { BreadcrumbItem, Breadcrumbs, Button, useModal } from "@/shared/ui";
+import { BreadcrumbItem, Breadcrumbs } from "@/shared/ui";
 import { PageContainer, PageContent, PageHeader } from "@/widgets/page";
-import { CreateTenantDrawer, FindManyTenantsTable } from "@/widgets/tenants";
+import { FindManyTenantsTable } from "@/widgets/tenants";
 
 export function AdminIndex() {
-  const createTenantDrawer = useModal(CreateTenantDrawer);
-
   return (
     <PageContainer>
       <PageHeader>
@@ -13,9 +11,6 @@ export function AdminIndex() {
           <BreadcrumbItem>&gt;</BreadcrumbItem>
           <BreadcrumbItem href="/app/admin">Admin</BreadcrumbItem>
         </Breadcrumbs>
-        <Button size="sm" onClick={createTenantDrawer.open}>
-          Create Tenant
-        </Button>
       </PageHeader>
       <PageContent class="h-100">
         <FindManyTenantsTable />

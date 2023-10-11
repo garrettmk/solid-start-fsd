@@ -1,7 +1,9 @@
 import { FindManyTenantsInput, createFindManyTenantsQuery } from "@/entities/tenant";
-import { DateAndTimeCell, HStack, Heading, LoadingOverlay, SearchForm, Table, TableContainer, TableContainerProps, TablePagination, createFindManyInput, usePaginatedResultFrom, usePaginationInputFrom, useQueryDataFrom, createSearchForm, useSearchInputFrom, useSortingInputFrom, createTable, Spinner } from "@/shared/ui";
+import { DateAndTimeCell, HStack, Heading, LoadingOverlay, SearchForm, Table, TableContainer, TableContainerProps, TablePagination, createFindManyInput, usePaginatedResultFrom, usePaginationInputFrom, useQueryDataFrom, createSearchForm, useSearchInputFrom, useSortingInputFrom, createTable, Spinner, Button, PlusIcon, useModal, EllipsisHorizontalIcon, EllipsisVerticalIcon, ButtonMenu, MenuItem, PencilIcon, Divider, TrashIcon } from "@/shared/ui";
 import clsx from "clsx";
 import { Show, splitProps } from "solid-js";
+import { CreateTenantDrawer } from "./create-tenant-drawer";
+import { TenantActionsButton } from "./tenant-actions-button";
 
 /**
  * @typedef FindManyTenantsTableProps
@@ -19,6 +21,7 @@ export type FindManyTenantsTableProps = TableContainerProps & {
 export function FindManyTenantsTable(props: FindManyTenantsTableProps) {
   const [, tableContainerProps] = splitProps(props, ['class', "initialQuery"]);
   const searchForm = createSearchForm();
+  const createTenantDrawer = useModal(CreateTenantDrawer);
   
   // Query inputs
   const [findManyInput, setFindManyInput] = createFindManyInput();
@@ -59,6 +62,22 @@ export function FindManyTenantsTable(props: FindManyTenantsTableProps) {
           <DateAndTimeCell value={getValue() as string} />
         ),
       },
+      {
+        header: 'Actions',
+        id: 'actions',
+        meta: {
+          headerClasses: 'w-[0%]'
+        },
+        cell: ({ row }) => (
+          <TenantActionsButton 
+            class="m-auto"
+            size="xs" 
+            color="ghost"
+            placement="top-end"
+            tenant={row.original}
+          />
+        )
+      }
     ]
   });
 
@@ -71,6 +90,9 @@ export function FindManyTenantsTable(props: FindManyTenantsTableProps) {
         </Show>
         <span class="grow"/>
         <SearchForm form={searchForm} placeholder="Search..." onSubmit={setSearchInput} />
+        <Button size="xs" onClick={createTenantDrawer.open}>
+          <PlusIcon size="xs" />
+        </Button>
       </HStack>
 
       <Table
@@ -86,9 +108,7 @@ export function FindManyTenantsTable(props: FindManyTenantsTableProps) {
         </div>
       </Show>
 
-      <Show when={isLoading()}>
-        <LoadingOverlay position="absolute" />
-      </Show>
+      <LoadingOverlay isOpen={isLoading()} position="absolute" />
 
       <TablePagination
         class="dark:-mb-px"
