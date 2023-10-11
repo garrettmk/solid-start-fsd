@@ -22,7 +22,7 @@ export function MenuItem(props: MenuItemProps) {
     <li
       ref={props.ref}
       class={clsx(
-        "block text-sm text-slate-700 dark:text-slate-200",
+        "block whitespace-nowrap text-sm",
         {
           "cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-600 dark:hover:text-white":
             !props.inactive,

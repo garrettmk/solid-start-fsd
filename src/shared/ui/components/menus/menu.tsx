@@ -9,10 +9,10 @@ export interface MenuProps extends JSX.HTMLAttributes<HTMLUListElement> {
   onClickItem?: () => void;
 }
 
-const base = 'drop-shadow-2xl';
+const base = 'drop-shadow-2xl overflow-hidden text-slate-700 dark:text-slate-200';
 const positioning = "fixed z-[5000]";
 const coloring =
-  "bg-white dark:bg-slate-700 divide-slate-100 dark:divide-slate-600";
+  "bg-white dark:bg-slate-700 divide-slate-100 dark:divide-slate-700";
 const listStyle = "list-none divide-y shadow-xl";
 const textStyles =
   "normal-case font-normal text-base text-slate-900 dark:text-slate-300";
