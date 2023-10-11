@@ -1,27 +1,28 @@
-import { Component, JSX, createContext, createSignal, mergeProps, useContext } from "solid-js";
+import { Component, JSX, batch, createContext, createSignal, mergeProps, useContext } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { BlurOverlay } from "../components";
-import { createToggle, useKeydown } from "../helpers";
+import { SizeProp, createToggle, useKeydown } from "../helpers";
 
 /**
  * Props for `ModalComponent`
  */
-export type ModalProps = {
+export type ModalOptions = {
   isOpen?: boolean;
   onClose?: () => void;
   dismissable?: boolean;
+  size?: SizeProp
 };
 
 /**
  * A component that can be rendered in a `Modal`.
  */
-export type ModalComponent<P extends ModalProps = ModalProps> = Component<P>;
+export type ModalComponent<P extends ModalOptions = ModalOptions> = Component<P>;
 
 /**
  * A context for managing an app-level `Modal`.
  */
 export type ModalContextValue = {
-  open: <P extends ModalProps>(component: ModalComponent<P>, props?: P) => void;
+  open: <P extends ModalOptions>(component: ModalComponent<P>, props?: P) => void;
   close: () => void;
 };
 
@@ -49,7 +50,7 @@ export function useModalContext() {
  * @param props 
  * @returns 
  */
-export function useModal<P extends ModalProps>(component: ModalComponent<P>, props?: P) {
+export function useModal<P extends ModalOptions>(component: ModalComponent<P>, props?: P) {
   const modal = useModalContext();
   const open = () => modal.open(component, props);
   const close = () => modal.close();
@@ -73,7 +74,7 @@ export type ModalProviderProps = {
  */
 export function ModalProvider(props: ModalProviderProps) {
   const [component, setComponent] = createSignal<ModalComponent<any> | undefined>(undefined);
-  const [componentProps, setComponentProps] = createSignal<ModalProps | undefined>(undefined);
+  const [componentProps, setComponentProps] = createSignal<ModalOptions | undefined>(undefined);
   const toggle = createToggle();
   const defaultProps = {
     get isOpen() { return toggle.value },
@@ -85,9 +86,11 @@ export function ModalProvider(props: ModalProviderProps) {
     toggle.off();
   };
 
-  const open = <P extends ModalProps>(component: ModalComponent<P>, props?: Omit<P, 'isOpen' | 'onClose'>) => {
-    setComponent(() => component);
-    setComponentProps(() => mergeProps(defaultProps, props));
+  const open = <P extends ModalOptions>(component: ModalComponent<P>, props?: Omit<P, 'isOpen' | 'onClose'>) => {
+    batch(() => {
+      setComponent(() => component);
+      setComponentProps(() => mergeProps(defaultProps, props));
+    });
     setTimeout(() => toggle.on(), 0);
   };
 
