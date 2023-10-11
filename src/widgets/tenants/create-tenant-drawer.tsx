@@ -16,16 +16,14 @@ export type CreateTenantDrawerProps = ModalProps;
  * @returns 
  */
 export function CreateTenantDrawer(props: ModalProps) {
-  const { notify } = useNotifications();
+  const { success, error } = useNotifications();
   const [creatingTenant, createTenant] = useCreateTenantAPI();
   const createTenantForm = useCreateTenantForm();
   const queryClient = useQueryClient();
 
   createEffect(() => {
     if (creatingTenant.error) {
-      notify({
-        type: 'error',
-        dismissable: true,
+      error({
         message: 'There was an error creating the tenant.',
         body: () => {
           return (
@@ -38,11 +36,8 @@ export function CreateTenantDrawer(props: ModalProps) {
         }
       });
     } else if (creatingTenant.result) {
-      notify({
-        type: 'success',
+      success({
         message: 'Tenant created successfully!',
-        timeout: 5000,
-        dismissable: true,
       });
 
       queryClient.invalidateQueries({ queryKey: ['tenants'] });

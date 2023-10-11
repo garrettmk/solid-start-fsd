@@ -1,7 +1,6 @@
 export * from "./checked-signal.directive";
 export * from "./click-outside.directive";
 export * from "./create-floating-ui";
-export * from './create-notifications-helper';
 export * from "./create-object-url.helper";
 export * from './create-search-form';
 export * from './create-table';
