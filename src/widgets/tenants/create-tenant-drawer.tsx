@@ -1,13 +1,13 @@
 import { useCreateTenantAPI, useCreateTenantForm, CreateTenantForm } from "@/entities/tenant";
 import { useNotifications, Code, HStack, Heading, Button, XMarkIcon, Error as ErrorLabel, Drawer } from "@/shared/ui";
-import { ModalProps } from "@/shared/ui";
+import { ModalOptions } from "@/shared/ui";
 import { useQueryClient } from "@tanstack/solid-query";
 import { createEffect } from "solid-js";
 
 /**
  * Props for `CreateTenantDrawer`
  */
-export type CreateTenantDrawerProps = ModalProps;
+export type CreateTenantDrawerProps = ModalOptions;
 
 /**
  * A drawer that allows the user to create a tenant.
@@ -15,32 +15,45 @@ export type CreateTenantDrawerProps = ModalProps;
  * @param props 
  * @returns 
  */
-export function CreateTenantDrawer(props: ModalProps) {
+export function CreateTenantDrawer(props: ModalOptions) {
   const { success, error } = useNotifications();
   const [creatingTenant, createTenant] = useCreateTenantAPI();
   const createTenantForm = useCreateTenantForm();
   const queryClient = useQueryClient();
 
   createEffect(() => {
+    if (!props.isOpen) {
+      createTenantForm.reset();
+      creatingTenant.clear();
+    }
+  });
+
+  createEffect(() => {
     if (creatingTenant.error) {
+      // Extract the message now, because the drawer could be re-opened while
+      // the notification is still visible
+      const message = creatingTenant.error?.message;
       error({
         message: 'There was an error creating the tenant.',
         body: () => {
           return (
             <Code>
               <ErrorLabel>
-                {creatingTenant.error?.message}
+                {message}
               </ErrorLabel>
             </Code>
           );
         }
       });
+
+      props.onClose?.();
     } else if (creatingTenant.result) {
       success({
         message: 'Tenant created successfully!',
       });
 
       queryClient.invalidateQueries({ queryKey: ['tenants'] });
+      props.onClose?.();
     }
   });
 
