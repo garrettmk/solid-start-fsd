@@ -1,1 +1,2 @@
-export * from './tenants-lib';
+export * from './create-tenants-lib';
+export * from './delete-tenants-lib';

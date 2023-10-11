@@ -1,8 +1,9 @@
 import { SupabaseDependency, camelizeObject } from "@/shared/lib";
-import { defaultPaginationInput, findManyInputSchema, findManyResultSchema } from "@/shared/schemas";
+import { defaultPaginationInput, deleteInputSchema, findManyInputSchema, findManyResultSchema } from "@/shared/schemas";
 import { makeRouter, protectedProcedure } from "@/shared/server";
 import { snake } from "radash";
 import { Tenant, createTenantInputSchema, tenantSchema } from "../schemas";
+import { z } from "zod";
 
 export const tenantsRouter = makeRouter({
 
@@ -79,5 +80,26 @@ export const tenantsRouter = makeRouter({
         search: search ?? {},
         sorting: sorting ?? [],
       };
-    })
+    }),
+
+    /**
+     * Deletes a tenant.
+     */
+    delete: protectedProcedure
+      .input(deleteInputSchema)
+      .output(z.boolean())
+      .mutation(async ({ ctx, input }) => {
+        const { id } = input;
+        const supabase = await ctx.scope.resolve(SupabaseDependency);
+
+        const { data, error } = await supabase
+          .from("tenants")
+          .delete()
+          .eq("id", id);
+
+        if (error)
+          throw error;
+
+        return true;
+      }),
 });

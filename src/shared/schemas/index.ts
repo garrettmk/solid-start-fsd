@@ -6,3 +6,4 @@ export * from './find-many-input-schema';
 export * from './search-input-schema';
 export * from './find-many-result-schema';
 export * from './paginated-result-schema';
+export * from './delete-input-schema';
