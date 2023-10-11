@@ -27,9 +27,9 @@ export function Overlay(props: OverlayProps) {
     <div
       ref={props.ref}
       class={clsx(
-        props.position === 'absolute' ? 'absolute' : 'fixed',
-        'inset-0 overflow-x-hidden overflow-y-auto',
-        !props.isOpen && 'hidden',
+        'inset-0 overflow-x-hidden overflow-y-auto opacity-0 transition-opacity duration-200 pointer-events-none',
+        props.position ?? 'fixed',
+        props.isOpen && 'opacity-100 pointer-events-auto',
         props.class,
       )}
       {...divProps}
