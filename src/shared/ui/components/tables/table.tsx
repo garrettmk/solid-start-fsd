@@ -79,7 +79,8 @@ export function Table<T, V>(props: TableProps<T, V>) {
                     class={clsx(
                       styles.header.base,
                       styles.header.size[props.size ?? "md"],
-                      header.column.getCanSort() && "cursor-pointer select-none"
+                      header.column.getCanSort() && "cursor-pointer select-none",
+                      header.column.columnDef.meta?.headerClasses
                     )}
                     onClick={header.column.getToggleSortingHandler()}
                   >
@@ -89,11 +90,13 @@ export function Table<T, V>(props: TableProps<T, V>) {
                         header.getContext()
                       )}
                     </Show>
-                    <TableSortIndicator
-                      class="inline ml-1"
-                      direction={header.column.getIsSorted()}
-                      size={props.size ?? "md"}
-                    />
+                    <Show when={header.column.getCanSort()}>
+                      <TableSortIndicator
+                        class="inline ml-1"
+                        direction={header.column.getIsSorted()}
+                        size={props.size ?? "md"}
+                      />
+                    </Show>
                   </th>
                 )}
               </For>
@@ -111,7 +114,8 @@ export function Table<T, V>(props: TableProps<T, V>) {
                     <td
                       class={clsx(
                         styles.body.base,
-                        styles.body.size[props.size ?? "md"]
+                        styles.body.size[props.size ?? "md"],
+                        cell.column.columnDef.meta?.cellClasses
                       )}
                     >
                       {flexRender(
