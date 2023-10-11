@@ -22,3 +22,4 @@ export * from "./tables";
 export * from "./tabs";
 export * from "./text";
 export * from './tooltips';
+export * from './modals';
