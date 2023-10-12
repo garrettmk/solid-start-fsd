@@ -1,6 +1,6 @@
 import { BreadcrumbItem, Breadcrumbs } from "@/shared/ui";
 import { PageContainer, PageContent, PageHeader } from "@/widgets/page";
-import { FindManyTenantsTable } from "@/widgets/tenants";
+import { FindManyTenantsTable } from "@/entities/tenant";
 
 export function AdminIndex() {
   return (
