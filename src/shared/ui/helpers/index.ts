@@ -11,6 +11,7 @@ export * from './find-many-helpers';
 export * from "./make-selection-handler.helper";
 export * from './pagination-helpers';
 export * from "./size-props";
+export * from './update-helpers';
 export * from "./use-click-outside.helper";
 export * from './use-create-form';
 export * from './use-keydown';
