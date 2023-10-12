@@ -1,6 +1,5 @@
-import { useCreateTenantAPI, useCreateTenantForm, CreateTenantForm } from "@/entities/tenant";
-import { useNotifications, Code, HStack, Heading, Button, XMarkIcon, Error as ErrorLabel, Drawer } from "@/shared/ui";
-import { ModalOptions } from "@/shared/ui";
+import { CreateTenantForm, useCreateTenantAPI, useCreateTenantForm } from "@/entities/tenant";
+import { Button, Code, Drawer, Error as ErrorLabel, HStack, Heading, ModalOptions, XMarkIcon, useNotifications } from "@/shared/ui";
 import { useQueryClient } from "@tanstack/solid-query";
 import { createEffect } from "solid-js";
 

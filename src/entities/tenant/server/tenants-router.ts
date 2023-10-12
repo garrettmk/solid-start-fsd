@@ -2,8 +2,8 @@ import { SupabaseDependency, camelizeObject } from "@/shared/lib";
 import { defaultPaginationInput, deleteInputSchema, findManyInputSchema, findManyResultSchema } from "@/shared/schemas";
 import { makeRouter, protectedProcedure } from "@/shared/server";
 import { snake } from "radash";
-import { Tenant, createTenantInputSchema, tenantSchema } from "../schemas";
 import { z } from "zod";
+import { Tenant, createTenantInputSchema, tenantSchema, updateTenantInputSchema } from "../schemas";
 
 export const tenantsRouter = makeRouter({
 
@@ -83,6 +83,39 @@ export const tenantsRouter = makeRouter({
     }),
 
     /**
+     * Updates a tenant
+     */
+    update: protectedProcedure
+      .input(updateTenantInputSchema)
+      .output(tenantSchema)
+      .mutation(async ({ ctx, input }) => {
+        const { id, name, slug } = input;
+        const supabase = await ctx.scope.resolve(SupabaseDependency);
+
+        const { error: updateError } = await supabase
+          .from("tenants")
+          .update({
+            name,
+            slug
+          })
+          .eq("id", id);
+
+        if (updateError)
+          throw updateError;
+
+        const { data, error: findError } = await supabase
+          .from("tenants")
+          .select("*")
+          .eq("id", id)
+          .single();
+
+        if (findError)
+          throw findError;
+
+        return camelizeObject<Tenant>(data);
+      }),
+
+    /**
      * Deletes a tenant.
      */
     delete: protectedProcedure
@@ -92,7 +125,7 @@ export const tenantsRouter = makeRouter({
         const { id } = input;
         const supabase = await ctx.scope.resolve(SupabaseDependency);
 
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from("tenants")
           .delete()
           .eq("id", id);

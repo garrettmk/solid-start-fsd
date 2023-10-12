@@ -1,7 +1,7 @@
 import { ButtonMenu, ButtonMenuProps, EllipsisVerticalIcon, MenuItem, PencilIcon, TrashIcon, useModal } from "@/shared/ui";
 import { splitProps } from "solid-js";
 import { DeleteTenantModal } from "./delete-tenant-modal";
-import { Tenant } from "@/entities/tenant";
+import { Tenant, UpdateTenantDrawer } from "@/entities/tenant";
 
 /**
  * Props for `TenantActionsButton`
@@ -21,6 +21,7 @@ export function TenantActionsButton(props: TenantActionsButtonProps) {
     'tenant',
   ]);
 
+  const updateDrawer = useModal(UpdateTenantDrawer, { tenant: props.tenant });
   const deleteModal = useModal(DeleteTenantModal, { tenant: props.tenant });
 
   return (
@@ -30,7 +31,7 @@ export function TenantActionsButton(props: TenantActionsButtonProps) {
       content={<EllipsisVerticalIcon size={props.size}/>}
       {...buttonProps}
     >
-      <MenuItem>
+      <MenuItem onClick={updateDrawer.open}>
         <PencilIcon class="inline-block mr-4" size='xs'/>
         Edit
       </MenuItem>
