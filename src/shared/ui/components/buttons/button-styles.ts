@@ -86,8 +86,8 @@ export const colors: Record<NonNullable<ButtonProps["color"]>, Record<"enabled" 
     `,
 
     disabled: `
-      text-slate-600        dark:text-slate-400
-      bg-white              dark:bg-slate-400
+      text-slate-400        dark:text-slate-600
+      bg-white              dark:bg-slate-800
       border-slate-200      dark:border-slate-600       border
     `,
   },
