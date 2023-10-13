@@ -4,3 +4,4 @@ export * from './find-many-tenants-result-schema';
 export * from './tenant-schema';
 export * from './update-tenant-input-schema';
 export * from './update-tenant-result-schema';
+export * from './delete-tenant-schemas';

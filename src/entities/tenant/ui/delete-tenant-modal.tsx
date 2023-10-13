@@ -1,13 +1,15 @@
-import { Tenant, useDeleteTenantAPI } from "@/entities/tenant";
-import { Button, Code, Error, HStack, Heading, Modal, ModalProps, Spinner, XMarkIcon, useNotifications } from "@/shared/ui";
-import { useQueryClient } from "@tanstack/solid-query";
+import { DeleteTenantInput, DeleteTenantResult, Tenant } from "@/entities/tenant";
+import { Button, HStack, Heading, Modal, ModalProps, Spinner, XMarkIcon } from "@/shared/ui";
+import clsx from "clsx";
 import { Show, createEffect, splitProps } from "solid-js";
+import { RouteAction } from "solid-start/data/createRouteAction";
 
 /**
  * Props for `DeleteTenantModal`
  */
 export type DeleteTenantModalProps = ModalProps & {
   tenant: Tenant;
+  deleteAction: () => RouteAction<DeleteTenantInput, DeleteTenantResult>;
 };
 
 /**
@@ -17,49 +19,26 @@ export type DeleteTenantModalProps = ModalProps & {
  * @returns 
  */
 export function DeleteTenantModal(props: DeleteTenantModalProps) {
-  const [, modalProps] = splitProps(props, ['tenant']);
-  const [deletingTenant, deleteTenant] = useDeleteTenantAPI();
-  const queryClient = useQueryClient();
-  const { success, error } = useNotifications();
+  const [, modalProps] = splitProps(props, ['class', 'tenant', 'deleteAction']);
+  const [deletingTenant, deleteTenant] = props.deleteAction();
 
   createEffect(() => {
-    props.onClose?.();
-
-    if (deletingTenant.error) {
-      error({
-        message: 'There was an error deleting the tenant.',
-        body: () => (
-          <Code>
-            <Error>
-              {deletingTenant.error?.message}
-            </Error>
-          </Code>
-        )
-      });
-
-      props.onClose?.();
-    } else if (deletingTenant.result) {
-      success({
-        message: 'Tenant deleted successfully!',
-      });
-      
-      queryClient.invalidateQueries({ queryKey: ['tenants'] });
+    if (deletingTenant.result || deletingTenant.error) {
       props.onClose?.();
     }
-
   });
 
   return (
-    <Modal {...modalProps} class="p-8" size="none">
+    <Modal {...modalProps} class={clsx('p-8', props.class)} size="none">
       <HStack justify="between" align="center" class="mb-8">
-        <Heading level="1" class="text-2xl">
+        <Heading level="1" class={clsx('text-2xl', deletingTenant.pending && 'opacity-50')}>
           Delete Tenant
         </Heading>
-        <Button icon size="xs" color="ghost" onClick={props.onClose}>
+        <Button icon size="xs" color="ghost" onClick={props.onClose} disabled={deletingTenant.pending}>
           <XMarkIcon size="xs" />
         </Button>
       </HStack>
-      <p class="mb-8">
+      <p class={clsx('mb-8', deletingTenant.pending && 'opacity-50')}>
         Are you sure you want to delete <span class="font-bold">{props.tenant.name}?</span>
         &nbsp;This can't be undone.
       </p>
