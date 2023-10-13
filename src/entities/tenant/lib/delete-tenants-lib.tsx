@@ -1,5 +1,5 @@
 import { APIClientDependency } from "@/shared/lib";
-import { Code, Error, useContainer, useNotifications } from "@/shared/ui";
+import { ErrorNotification, SuccessNotification, useContainer, useNotification } from "@/shared/ui";
 import { useQueryClient } from "@tanstack/solid-query";
 import { createEffect } from "solid-js";
 import { createRouteAction } from "solid-start";
@@ -27,23 +27,18 @@ export function useDeleteTenantAPI() {
 export function useDeleteTenant(): RouteAction<DeleteTenantInput, DeleteTenantResult> {
   const [deletingTenant, deleteTenant] = useDeleteTenantAPI();
   const queryClient = useQueryClient();
-  const { success, error } = useNotifications();
+  const [notifySuccess] = useNotification(SuccessNotification);
+  const [notifyError] = useNotification(ErrorNotification);
 
   createEffect(() => {
     if (deletingTenant.error) {
-      error({
+      notifyError({
         message: 'There was an error deleting the tenant.',
-        body: () => (
-          <Code>
-            <Error>
-              {deletingTenant.error?.message}
-            </Error>
-          </Code>
-        )
+        error: deletingTenant.error
       });
     } else if (deletingTenant.result) {
-      success({
-        message: 'Tenant deleted successfully!',
+      notifySuccess({
+        message: `${deletingTenant.result.name} was deleted`,
       });
       
       queryClient.invalidateQueries({ queryKey: ['tenants'] });

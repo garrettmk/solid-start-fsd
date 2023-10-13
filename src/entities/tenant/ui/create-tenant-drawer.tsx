@@ -1,5 +1,5 @@
 import { CreateTenantForm, useCreateTenantAPI, useCreateTenantForm } from "@/entities/tenant";
-import { Button, Code, Drawer, Error as ErrorLabel, HStack, Heading, ModalOptions, XMarkIcon, useNotifications } from "@/shared/ui";
+import { Button, Drawer, ErrorNotification, HStack, Heading, ModalOptions, SuccessNotification, XMarkIcon, useNotification } from "@/shared/ui";
 import { useQueryClient } from "@tanstack/solid-query";
 import { createEffect } from "solid-js";
 
@@ -15,7 +15,8 @@ export type CreateTenantDrawerProps = ModalOptions;
  * @returns 
  */
 export function CreateTenantDrawer(props: ModalOptions) {
-  const { success, error } = useNotifications();
+  const [notifySuccess] = useNotification(SuccessNotification);
+  const [notifyError] = useNotification(ErrorNotification);
   const [creatingTenant, createTenant] = useCreateTenantAPI();
   const createTenantForm = useCreateTenantForm();
   const queryClient = useQueryClient();
@@ -29,26 +30,15 @@ export function CreateTenantDrawer(props: ModalOptions) {
 
   createEffect(() => {
     if (creatingTenant.error) {
-      // Extract the message now, because the drawer could be re-opened while
-      // the notification is still visible
-      const message = creatingTenant.error?.message;
-      error({
+      notifyError({
         message: 'There was an error creating the tenant.',
-        body: () => {
-          return (
-            <Code>
-              <ErrorLabel>
-                {message}
-              </ErrorLabel>
-            </Code>
-          );
-        }
+        error: creatingTenant.error,
       });
 
       props.onClose?.();
     } else if (creatingTenant.result) {
-      success({
-        message: 'Tenant created successfully!',
+      notifySuccess({
+        message: `${creatingTenant.result.name} was added`,
       });
 
       queryClient.invalidateQueries({ queryKey: ['tenants'] });

@@ -1,4 +1,4 @@
-import { Button, Code, Drawer, Error as ErrorLabel, HStack, Heading, ModalOptions, XMarkIcon, useNotifications } from "@/shared/ui";
+import { Button, Drawer, ErrorNotification, HStack, Heading, ModalOptions, SuccessNotification, XMarkIcon, useNotification } from "@/shared/ui";
 import { useQueryClient } from "@tanstack/solid-query";
 import { createEffect, on, splitProps } from "solid-js";
 import { useUpdateTenantAPI, useUpdateTenantForm } from "../lib";
@@ -23,7 +23,14 @@ export function UpdateTenantDrawer(props: UpdateTenantDrawerProps) {
   const [updatingTenant, updateTenant] = useUpdateTenantAPI();
   const updateTenantForm = useUpdateTenantForm({ initialValues: props.tenant });
   const queryClient = useQueryClient();
-  const { success, error } = useNotifications();
+
+  const [notifySuccess] = useNotification(SuccessNotification, {
+    message: () => `${props.tenant.name} updated`
+  });
+
+  const [notifyError] = useNotification(ErrorNotification, {
+    message: () => `Error updating ${props.tenant.name}`
+  });
 
   createEffect(() => {
     if (!props.isOpen) {
@@ -43,28 +50,10 @@ export function UpdateTenantDrawer(props: UpdateTenantDrawerProps) {
 
   createEffect(() => {
     if (updatingTenant.error) {
-      // Extract the message now, because the drawer could be re-opened while
-      // the notification is still visible
-      const message = updatingTenant.error?.message;
-      error({
-        message: 'There was an error updating the tenant.',
-        body: () => {
-          return (
-            <Code>
-              <ErrorLabel>
-                {message}
-              </ErrorLabel>
-            </Code>
-          );
-        }
-      });
-
+      notifyError({ error: updatingTenant.error });
       props.onClose?.();
     } else if (updatingTenant.result) {
-      success({
-        message: 'Tenant updated successfully!',
-      });
-
+      notifySuccess();
       queryClient.invalidateQueries({ queryKey: ['tenants'] });
       props.onClose?.();
     }

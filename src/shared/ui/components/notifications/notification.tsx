@@ -1,24 +1,34 @@
-import { HStack, NotificationData, Progress, createTimer, createToggle, useNotifications } from "@/shared/ui/";
-import { Match, Show, Switch, createEffect, createRenderEffect, createSignal, splitProps } from "solid-js";
+import { HStack, NotificationOptions, Progress, createTimer, createToggle } from "@/shared/ui/";
+import { Accessor, JSX, Match, Show, Switch, createEffect, createRenderEffect, createSignal, splitProps } from "solid-js";
 import { Button } from "../buttons";
 import { CheckCircleIcon, ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon, InformationCircleIcon, XMarkIcon } from "../icons";
 import { Panel, PanelProps } from "../panels";
 import { Spinner } from "../spinners";
+import clsx from "clsx";
 
 
-export type NotificationProps = PanelProps & NotificationData;
+export type NotificationProps = PanelProps & NotificationOptions & {
+  type?: 'info' | 'loading' | 'success' | 'error' | 'warning'
+  dismissable?: boolean
+  timeout?: number
+  message: string | Accessor<string>
+  body?: JSX.Element | Accessor<JSX.Element>
+};
 
-export function Notification(props: NotificationData) {
-  const { dismiss } = useNotifications();
+export function Notification(props: NotificationProps) {
   const [, panelProps] = splitProps(props, [
-    'id',
-    "dismissable", 
+    'class',
+    'onClose',
+    'type',
+    'dismissable',
+    'timeout',
+    'message'
   ]);
 
   const timer = createTimer({
     duration: props.timeout ?? 0,
     start: Boolean(props.timeout),
-    callback: () => dismiss(props.id),
+    callback: () => props.onClose(),
   });
 
   const [progress, setProgress] = createSignal(100);
@@ -26,7 +36,7 @@ export function Notification(props: NotificationData) {
   createRenderEffect(() => {
     if (props.timeout)
       setTimeout(() => setProgress(0), 50);
-  })
+  });
   
   const message = () => typeof props.message === 'function' 
     ? props.message()
@@ -45,7 +55,7 @@ export function Notification(props: NotificationData) {
   });
 
   return (
-    <Panel class="drop-shadow-xl" {...panelProps}>
+    <Panel class={clsx('drop-shadow-xl animate-slide-in-right', props.class)} {...panelProps}>
       <HStack class="m-4" justify="between" align="center" spacing="sm">
         <Switch>
           <Match when={props.type === 'info'}>
@@ -78,7 +88,7 @@ export function Notification(props: NotificationData) {
             </Button>
           </Show>
           <Show when={(props.dismissable || !props.timeout) || expanded.value}>
-            <Button icon class="p-0.5" size="none" color="none" onClick={() => dismiss(props.id)}>
+            <Button icon class="p-0.5" size="none" color="none" onClick={props.onClose}>
               <XMarkIcon size="xs"/>
             </Button>
           </Show>
