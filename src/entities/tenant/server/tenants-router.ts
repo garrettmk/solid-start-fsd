@@ -2,7 +2,6 @@ import { SupabaseDependency, camelizeObject } from "@/shared/lib";
 import { defaultPaginationInput, deleteInputSchema, findManyInputSchema, findManyResultSchema } from "@/shared/schemas";
 import { makeRouter, protectedProcedure } from "@/shared/server";
 import { snake } from "radash";
-import { z } from "zod";
 import { Tenant, createTenantInputSchema, tenantSchema, updateTenantInputSchema } from "../schemas";
 
 export const tenantsRouter = makeRouter({
@@ -17,6 +16,7 @@ export const tenantsRouter = makeRouter({
       const { name, slug } = input;
       const supabase = await ctx.scope.resolve(SupabaseDependency);
 
+      // Create the tenant
       const { error: createError } = await supabase
         .from("tenants")
         .insert({
@@ -27,6 +27,7 @@ export const tenantsRouter = makeRouter({
       if (createError)
         throw createError;
 
+      // Select and return the tenant
       const { data, error: selectError } = await supabase
         .from("tenants")
         .select("*")
@@ -92,6 +93,7 @@ export const tenantsRouter = makeRouter({
         const { id, name, slug } = input;
         const supabase = await ctx.scope.resolve(SupabaseDependency);
 
+        // Update the tenant
         const { error: updateError } = await supabase
           .from("tenants")
           .update({
@@ -103,6 +105,7 @@ export const tenantsRouter = makeRouter({
         if (updateError)
           throw updateError;
 
+        // Select and return the tenant
         const { data, error: findError } = await supabase
           .from("tenants")
           .select("*")
@@ -120,19 +123,32 @@ export const tenantsRouter = makeRouter({
      */
     delete: protectedProcedure
       .input(deleteInputSchema)
-      .output(z.boolean())
+      .output(tenantSchema)
       .mutation(async ({ ctx, input }) => {
         const { id } = input;
         const supabase = await ctx.scope.resolve(SupabaseDependency);
 
+        // Select the tenant
+        const { data, error: findError } = await supabase
+          .from("tenants")
+          .select("*")
+          .eq("id", id)
+          .single();
+
+        if (findError)
+          throw findError;
+
+        // Delete the tenant
         const { error } = await supabase
           .from("tenants")
           .delete()
-          .eq("id", id);
+          .eq("id", id)
+          .single();
 
         if (error)
           throw error;
 
-        return true;
+        // Return the previously selected tenant
+        return camelizeObject<Tenant>(data);
       }),
 });
