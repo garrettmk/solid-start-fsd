@@ -1,6 +1,15 @@
 import type { Meta, StoryObj } from 'storybook-solidjs';
-import { CreateTenantForm } from './create-tenant-form';
+import { CreateTenantForm, CreateTenantFormProps } from './create-tenant-form';
 import { withDarkMode } from '@/shared/storybook';
+import { useCreateTenantForm } from '../lib';
+
+function WithForm(props: CreateTenantFormProps) {
+  const form = useCreateTenantForm();
+
+  return (
+    <CreateTenantForm {...props} form={form} />
+  );
+}
 
 const meta = {
   title: 'Entities/Tenant/CreateTenantForm',
@@ -12,7 +21,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
-  args: {}
+  args: {},
+  render: (props) => <WithForm {...props} />
 };
 
 export const Dark: Story = {
