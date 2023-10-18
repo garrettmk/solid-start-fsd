@@ -1,15 +1,14 @@
-import { DeleteTenantInput, DeleteTenantResult, Tenant } from "@/entities/tenant";
+import { DeleteTenantMutation, Tenant } from "@/entities/tenant";
 import { Button, HStack, Heading, Modal, ModalProps, Spinner, XMarkIcon } from "@/shared/ui";
 import clsx from "clsx";
-import { Show, createEffect, splitProps } from "solid-js";
-import { RouteAction } from "solid-start/data/createRouteAction";
+import { Show, createEffect, on, splitProps } from "solid-js";
 
 /**
  * Props for `DeleteTenantModal`
  */
 export type DeleteTenantModalProps = ModalProps & {
   tenant: Tenant;
-  deleteAction: () => RouteAction<DeleteTenantInput, DeleteTenantResult>;
+  deleteMutation: DeleteTenantMutation
 };
 
 /**
@@ -19,38 +18,46 @@ export type DeleteTenantModalProps = ModalProps & {
  * @returns 
  */
 export function DeleteTenantModal(props: DeleteTenantModalProps) {
-  const [, modalProps] = splitProps(props, ['class', 'tenant', 'deleteAction']);
-  const [deletingTenant, deleteTenant] = props.deleteAction();
+  const [, modalProps] = splitProps(props, ['class', 'tenant', 'deleteMutation']);
+  const isLoading = () => props.deleteMutation.isLoading;
+  const deleteTenant = () => props.deleteMutation.mutateAsync(props.tenant);
+
+  createEffect(
+    on(
+      () => props.deleteMutation,
+      () => { !isLoading() && props.onClose?.() },
+      { defer: true }
+    )
+  );
 
   createEffect(() => {
-    if (deletingTenant.result || deletingTenant.error) {
-      props.onClose?.();
-    }
+    if (!props.isOpen)
+      props.deleteMutation.reset();
   });
 
   return (
     <Modal {...modalProps} class={clsx('p-8', props.class)} size="none">
       <HStack justify="between" align="center" class="mb-8">
-        <Heading level="1" class={clsx('text-2xl', deletingTenant.pending && 'opacity-50')}>
+        <Heading level="1" class={clsx('text-2xl', isLoading() && 'opacity-50')}>
           Delete Tenant
         </Heading>
-        <Button icon size="xs" color="ghost" onClick={props.onClose} disabled={deletingTenant.pending}>
+        <Button icon size="xs" color="ghost" onClick={props.onClose} disabled={isLoading()}>
           <XMarkIcon size="xs" />
         </Button>
       </HStack>
-      <p class={clsx('mb-8', deletingTenant.pending && 'opacity-50')}>
+      <p class={clsx('mb-8', isLoading() && 'opacity-50')}>
         Are you sure you want to delete <span class="font-bold">{props.tenant.name}?</span>
         &nbsp;This can't be undone.
       </p>
       <HStack justify="end" class="mt-4" spacing="sm">
-        <Button color="alternative" onClick={props.onClose} disabled={deletingTenant.pending}>
+        <Button color="alternative" onClick={props.onClose} disabled={isLoading()}>
           Cancel
         </Button>
-        <Button color="red" onClick={() => deleteTenant(props.tenant)} disabled={deletingTenant.pending}>
-          <Show when={deletingTenant.pending}>
+        <Button color="red" onClick={deleteTenant} disabled={isLoading()}>
+          <Show when={isLoading()}>
             <Spinner class="mr-4" size="sm" />
           </Show>
-          <Show when={deletingTenant.pending} fallback="Delete">
+          <Show when={isLoading()} fallback="Delete">
             Deleting...
           </Show>
         </Button>

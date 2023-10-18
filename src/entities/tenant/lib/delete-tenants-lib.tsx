@@ -1,49 +1,53 @@
-import { APIClientDependency } from "@/shared/lib";
+import { APIClientDependency, QueryClientDependency } from "@/shared/lib";
 import { ErrorNotification, SuccessNotification, useContainer, useNotification } from "@/shared/ui";
-import { useQueryClient } from "@tanstack/solid-query";
+import { CreateMutationResult, createMutation } from "@tanstack/solid-query";
 import { createEffect } from "solid-js";
-import { createRouteAction } from "solid-start";
-import { RouteAction } from "solid-start/data/createRouteAction";
 import { DeleteTenantInput, DeleteTenantResult } from "../schemas";
 
 /**
- * A RouteAction for deleting a tenant.
- * 
- * @returns a `RouteAction` for `api.tenants.delete.mutate`
+ * A mutation for deleting a tenant.
  */
-export function useDeleteTenantAPI() {
-  const api = useContainer(APIClientDependency);
+export type DeleteTenantMutation = CreateMutationResult<DeleteTenantResult, unknown, DeleteTenantInput>;
 
-  return createRouteAction(async (input: { id: string }) => {
-    return api.tenants.delete.mutate(input);
+
+/**
+ * Returns a mutation for deleting a tenant.
+ * 
+ * @returns 
+ */
+export function useDeleteTenantMutation(): DeleteTenantMutation {
+  const api = useContainer(APIClientDependency);
+  const queryClient = useContainer(QueryClientDependency);
+
+  return createMutation({
+    mutationFn: api.tenants.delete.mutate,
+    onMutate: () => { queryClient.cancelQueries(['tenants']) },
+    onSuccess: () => { queryClient.invalidateQueries(['tenants']) }
   });
 }
 
 /**
  * A hook for deleting a tenant.
  * 
- * @returns a tuple of `[deletingTenant, deleteTenant]`
+ * @returns a CreateMutationResult for `api.tenants.delete.mutate`
  */
-export function useDeleteTenant(): RouteAction<DeleteTenantInput, DeleteTenantResult> {
-  const [deletingTenant, deleteTenant] = useDeleteTenantAPI();
-  const queryClient = useQueryClient();
+export function useDeleteTenant() {
   const [notifySuccess] = useNotification(SuccessNotification);
   const [notifyError] = useNotification(ErrorNotification);
+  const deleteTenant = useDeleteTenantMutation();
 
   createEffect(() => {
-    if (deletingTenant.error) {
+    if (deleteTenant.isError) {
       notifyError({
         message: 'There was an error deleting the tenant.',
-        error: deletingTenant.error
+        error: new Error(deleteTenant.error as string)
       });
-    } else if (deletingTenant.result) {
+    } else if (deleteTenant.isSuccess) {
       notifySuccess({
-        message: `${deletingTenant.result.name} was deleted`,
-      });
-      
-      queryClient.invalidateQueries({ queryKey: ['tenants'] });
+        message: `${deleteTenant.data.name} was deleted`,
+      });      
     }
   });
 
-  return [deletingTenant, deleteTenant];
+  return deleteTenant;
 }

@@ -1,15 +1,16 @@
-import { Button, Drawer, ErrorNotification, HStack, Heading, ModalOptions, SuccessNotification, XMarkIcon, useNotification } from "@/shared/ui";
-import { useQueryClient } from "@tanstack/solid-query";
+import { Button, Drawer, DrawerProps, HStack, Heading, ModalOptions, XMarkIcon } from "@/shared/ui";
 import { createEffect, on, splitProps } from "solid-js";
-import { useUpdateTenantAPI, useUpdateTenantForm } from "../lib";
-import { Tenant } from "../schemas";
+import { UpdateTenantMutation, useUpdateTenantForm } from "../lib";
+import { Tenant, UpdateTenantInput } from "../schemas";
 import { UpdateTenantForm } from "./update-tenant-form";
+import clsx from "clsx";
 
 /**
  * Props for `UpdateTenantDrawer`
  */
-export type UpdateTenantDrawerProps = ModalOptions & {
+export type UpdateTenantDrawerProps = ModalOptions & DrawerProps & {
   tenant: Tenant
+  updateMutation: UpdateTenantMutation
 };
 
 /**
@@ -19,23 +20,27 @@ export type UpdateTenantDrawerProps = ModalOptions & {
  * @returns 
  */
 export function UpdateTenantDrawer(props: UpdateTenantDrawerProps) {
-  const [, drawerProps] = splitProps(props, ['tenant']);
-  const [updatingTenant, updateTenant] = useUpdateTenantAPI();
+  const [, drawerProps] = splitProps(props, [
+    'class',
+    'tenant',
+    'updateMutation',
+    'onClose',
+  ]);
+
   const updateTenantForm = useUpdateTenantForm({ initialValues: props.tenant });
-  const queryClient = useQueryClient();
+  const updateTenant = (input: UpdateTenantInput) => props.updateMutation.mutateAsync(input);
 
-  const [notifySuccess] = useNotification(SuccessNotification, {
-    message: () => `${props.tenant.name} updated`
-  });
+  createEffect((wasLoading) => {
+    if (wasLoading && !props.updateMutation.isLoading)
+      props.onClose?.();
 
-  const [notifyError] = useNotification(ErrorNotification, {
-    message: () => `Error updating ${props.tenant.name}`
+    return props.updateMutation.isLoading;
   });
 
   createEffect(() => {
     if (!props.isOpen) {
       updateTenantForm.reset();
-      updatingTenant.clear();
+      props.updateMutation.reset();
     }
   });
 
@@ -47,20 +52,13 @@ export function UpdateTenantDrawer(props: UpdateTenantDrawerProps) {
     )
   );
 
-
-  createEffect(() => {
-    if (updatingTenant.error) {
-      notifyError({ error: updatingTenant.error });
-      props.onClose?.();
-    } else if (updatingTenant.result) {
-      notifySuccess();
-      queryClient.invalidateQueries({ queryKey: ['tenants'] });
-      props.onClose?.();
-    }
-  });
-
   return (
-    <Drawer placement="right" size="lg" class="p-4" {...drawerProps}>
+    <Drawer 
+      placement="right" 
+      size="lg" 
+      class={clsx('p-4', props.class)} 
+      {...drawerProps}
+    >
       <HStack justify="between" align="center" class="mb-4">
         <Heading level="2" class="text-lg">
           Update Tenant

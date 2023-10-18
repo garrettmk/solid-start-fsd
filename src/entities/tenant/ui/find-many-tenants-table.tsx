@@ -1,4 +1,4 @@
-import { FindManyTenantsInput, createFindManyTenantsQuery } from "@/entities/tenant";
+import { FindManyTenantsInput, createFindManyTenantsQuery, useCreateTenant } from "@/entities/tenant";
 import { DateAndTimeCell, HStack, Heading, LoadingOverlay, SearchForm, Table, TableContainer, TableContainerProps, TablePagination, createFindManyInput, usePaginatedResultFrom, usePaginationInputFrom, useQueryDataFrom, createSearchForm, useSearchInputFrom, useSortingInputFrom, createTable, Spinner, Button, PlusIcon, useModal, EllipsisHorizontalIcon, EllipsisVerticalIcon, ButtonMenu, MenuItem, PencilIcon, Divider, TrashIcon } from "@/shared/ui";
 import clsx from "clsx";
 import { Show, splitProps } from "solid-js";
@@ -21,7 +21,9 @@ export type FindManyTenantsTableProps = TableContainerProps & {
 export function FindManyTenantsTable(props: FindManyTenantsTableProps) {
   const [, tableContainerProps] = splitProps(props, ['class', "initialQuery"]);
   const searchForm = createSearchForm();
-  const createTenantDrawer = useModal(CreateTenantDrawer);
+
+  const createMutation = useCreateTenant();
+  const createTenantDrawer = useModal(CreateTenantDrawer, { createMutation });
   
   // Query inputs
   const [findManyInput, setFindManyInput] = createFindManyInput();

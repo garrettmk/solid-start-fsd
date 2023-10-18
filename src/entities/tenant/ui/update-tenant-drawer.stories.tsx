@@ -1,26 +1,13 @@
 import { useMockMutation, withDarkMode } from '@/shared/storybook';
 import type { Meta, StoryObj } from 'storybook-solidjs';
-import { Tenant } from '../schemas';
-import { DeleteTenantModal } from './delete-tenant-modal';
-
-const tenant: Tenant = {
-  id: '1',
-  name: 'Mock Tenant',
-  slug: 'mock-tenant',
-  createdAt: new Date().toISOString(),
-};
-
+import { UpdateTenantDrawer } from './update-tenant-drawer';
 
 
 const meta = {
-  title: 'Entities/Tenant/DeleteTenantModal',
-  component: DeleteTenantModal,
+  title: 'Entities/Tenant/UpdateTenantDrawer',
+  component: UpdateTenantDrawer,
   tags: ['autodocs'],
   argTypes: {
-    tenant: {
-      description: 'The tenant to delete',
-      control: 'none',
-    },
     isOpen: {
       description: 'Whether the modal is open or closed',
       control: 'boolean',
@@ -31,31 +18,30 @@ const meta = {
       control: 'none',
       action: 'close'
     },
-    deleteMutation: {
-      description: 'A mutation to delete the tenant',
+    updateMutation: {
+      description: 'A mutation to update the tenant',
       options: ['initial', 'pending'],
       control: 'select',
     }
   }
-} satisfies Meta<typeof DeleteTenantModal>;
+} satisfies Meta<typeof UpdateTenantDrawer>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    tenant,
     isOpen: true,
   },
   render: (props) => {
-    const deleteMutation = useMockMutation('delete', () => props.deleteMutation);
+    const updateMutation = useMockMutation('create', () => props.updateMutation);
 
     return (
       <div class="h-96">
-        <DeleteTenantModal 
+        <UpdateTenantDrawer 
           class="!absolute" 
           {...props }
-          deleteMutation={deleteMutation}
+          updateMutation={updateMutation}
         />
       </div>
     );

@@ -2,7 +2,7 @@ import { SupabaseDependency, camelizeObject } from "@/shared/lib";
 import { defaultPaginationInput, deleteInputSchema, findManyInputSchema, findManyResultSchema } from "@/shared/schemas";
 import { makeRouter, protectedProcedure } from "@/shared/server";
 import { snake } from "radash";
-import { Tenant, createTenantInputSchema, tenantSchema, updateTenantInputSchema } from "../schemas";
+import { Tenant, createTenantInputSchema, createTenantResultSchema, deleteTenantResultSchema, findOneTenantInputSchema, findOneTenantResultSchema, tenantSchema, updateTenantInputSchema, updateTenantResultSchema } from "../schemas";
 
 export const tenantsRouter = makeRouter({
 
@@ -11,7 +11,7 @@ export const tenantsRouter = makeRouter({
    */
   create: protectedProcedure
     .input(createTenantInputSchema)
-    .output(tenantSchema)
+    .output(createTenantResultSchema)
     .mutation(async ({ ctx, input }) => {
       const { name, slug } = input;
       const supabase = await ctx.scope.resolve(SupabaseDependency);
@@ -36,6 +36,40 @@ export const tenantsRouter = makeRouter({
 
       if (selectError)
         throw selectError;
+
+      return camelizeObject<Tenant>(data);
+    }),
+
+  /**
+   * Finds one tenant.
+   */
+  findOne: protectedProcedure
+    .input(findOneTenantInputSchema)
+    .output(findOneTenantResultSchema)
+    .query(async ({ ctx, input }) => {
+      const supabase = await ctx.scope.resolve(SupabaseDependency);
+
+      // Create the PostgREST filter
+      const conditions = [
+        'id' in input && `id.eq.${input.id}`,
+        'slug' in input && `slug.eq.${input.slug}`,
+        'name' in input && `name.eq.${input.name}`,
+      ];
+
+      const filter = conditions.filter(Boolean).join(', ');
+
+      // Select the tenant
+      const { data, error } = await supabase
+        .from("tenants")
+        .select("*")
+        .or(filter)
+        .single();
+
+      if (error)
+        throw error;
+
+      if (!data?.length)
+        throw new Error(`Tenant not found`);
 
       return camelizeObject<Tenant>(data);
     }),
@@ -88,7 +122,7 @@ export const tenantsRouter = makeRouter({
      */
     update: protectedProcedure
       .input(updateTenantInputSchema)
-      .output(tenantSchema)
+      .output(updateTenantResultSchema)
       .mutation(async ({ ctx, input }) => {
         const { id, name, slug } = input;
         const supabase = await ctx.scope.resolve(SupabaseDependency);
@@ -123,7 +157,7 @@ export const tenantsRouter = makeRouter({
      */
     delete: protectedProcedure
       .input(deleteInputSchema)
-      .output(tenantSchema)
+      .output(deleteTenantResultSchema)
       .mutation(async ({ ctx, input }) => {
         const { id } = input;
         const supabase = await ctx.scope.resolve(SupabaseDependency);

@@ -1,23 +1,60 @@
-import { APIClientDependency } from "@/shared/lib";
-import { UseCreateFormOptions, createFindManyQuery, useContainer, useCreateForm } from "@/shared/ui";
+import { APIClientDependency, QueryClientDependency } from "@/shared/lib";
+import { ErrorNotification, SuccessNotification, UseCreateFormOptions, useContainer, useCreateForm, useNotification } from "@/shared/ui";
 import { zodForm } from "@modular-forms/solid";
-import { Accessor, createResource } from "solid-js";
-import { createRouteAction } from "solid-start";
-import { CreateTenantInput, FindManyTenantsInput, FindManyTenantsResult, createTenantInputSchema } from "../schemas";
+import { CreateMutationResult, createMutation } from "@tanstack/solid-query";
+import { CreateTenantInput, CreateTenantResult, createTenantInputSchema } from "../schemas";
+import { createEffect } from "solid-js";
 
 
 /**
- * A convenience hook for creating a tenant.
- * 
- * @returns a `RouteAction` for `api.tenants.create.mutate`
+ * A mutation for creating a tenant.
  */
-export function useCreateTenantAPI() {
-  const api = useContainer(APIClientDependency);
+export type CreateTenantMutation = CreateMutationResult<CreateTenantResult, unknown, CreateTenantInput>;
 
-  return createRouteAction(async (input: CreateTenantInput) => {
-    return api.tenants.create.mutate(input);
+
+/**
+ * Returns a mutation for creating a tenant.
+ * 
+ * @returns `CreateMutationResult`
+ */
+export function useCreateTenantMutation(): CreateTenantMutation {
+  const api = useContainer(APIClientDependency);
+  const queryClient = useContainer(QueryClientDependency);
+
+  return createMutation({
+    mutationFn: api.tenants.create.mutate,
+    onMutate: () => { queryClient.cancelQueries(['tenants']) },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['tenants'] }) },
   });
 }
+
+/**
+ * A convenience hook for using `CreateTenantMutation`. Includes notifications
+ * on success and error.
+ * 
+ * @returns 
+ */
+export function useCreateTenant() {
+  const [notifySuccess] = useNotification(SuccessNotification);
+  const [notifyError] = useNotification(ErrorNotification);
+  const createTenant = useCreateTenantMutation();
+
+  createEffect(() => {
+    if (createTenant.isSuccess) {
+      notifySuccess({
+        message: `${createTenant.data.name} created`
+      });
+    } else if (createTenant.isError) {
+      notifyError({
+        message: `There was an error creating the tenant`,
+        error: new Error(createTenant.error as string)
+      });
+    }
+  });
+
+  return createTenant;
+}
+
 
 /**
  * A convenience hook for using `CreateTenantForm`.
@@ -37,29 +74,4 @@ export function useCreateTenantForm(options: Omit<UseCreateFormOptions<CreateTen
     ...options,
     validate
   });
-}
-
-
-/**
- * Returns a resource for a list of tenants.
- * 
- * @param input 
- * @returns 
- */
-export function createFindManyTenantsResource(input: Accessor<FindManyTenantsInput>) {
-  const api = useContainer(APIClientDependency);
-
-  return createResource(input, async (input: FindManyTenantsInput) => {
-    return api.tenants.findMany.query(input);
-  });
-}
-
-/**
- * Returns a `CreateQueryResult` for a list of tenants.
- * 
- * @param input 
- * @returns 
- */
-export function createFindManyTenantsQuery(input: Accessor<FindManyTenantsInput>) {
-  return createFindManyQuery<FindManyTenantsResult>(['tenants', 'findMany'], input);
 }

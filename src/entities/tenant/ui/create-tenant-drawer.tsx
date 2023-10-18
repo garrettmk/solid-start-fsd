@@ -1,12 +1,14 @@
-import { CreateTenantForm, useCreateTenantAPI, useCreateTenantForm } from "@/entities/tenant";
-import { Button, Drawer, ErrorNotification, HStack, Heading, ModalOptions, SuccessNotification, XMarkIcon, useNotification } from "@/shared/ui";
-import { useQueryClient } from "@tanstack/solid-query";
-import { createEffect } from "solid-js";
+import { CreateTenantForm, CreateTenantInput, CreateTenantMutation, useCreateTenantForm } from "@/entities/tenant";
+import { Button, Drawer, DrawerProps, HStack, Heading, ModalOptions, XMarkIcon } from "@/shared/ui";
+import clsx from "clsx";
+import { createEffect, splitProps } from "solid-js";
 
 /**
  * Props for `CreateTenantDrawer`
  */
-export type CreateTenantDrawerProps = ModalOptions;
+export type CreateTenantDrawerProps = ModalOptions & DrawerProps & {
+  createMutation: CreateTenantMutation;
+};
 
 /**
  * A drawer that allows the user to create a tenant.
@@ -14,40 +16,32 @@ export type CreateTenantDrawerProps = ModalOptions;
  * @param props 
  * @returns 
  */
-export function CreateTenantDrawer(props: ModalOptions) {
-  const [notifySuccess] = useNotification(SuccessNotification);
-  const [notifyError] = useNotification(ErrorNotification);
-  const [creatingTenant, createTenant] = useCreateTenantAPI();
+export function CreateTenantDrawer(props: CreateTenantDrawerProps) {
+  const [, drawerProps] = splitProps(props, [
+    'class',
+    'createMutation',
+    'onClose',
+  ]);
+
   const createTenantForm = useCreateTenantForm();
-  const queryClient = useQueryClient();
+  const createTenant = (input: CreateTenantInput) => props.createMutation.mutateAsync(input);
+
+  createEffect((wasLoading) => {
+    if (wasLoading && !props.createMutation.isLoading)
+      props.onClose?.();
+
+    return props.createMutation.isLoading;
+  });
 
   createEffect(() => {
     if (!props.isOpen) {
       createTenantForm.reset();
-      creatingTenant.clear();
-    }
-  });
-
-  createEffect(() => {
-    if (creatingTenant.error) {
-      notifyError({
-        message: 'There was an error creating the tenant.',
-        error: creatingTenant.error,
-      });
-
-      props.onClose?.();
-    } else if (creatingTenant.result) {
-      notifySuccess({
-        message: `${creatingTenant.result.name} was added`,
-      });
-
-      queryClient.invalidateQueries({ queryKey: ['tenants'] });
-      props.onClose?.();
+      props.createMutation.reset(); 
     }
   });
 
   return (
-    <Drawer placement="right" size="lg" class="p-4" {...props}>
+    <Drawer placement="right" size="lg" class={clsx('p-4', props.class)} {...drawerProps}>
       <HStack justify="between" align="center" class="mb-4">
         <Heading level="2" class="text-lg">
           Create Tenant

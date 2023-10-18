@@ -1,9 +1,6 @@
-import { APIClientDependency } from "@/shared/lib";
 import { FindManyInput, FindManyResult, PaginatedResult, PaginationInput, SearchInput, SortingInput, defaultFindManyInput, defaultPaginatedResult, defaultPaginationInput, defaultSearchInput, defaultSortingInput } from "@/shared/schemas";
-import { CreateQueryResult, createQuery } from "@tanstack/solid-query";
-import { get } from "radash";
+import { CreateQueryResult } from "@tanstack/solid-query";
 import { Accessor, Setter, Signal, createEffect, createSignal } from "solid-js";
-import { useContainer } from "../contexts";
 
 /**
  * A convienience function for creating a `FindManyInput` object.
@@ -121,24 +118,4 @@ export function usePaginatedResultFrom(query: CreateQueryResult<FindManyResult>)
   });
 
   return paginated;
-}
-
-
-/**
- * 
- * @param queryKey 
- * @param input 
- * @returns 
- */
-export function createFindManyQuery<T extends FindManyResult>(queryKey: string[], input: Accessor<FindManyInput>): CreateQueryResult<T> {
-  const api = useContainer(APIClientDependency);
-  const fetcher = get(api, [...queryKey, 'query'].join('.')) as (input: FindManyInput) => T;
-
-  const query = createQuery({
-    queryKey: () => [...queryKey, input()],
-    queryFn: () => fetcher(input()),
-    keepPreviousData: true,
-  });
-
-  return query;
 }
