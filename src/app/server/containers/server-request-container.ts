@@ -1,10 +1,10 @@
 import { FetchEvent } from "solid-start";
 import { AuthProviders, RequestProviders, SupabaseServerProviders } from "../providers";
-import { serverEnvScope } from "./server-env-scope";
-import { Scope } from "tidi";
+import { serverEnvContainer } from "./server-env-container";
+import { Container } from "tidi";
 
-export function makeRequestScope(event: FetchEvent) {
-    return new Scope(serverEnvScope, [
+export function makeRequestContainer(event: FetchEvent) {
+    return new Container(serverEnvContainer, [
         ...RequestProviders(event),
         ...SupabaseServerProviders,
         ...AuthProviders,

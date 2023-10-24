@@ -1,16 +1,16 @@
-import { Scope } from "tidi";
+import { Container } from "tidi";
 import { withDarkMode } from "@/shared/storybook";
-import { ScopeProvider } from "@/shared/ui";
+import { ContainerProvider } from "@/shared/ui";
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { DarkModeProvider } from "../lib";
 import { ToggleDarkModeButton } from "./toggle-dark-mode-button";
 
 
-const MockDarkModeScope = new Scope([
+const MockDarkModeContainer = new Container([
   DarkModeProvider
 ]);
 
-await MockDarkModeScope.resolveAll();
+await MockDarkModeContainer.resolveAll();
 
 const meta = {
   title: "Features/Appearance/ToggleDarkMode",
@@ -19,9 +19,9 @@ const meta = {
   parameters: {},
   decorators: [
     (Story) => (
-      <ScopeProvider scope={MockDarkModeScope}>
+      <ContainerProvider Container={MockDarkModeContainer}>
         <Story />
-      </ScopeProvider>
+      </ContainerProvider>
     )
   ]
 } satisfies Meta<typeof ToggleDarkModeButton>;

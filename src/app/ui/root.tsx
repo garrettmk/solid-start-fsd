@@ -1,7 +1,7 @@
 // @refresh reload
-import { createClientScope } from "@/app/scopes";
+import { createClientContainer } from "@/app/containers";
 import { QueryClientDependency } from "@/shared/lib";
-import { ScopeProvider, Spinner } from "@/shared/ui";
+import { ContainerProvider, Spinner } from "@/shared/ui";
 import { QueryClientProvider } from "@tanstack/solid-query";
 import { Show, Suspense, createSignal, onMount } from "solid-js";
 import {
@@ -19,11 +19,11 @@ import "./root.css";
 import { AuthErrorBoundary } from "./auth-error-boundary";
 
 export default function Root() {
-  const clientScope = createClientScope();
+  const clientContainer = createClientContainer();
   const [isResolved, setIsResolved] = createSignal(false);
 
   onMount(async () => {
-    await clientScope.resolveAll();
+    await clientContainer.resolveAll();
     setIsResolved(true);
   });
 
@@ -42,15 +42,15 @@ export default function Root() {
         )}>
           <ErrorBoundary>
             <Show when={isResolved()}>
-              <ScopeProvider scope={clientScope}>
+              <ContainerProvider container={clientContainer}>
                 <AuthErrorBoundary>
-                  <QueryClientProvider client={clientScope.get(QueryClientDependency)}>
+                  <QueryClientProvider client={clientContainer.get(QueryClientDependency)}>
                     <Routes>
                       <FileRoutes />
                     </Routes>
                   </QueryClientProvider>
                 </AuthErrorBoundary>
-              </ScopeProvider>
+              </ContainerProvider>
             </Show>
           </ErrorBoundary>
         </Suspense>

@@ -8,7 +8,7 @@ export const userProfileViewRouter = makeRouter({
     .input(z.string())
     .output(userProfileSchema)
     .query(async ({ ctx, input }) => {
-      const supabase = await ctx.scope.resolve(SupabaseDependency);
+      const supabase = await ctx.container.resolve(SupabaseDependency);
       
       const { data: userProfile, error } = await supabase
         .from("user_profiles")

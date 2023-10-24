@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { Show, splitProps } from "solid-js";
 import { CreateTenantDrawer } from "./create-tenant-drawer";
 import { TenantActionsButton } from "./tenant-actions-button";
+import { A } from "solid-start";
 
 /**
  * @typedef FindManyTenantsTableProps
@@ -50,6 +51,9 @@ export function FindManyTenantsTable(props: FindManyTenantsTableProps) {
         header: "Name",
         accessorKey: "name",
         enableSorting: true,
+        cell: ({ getValue, row }) => (
+          <A class="underline" href={`/app/admin/tenants/${row.original.id}`}>{getValue<string>()}</A>
+        )
       },
       {
         header: "Slug",

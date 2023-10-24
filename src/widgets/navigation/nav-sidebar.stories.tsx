@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { NavSidebar } from "./nav-sidebar";
 import { Router } from "@solidjs/router";
-import { Scope, provider } from "tidi";
+import { Container, provider } from "tidi";
 import { SignOutDependency } from "@/features/session/sign-out";
-import { ScopeProvider } from "@/shared/ui";
+import { ContainerProvider } from "@/shared/ui";
 import { withDarkMode } from "@/shared/storybook";
 import { DarkModeProvider } from "@/features/appearance";
 
-const MockSignOutScope = new Scope([
+const MockSignOutContainer = new Container([
   provider({
     provides: SignOutDependency,
     use: () => async () => {
@@ -18,7 +18,7 @@ const MockSignOutScope = new Scope([
   DarkModeProvider
 ]);
 
-await MockSignOutScope.resolveAll();
+await MockSignOutContainer.resolveAll();
 
 const meta = {
   title: "Widgets/Navigation/NavSidebar",
@@ -35,11 +35,11 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <ScopeProvider scope={MockSignOutScope}>
+      <ContainerProvider Container={MockSignOutContainer}>
         <Router>
           <Story />
         </Router>
-      </ScopeProvider>
+      </ContainerProvider>
     )
   ]
 } satisfies Meta<typeof NavSidebar>;

@@ -1,4 +1,4 @@
-import { ScopeDependency, provider } from "tidi";
+import { ContainerDependency, provider } from "tidi";
 import { APICallerDependency } from "@/shared/server";
 import { apiRouter } from "../api";
 import { SupabaseDependency } from "@/shared/lib";
@@ -8,8 +8,8 @@ import { APIURLProvider } from "@/app/providers";
 
 export const APICallerProvider = provider({
   provides: APICallerDependency,
-  requires: [ScopeDependency, SupabaseDependency, AuthUserDependency],
-  use: (scope) => apiRouter.createCaller({ scope })
+  requires: [ContainerDependency, SupabaseDependency, AuthUserDependency],
+  use: (container) => apiRouter.createCaller({ container })
 });
 
 export const APIProviders = [

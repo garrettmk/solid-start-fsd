@@ -9,7 +9,7 @@ export const userProfileUpdateRouter = makeRouter({
     .input(userProfileUpdateSchema)
     .output(userProfileSchema)
     .mutation(async ({ ctx, input }) => {
-      const supabase = ctx.scope.get(SupabaseDependency);
+      const supabase = ctx.container.get(SupabaseDependency);
       const databaseValues = snakeifyObject(omit(input, ["id", 'avatarImage', 'avatarImageData']));
 
       const { data: userProfile, error } = await supabase

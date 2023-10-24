@@ -1,11 +1,11 @@
 // eslint-disable-next-line boundaries/element-types
 import { AuthUserDependency } from "@/app/server";
 import { delay } from "@/shared/lib";
-import { Scope } from "tidi";
+import { Container } from "tidi";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { ZodError } from "zod";
 
-const t = initTRPC.context<{ scope: Scope }>().create({
+const t = initTRPC.context<{ container: Container }>().create({
   errorFormatter: ({ shape, error }) => {
     return {
       ...shape,
@@ -21,7 +21,7 @@ const t = initTRPC.context<{ scope: Scope }>().create({
 });
 
 const isAuthed = t.middleware(({ next, ctx }) => {
-  if (!ctx.scope.get(AuthUserDependency))
+  if (!ctx.container.get(AuthUserDependency))
     throw new TRPCError({ code: "UNAUTHORIZED" });
 
   return next({ ctx });

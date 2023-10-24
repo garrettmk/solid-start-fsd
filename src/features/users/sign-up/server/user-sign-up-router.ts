@@ -8,7 +8,7 @@ export const userSignUpRouter = makeRouter({
     .mutation(async ({ ctx, input }) => {
       const { account } = input;
       const { email, password, ...otherData } = account;
-      const supabase = ctx.scope.get(SupabaseDependency)
+      const supabase = ctx.container.get(SupabaseDependency)
 
       return supabase.auth.signUp({
         email,

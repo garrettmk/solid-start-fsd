@@ -18,7 +18,7 @@ export const SessionDependency = dependency<Accessor<Session | undefined>>({
 });
 
 /**
- * Returns the Session from the local Scope.
+ * Returns the Session from the local Container.
  * 
  * @returns a Session or undefined
  */
@@ -35,7 +35,7 @@ export const IsSignedInDependency = dependency<Accessor<boolean>>({
 });
 
 /**
- * Returns a boolean indicating whether the user is signed in from the local Scope.
+ * Returns a boolean indicating whether the user is signed in from the local Container.
  */
 export function useIsSignedIn() {
   return useContainer(IsSignedInDependency);
@@ -77,7 +77,7 @@ export const SessionProfileDependency = dependency<ResourceReturn<UserProfile | 
 
 
 /**
- * Returns the UserProfile for the current user from the local Scope.
+ * Returns the UserProfile for the current user from the local Container.
  * 
  * @returns 
  */

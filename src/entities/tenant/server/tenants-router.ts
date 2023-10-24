@@ -14,7 +14,7 @@ export const tenantsRouter = makeRouter({
     .output(createTenantResultSchema)
     .mutation(async ({ ctx, input }) => {
       const { name, slug } = input;
-      const supabase = await ctx.scope.resolve(SupabaseDependency);
+      const supabase = await ctx.container.resolve(SupabaseDependency);
 
       // Create the tenant
       const { error: createError } = await supabase
@@ -47,16 +47,17 @@ export const tenantsRouter = makeRouter({
     .input(findOneTenantInputSchema)
     .output(findOneTenantResultSchema)
     .query(async ({ ctx, input }) => {
-      const supabase = await ctx.scope.resolve(SupabaseDependency);
+      const supabase = await ctx.container.resolve(SupabaseDependency);
 
       // Create the PostgREST filter
       const conditions = [
-        'id' in input && `id.eq.${input.id}`,
-        'slug' in input && `slug.eq.${input.slug}`,
-        'name' in input && `name.eq.${input.name}`,
+        'id' in input && `id.eq."${input.id}"`,
+        'slug' in input && `slug.eq."${input.slug}"`,
+        'name' in input && `name.eq."${input.name}"`,
       ];
 
       const filter = conditions.filter(Boolean).join(', ');
+      console.log(filter);
 
       // Select the tenant
       const { data, error } = await supabase
@@ -68,7 +69,7 @@ export const tenantsRouter = makeRouter({
       if (error)
         throw error;
 
-      if (!data?.length)
+      if (!data)
         throw new Error(`Tenant not found`);
 
       return camelizeObject<Tenant>(data);
@@ -82,7 +83,7 @@ export const tenantsRouter = makeRouter({
     .output(findManyResultSchema)
     .query(async ({ ctx, input }) => {
       const { search, sorting = [], pagination = defaultPaginationInput } = input;
-      const supabase = await ctx.scope.resolve(SupabaseDependency);
+      const supabase = await ctx.container.resolve(SupabaseDependency);
 
       // Include the total in the query
       const tenantsQuery = supabase
@@ -125,7 +126,7 @@ export const tenantsRouter = makeRouter({
       .output(updateTenantResultSchema)
       .mutation(async ({ ctx, input }) => {
         const { id, name, slug } = input;
-        const supabase = await ctx.scope.resolve(SupabaseDependency);
+        const supabase = await ctx.container.resolve(SupabaseDependency);
 
         // Update the tenant
         const { error: updateError } = await supabase
@@ -160,7 +161,7 @@ export const tenantsRouter = makeRouter({
       .output(deleteTenantResultSchema)
       .mutation(async ({ ctx, input }) => {
         const { id } = input;
-        const supabase = await ctx.scope.resolve(SupabaseDependency);
+        const supabase = await ctx.container.resolve(SupabaseDependency);
 
         // Select the tenant
         const { data, error: findError } = await supabase

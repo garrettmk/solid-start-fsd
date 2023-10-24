@@ -8,7 +8,7 @@ export const usersViewRouter = makeRouter({
     .input(z.string())
     .output(userSchema)
     .query(async ({ ctx, input }) => {
-      const supabase = await ctx.scope.resolve(SupabaseDependency);
+      const supabase = await ctx.container.resolve(SupabaseDependency);
 
       const { data, error } = await supabase
         .auth

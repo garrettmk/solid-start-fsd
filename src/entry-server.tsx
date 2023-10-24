@@ -1,24 +1,24 @@
-import { AuthUserDependency, RequestURLDependency, makeRequestScope, makeRouteRequestScope } from "@/app/server";
+import { AuthUserDependency, RequestURLDependency, makeRequestContainer, makeRouteRequestContainer } from "@/app/server";
 import { redirect } from "solid-start";
 import { StartServer, createHandler, renderAsync } from "solid-start/entry-server";
 import { APIURLDependency, AppURLDependency, SignInURLDependency } from "@/shared/lib";
-import { Scope } from 'tidi';
+import { Container } from 'tidi';
 
 export default createHandler(
   ({ forward }) =>
     async (event) => {
-      const requestScope = await makeRequestScope(event);
-      const isAuthenticated = await isAuthenticatedRequest(requestScope);
-      const isApp = await isAppRequest(requestScope);
-      const isAPI = await isAPIRequest(requestScope);
-      const signInURL = await requestScope.resolve(SignInURLDependency);
+      const requestContainer = await makeRequestContainer(event);
+      const isAuthenticated = await isAuthenticatedRequest(requestContainer);
+      const isApp = await isAppRequest(requestContainer);
+      const isAPI = await isAPIRequest(requestContainer);
+      const signInURL = await requestContainer.resolve(SignInURLDependency);
 
       if (!isAuthenticated && isApp)
         return redirect(signInURL);
 
-      event.locals.scope = isAPI
-        ? requestScope
-        : await makeRouteRequestScope(requestScope);
+      event.locals.container = isAPI
+        ? requestContainer
+        : await makeRouteRequestContainer(requestContainer);
 
       return forward(event);
     },
@@ -26,20 +26,20 @@ export default createHandler(
 );
 
 
-async function isAuthenticatedRequest(scope: Scope) {
-  return Boolean(await scope.resolve(AuthUserDependency));
+async function isAuthenticatedRequest(container: Container) {
+  return Boolean(await container.resolve(AuthUserDependency));
 }
 
-async function isAppRequest(scope: Scope) {
-  const requestURL = await scope.resolve(RequestURLDependency);
-  const appURL = await scope.resolve(AppURLDependency);
+async function isAppRequest(container: Container) {
+  const requestURL = await container.resolve(RequestURLDependency);
+  const appURL = await container.resolve(AppURLDependency);
 
   return requestURL.pathname.startsWith(appURL);
 }
 
-async function isAPIRequest(scope: Scope) {
-  const requestURL = await scope.resolve(RequestURLDependency);
-  const apiURL = await scope.resolve(APIURLDependency);
+async function isAPIRequest(container: Container) {
+  const requestURL = await container.resolve(RequestURLDependency);
+  const apiURL = await container.resolve(APIURLDependency);
 
   return requestURL.pathname.startsWith(apiURL);
 }

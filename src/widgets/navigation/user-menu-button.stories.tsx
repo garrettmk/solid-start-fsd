@@ -4,13 +4,13 @@ import { UserProfile } from "@/entities/user-profile";
 import { DarkModeProvider } from "@/features/appearance";
 import { SignOutDependency } from "@/features/session/sign-out";
 import { withDarkMode } from "@/shared/storybook";
-import { ReactiveContextDependency, ScopeProvider, runWithOwner } from "@/shared/ui";
+import { ReactiveContextDependency, ContainerProvider, runWithOwner } from "@/shared/ui";
 import { createResource, getOwner } from "solid-js";
 import type { Meta, StoryObj } from "storybook-solidjs";
-import { Scope, provider } from "tidi";
+import { Container, provider } from "tidi";
 import { UserMenuButton } from "./user-menu-button";
 
-const MockScope = new Scope([
+const MockContainer = new Container([
   provider({
     provides: SignOutDependency,
     use: () => async () => { null }
@@ -36,7 +36,7 @@ const MockScope = new Scope([
   })
 ]);
 
-await MockScope.resolveAll();
+await MockContainer.resolveAll();
 
 const meta = {
   title: "Widgets/Navigation/UserMenuButton",
@@ -52,9 +52,9 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <ScopeProvider scope={MockScope}>
+      <ContainerProvider Container={MockContainer}>
         <Story />
-      </ScopeProvider>
+      </ContainerProvider>
     )
   ],
   args: {

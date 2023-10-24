@@ -1,12 +1,12 @@
-import { Scope } from "tidi";
+import { Container } from "tidi";
 import { FetchEvent } from "solid-start";
 
 import { APIProviders, AuthProviders, RequestProviders, SupabaseServerProviders } from "../providers";
 import { EnvProviders } from "../../providers";
 
 
-export async function makeServerScope(event: FetchEvent) {
-  const scope = new Scope([
+export async function makeServerContainer(event: FetchEvent) {
+  const container = new Container([
     ...EnvProviders,
     ...RequestProviders(event),
     ...SupabaseServerProviders,
@@ -14,7 +14,7 @@ export async function makeServerScope(event: FetchEvent) {
     ...APIProviders,
   ]);
 
-  await scope.resolveAll();
+  await container.resolveAll();
 
-  return scope;
+  return container;
 }

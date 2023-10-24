@@ -1,7 +1,7 @@
 import { SignOutDependency } from "@/features/session/sign-out";
-import { Scope, provider } from "tidi";
+import { Container, provider } from "tidi";
 import { withDarkMode } from "@/shared/storybook";
-import { Heading, Panel, ScopeProvider } from "@/shared/ui";
+import { Heading, Panel, ContainerProvider } from "@/shared/ui";
 import { NavSidebar } from "@/widgets/navigation";
 import { Router } from "@solidjs/router";
 import type { Meta, StoryObj } from "storybook-solidjs";
@@ -9,7 +9,7 @@ import { PageContent } from "./page-content";
 import { PageHeader } from "./page-header";
 import { DarkModeProvider } from "@/features/appearance";
 
-const MockPageScope = new Scope([
+const MockPageContainer = new Container([
   provider({
     provides: SignOutDependency,
     use: () => async () => { null; }
@@ -17,7 +17,7 @@ const MockPageScope = new Scope([
   DarkModeProvider
 ]);
 
-await MockPageScope.resolveAll();
+await MockPageContainer.resolveAll();
 
 function MockPage() {
   return (
@@ -60,11 +60,11 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <ScopeProvider scope={MockPageScope}>
+      <ContainerProvider Container={MockPageContainer}>
         <Router>
           <Story />
         </Router>
-      </ScopeProvider>
+      </ContainerProvider>
     )
   ]
 } satisfies Meta<typeof PageContent>;

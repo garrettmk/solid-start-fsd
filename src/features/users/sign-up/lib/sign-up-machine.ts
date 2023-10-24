@@ -2,8 +2,8 @@ import { omit } from "radash";
 import { assign, createMachine, ErrorPlatformEvent } from "xstate";
 import { ChooseProfessionInput, NewAccountInput } from "../schemas";
 import { APIClientDependency } from "@/shared/lib";
-import { Scope } from "tidi";
-import { useScopeContext } from "@/shared/ui";
+import { Container } from "tidi";
+import { useContainerContext } from "@/shared/ui";
 import { useMachine } from "@xstate/solid";
 
 export interface SignUpContext {
@@ -136,8 +136,8 @@ export const signUpMachine = createMachine<SignUpContext, SignUpEvent>(
 );
 
 
-export function createSignUpMachine(scope: Scope, context: SignUpContext = {}) {
-  const api = scope.get(APIClientDependency);
+export function createSignUpMachine(container: Container, context: SignUpContext = {}) {
+  const api = container.get(APIClientDependency);
 
   return signUpMachine
     .withContext(context)
@@ -158,8 +158,8 @@ export function createSignUpMachine(scope: Scope, context: SignUpContext = {}) {
 
 
 export function useSignUpMachine(context: SignUpContext = {}) {
-  const scope = useScopeContext();
-  const machine = createSignUpMachine(scope, context);
+  const container = useContainerContext();
+  const machine = createSignUpMachine(container, context);
 
   return useMachine(machine);
 }
