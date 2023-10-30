@@ -1,4 +1,4 @@
-import { User, userSchema } from "./user-schema";
+import { User, userSchema } from "../schemas";
 import { useContainer } from "@/shared/ui";
 import { Resource } from "solid-js";
 import { dependency } from "tidi";

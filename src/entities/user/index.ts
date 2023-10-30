@@ -1,2 +1,2 @@
-export * from './user-schema';
-export * from './user-lib';
+export * from './schemas';
+export * from './lib';
