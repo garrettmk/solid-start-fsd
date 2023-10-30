@@ -1,5 +1,6 @@
 {
   "name": "solid-start-fsd",
+  "type": "module",
   "scripts": {
     "dev": "solid-start dev",
     "build": "solid-start build",
@@ -18,7 +19,6 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug"
   },
-  "type": "module",
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
     "@playwright/test": "^1.33.0",

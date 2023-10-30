@@ -1,5 +1,4 @@
-import { NewAccountInput } from "@/features/users/sign-up/index.js";
-import { newAccountInputSchema } from "@/features/users/sign-up/schemas/new-account-input-schema.js";
+import { NewAccountInput, newAccountInputSchema } from "./sign-up-e2e-schemas.js";
 import { assign, createMachine } from "xstate";
 import { EventSource, TestRunner, TransitionCallbackMap } from "xstate-paths";
 import { crossMerge } from "../../../util/cross-merge.js";
