@@ -1,10 +1,11 @@
 import { JSX, splitProps } from "solid-js";
 import clsx from "clsx";
 import { Dynamic } from "solid-js/web";
+import { SizeProp } from "../../helpers";
 
 export interface VStackProps<E extends HTMLElement = HTMLDivElement>
   extends JSX.HTMLAttributes<E> {
-  spacing?: "none" | "xs" | "sm" | "md" | "lg" | "xl";
+  spacing?: SizeProp
   align?: "start" | "center" | "end" | "stretch";
   justify?: "start" | "end" | "center" | "between" | "around" | "evenly";
   as?: keyof JSX.HTMLElementTags;
@@ -16,10 +17,13 @@ const styles = {
   spacing: {
     none: "",
     xs: "space-y-1",
-    sm: "space-y-3",
-    md: "space-y-6",
-    lg: "space-y-9",
-    xl: "space-y-12",
+    sm: "space-y-1.5",
+    md: "space-y-2",
+    lg: "space-y-2.5",
+    xl: "space-y-3",
+    "2xl": "space-y-4",
+    '3xl': 'space-y-5',
+    '4xl': 'space-y-6',
   },
 
   align: {
