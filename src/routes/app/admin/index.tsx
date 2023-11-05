@@ -1,6 +1,5 @@
-import { BreadcrumbItem, Breadcrumbs } from "@/shared/ui";
+import { BreadcrumbItem, Breadcrumbs, Divider, HStack, KPI, Panel } from "@/shared/ui";
 import { PageContainer, PageContent, PageHeader } from "@/widgets/page";
-import { FindManyTenantsTable } from "@/entities/tenant";
 
 export function AdminIndex() {
   return (
@@ -13,7 +12,11 @@ export function AdminIndex() {
         </Breadcrumbs>
       </PageHeader>
       <PageContent class="h-100">
-        <FindManyTenantsTable />
+        <Panel class="p-4 inline-grid grid-cols-[1fr_auto_1fr] gap-4">
+            <KPI label="Tenants" value={100} size="xl"/>
+            <div class="border-r border-slate-100 dark:border-slate-700" />
+            <KPI label="Users" value={100} size="xl"/>
+        </Panel>
       </PageContent>
     </PageContainer>
   );
