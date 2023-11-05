@@ -79,10 +79,10 @@ export const tenantsRouter = makeRouter({
    * Finds many tenants.
    */
   findMany: protectedProcedure
-    .input(findManyInputSchema)
+    .input(findManyInputSchema.optional())
     .output(findManyResultSchema)
     .query(async ({ ctx, input }) => {
-      const { search, sorting = [], pagination = defaultPaginationInput } = input;
+      const { search, sorting = [], pagination = defaultPaginationInput } = input ?? {};
       const supabase = await ctx.container.resolve(SupabaseDependency);
 
       // Include the total in the query

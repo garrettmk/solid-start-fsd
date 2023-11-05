@@ -55,12 +55,12 @@ export type FindManyTenantsQuery = CreateQueryResult<FindManyTenantsResult>;
  * @param input 
  * @returns 
  */
-export function createFindManyTenantsQuery(input: Accessor<FindManyTenantsInput>): FindManyTenantsQuery {
+export function createFindManyTenantsQuery(input?: Accessor<FindManyTenantsInput>): FindManyTenantsQuery {
   const api = useContainer(APIClientDependency);
 
   return createQuery({
-    queryKey: () => ['tenants', 'findMany', input()],
-    queryFn: () => api.tenants.findMany.query(input()),
+    queryKey: () => ['tenants', 'findMany', input?.()],
+    queryFn: () => api.tenants.findMany.query(input?.()),
     keepPreviousData: true,
   });
 }
@@ -71,7 +71,7 @@ export function createFindManyTenantsQuery(input: Accessor<FindManyTenantsInput>
  * @param input 
  * @returns 
  */
-export function useFindManyTenants(input: Accessor<FindManyTenantsInput>) {
+export function useFindManyTenants(input?: Accessor<FindManyTenantsInput>) {
   const [notifyError] = useNotification(ErrorNotification);
   const findManyTenants = createFindManyTenantsQuery(input);
 
