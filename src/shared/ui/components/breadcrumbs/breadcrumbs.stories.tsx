@@ -1,10 +1,8 @@
+import { withDarkMode } from "@/shared/storybook";
+import { Router } from "@solidjs/router";
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { Breadcrumbs, BreadcrumbsProps } from "./breadcrumbs";
-import { BreadcrumbItem } from "./breadcrumb-item";
-import { Router } from "@solidjs/router";
-import { withDarkMode } from "@/shared/storybook";
 
-// More on how to set up stories at: https://storybook.js.org/docs/7.0/solid/writing-stories/introduction
 const meta = {
   title: "Shared/UI/Components/Breadcrumbs",
   component: Breadcrumbs,
@@ -25,16 +23,15 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/7.0/solid/writing-stories/args
 export const Primary: Story = {
   args: {},
   render: (args) => (
     <Breadcrumbs {...args}>
-      <BreadcrumbItem href="/">Home</BreadcrumbItem>
-      <BreadcrumbItem>&gt;</BreadcrumbItem>
-      <BreadcrumbItem href="/about">About</BreadcrumbItem>
-      <BreadcrumbItem>&gt;</BreadcrumbItem>
-      <BreadcrumbItem>Contact</BreadcrumbItem>
+      <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
+      <Breadcrumbs.Separator/>
+      <Breadcrumbs.Item href="/about">About</Breadcrumbs.Item>
+      <Breadcrumbs.Separator/>
+      <Breadcrumbs.Item>Contact</Breadcrumbs.Item>
     </Breadcrumbs>
   )
 };

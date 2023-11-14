@@ -1,8 +1,17 @@
 import { JSX, splitProps } from "solid-js";
+import { BreadcrumbItem } from "./breadcrumb-item";
+import { BreadcrumbSeparator } from "./breadcrumb-separator";
 
+/**
+ * Props for the `Breadcrumbs` component.
+ */
 export type BreadcrumbsProps = JSX.HTMLAttributes<HTMLDivElement>;
 
-export function Breadcrumbs(props: BreadcrumbsProps) {
+/**
+ * A container for breadcrumbs. Renders as a <ol> element inside a 
+ * <nav> element.
+ */
+export const Breadcrumbs = Object.assign(function Breadcrumbs(props: BreadcrumbsProps) {
   const [, elementProps] = splitProps(props, ["children"]);
 
   return (
@@ -13,4 +22,7 @@ export function Breadcrumbs(props: BreadcrumbsProps) {
       </ol>
     </nav>
   );
-}
+}, {
+  Item: BreadcrumbItem,
+  Separator: BreadcrumbSeparator
+});
