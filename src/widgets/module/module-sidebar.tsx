@@ -11,11 +11,17 @@ const styles = {
   `,
 };
 
+/**
+ * Props for the `ModuleSidebar` component.
+ */
 export interface ModuleSidebarProps {
   class?: string;
   children?: JSX.Element;
 }
 
+/**
+ * A sidebar for modules.
+ */
 export const ModuleSidebar = Object.assign(function (props: ModuleSidebarProps) {
   return (
     <aside class={clsx(styles.base, props.class)}>

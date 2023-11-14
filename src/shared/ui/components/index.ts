@@ -10,7 +10,6 @@ export * from "./inputs";
 export * from './kpis';
 export * from "./menus";
 export * from './modals';
-export * from "./module";
 export * from './notifications';
 export * from "./overlays";
 export * from './pagination';

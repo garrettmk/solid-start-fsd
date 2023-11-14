@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import { JSX, splitProps, Switch, Match } from "solid-js";
-import { useLocation, A } from "solid-start";
+import { JSX, splitProps, Switch, Match, createEffect } from "solid-js";
+import { useLocation, A, useMatch } from "solid-start";
 
 
 export interface ModuleSidebarNavItemProps extends JSX.HTMLAttributes<HTMLLIElement> {
