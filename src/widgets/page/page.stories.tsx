@@ -1,29 +1,17 @@
-import { SignOutDependency } from "@/features/session/sign-out";
-import { Container, provider } from "tidi";
 import { withDarkMode } from "@/shared/storybook";
-import { Heading, Panel, ContainerProvider } from "@/shared/ui";
-import { NavSidebar } from "@/widgets/navigation";
+import { Heading, Panel } from "@/shared/ui";
+import { MetaProvider } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import type { Meta, StoryObj } from "storybook-solidjs";
+import { Page } from "./page";
 import { PageContent } from "./page-content";
 import { PageHeader } from "./page-header";
-import { DarkModeProvider } from "@/features/appearance";
 
-const MockPageContainer = new Container([
-  provider({
-    provides: SignOutDependency,
-    use: () => async () => { null; }
-  }),
-  DarkModeProvider
-]);
-
-await MockPageContainer.resolveAll();
 
 function MockPage() {
   return (
-    <>
-      <NavSidebar />
-      <div class="ml-14">
+    <div class="relative flex items-stretch">
+      <Page>
         <PageHeader title="Page Title">
           <Heading class="text-xl font-medium">Page Header</Heading>
         </PageHeader>
@@ -38,9 +26,20 @@ function MockPage() {
               exercitationem voluptatibus quas doloribus quidem.
             </p>
           </Panel>
+          <Page.Divider class="my-6"/>
+          <Panel class="p-6">
+            <Heading level="2" class="text-lg mb-4">Page Content</Heading>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+              voluptatum, quibusdam, quia, voluptate voluptas quod quos
+              exercitationem voluptatibus quas doloribus quidem. Quisquam
+              voluptatum, quibusdam, quia, voluptate voluptas quod quos
+              exercitationem voluptatibus quas doloribus quidem.
+            </p>
+          </Panel>
         </PageContent>
-      </div>
-    </>
+      </Page>
+    </div>
   );
 }
 
@@ -60,11 +59,11 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <ContainerProvider Container={MockPageContainer}>
+      <MetaProvider>
         <Router>
           <Story />
         </Router>
-      </ContainerProvider>
+      </MetaProvider>
     )
   ]
 } satisfies Meta<typeof PageContent>;

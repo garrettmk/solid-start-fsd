@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "storybook-solidjs";
 import { withDarkMode } from "@/shared/storybook/decorators";
-import { PageHeader } from "./page-header";
+import { PageDivider } from "./page-divider";
 
 const meta = {
-  title: "Widgets/Page/PageHeader",
-  component: PageHeader,
+  title: "Widgets/Page/PageDivider",
+  component: PageDivider,
   tags: ["autodocs"],
-} satisfies Meta<typeof PageHeader>;
+} satisfies Meta<typeof PageDivider>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

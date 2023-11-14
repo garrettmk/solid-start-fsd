@@ -2,14 +2,11 @@ import { HStack, HStackProps } from "@/shared/ui";
 import clsx from "clsx";
 import { splitProps } from "solid-js";
 
-export interface PageHeaderProps extends HStackProps {
-  title?: string;
-}
+export interface PageHeaderProps extends HStackProps {}
 
 export function PageHeader(props: PageHeaderProps) {
   const [headerProps, stackProps] = splitProps(props, [
     "class",
-    "title",
     "children",
   ]);
 
