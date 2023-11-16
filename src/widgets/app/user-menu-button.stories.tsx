@@ -52,7 +52,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <ContainerProvider Container={MockContainer}>
+      <ContainerProvider container={MockContainer}>
         <Story />
       </ContainerProvider>
     )

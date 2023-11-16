@@ -1,7 +1,7 @@
 import { useSessionProfile } from "@/entities/session";
 import { UpdateUserProfileForm, useUserProfileUpdate } from "@/features/user-profiles/update";
 import { Avatar, BreadcrumbItem, Breadcrumbs, Button, HStack, Heading, Panel, Spinner, VStack } from "@/shared/ui";
-import { PageContainer, PageContent, PageDivider, PageHeader } from "@/widgets/page";
+import { Page, PageContent, PageDivider, PageHeader } from "@/widgets/page";
 import { Show, createEffect } from "solid-js";
 
 export function ProfilePage() {
@@ -22,7 +22,7 @@ export function ProfilePage() {
   }
 
   return (
-    <PageContainer>
+    <Page>
       <PageHeader>
         <Breadcrumbs class="text-lg font-medium">
           <BreadcrumbItem href="/app">Home</BreadcrumbItem>
@@ -70,7 +70,7 @@ export function ProfilePage() {
           </Show>
         </Panel>
       </PageContent>
-    </PageContainer>
+    </Page>
   );
 }
 

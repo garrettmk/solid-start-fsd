@@ -13,7 +13,7 @@ export function UserMenuButton(props: UserMenuButtonProps) {
   const [user] = useSessionUser();
 
   return (
-    <ButtonMenu id="user-menu-button" content={<UserIcon/>} {...props}>
+    <ButtonMenu id="user-menu-button" content={<UserIcon/>} offset={8} {...props}>
       <MenuItem class="flex flex-col items-center w-60 py-4" inactive>
         <Avatar
           src={profile()?.avatarUrl}
