@@ -1,12 +1,19 @@
-import { SupabaseClientProviders } from "@/app/providers";
+import { SupabaseAnonKeyProvider, SupabaseURLProvider } from "@/app/providers";
 import {
-  SupabaseServiceRoleDependency,
-  SupabaseServiceRoleKeyDependency,
-  SupabaseURLDependency
+  SupabaseAnonKeyDependency,
+  SupabaseDependency,
+  SupabaseURLDependency,
+  createSupabaseClient,
+  getEnv
 } from "@/shared/lib";
-import { getEnv } from "@/shared/lib";
+import { SupabaseServiceRoleDependency, SupabaseServiceRoleKeyDependency } from "@/shared/server";
 import { provider } from "tidi";
-import { createSupabaseClient } from "@/shared/lib";
+
+export const SupabaseProvider = provider({
+  provides: SupabaseDependency,
+  requires: [SupabaseURLDependency, SupabaseAnonKeyDependency],
+  use: createSupabaseClient
+});
 
 export const SupabaseServiceRoleKeyProvider = provider({
   provides: SupabaseServiceRoleKeyDependency,
@@ -21,7 +28,9 @@ export const SupabaseServiceRoleProvider = provider({
 
 
 export const SupabaseServerProviders = [
-  ...SupabaseClientProviders,
+  SupabaseURLProvider,
+  SupabaseAnonKeyProvider,
+  SupabaseProvider,
   SupabaseServiceRoleKeyProvider,
-  // SupabaseServiceRoleProvider
+  SupabaseServiceRoleProvider
 ];
