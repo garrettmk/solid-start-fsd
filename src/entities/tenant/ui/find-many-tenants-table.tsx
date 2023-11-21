@@ -52,7 +52,7 @@ export function FindManyTenantsTable(props: FindManyTenantsTableProps) {
         accessorKey: "name",
         enableSorting: true,
         cell: ({ getValue, row }) => (
-          <A class="underline" href={`/app/admin/tenants/${row.original.id}`}>{getValue<string>()}</A>
+          <A class="underline" href={`/app/t/${row.original.slug}`}>{getValue<string>()}</A>
         )
       },
       {

@@ -1,10 +1,14 @@
 import { useFindManyTenants } from "@/entities/tenant";
-import { BreadcrumbItem, Breadcrumbs, KPI, Panel, VerticalDivider, usePaginatedResultFrom } from "@/shared/ui";
-import { Page, PageContent, PageHeader } from "@/widgets/page";
+import { useFindManyUsers } from "@/entities/user";
+import { useFindManyUserProfiles } from "@/entities/user-profile";
+import { KPI, Panel, VerticalDivider, usePaginatedResultFrom } from "@/shared/ui";
+import { Page, PageContent } from "@/widgets/page";
 
 export function AdminIndex() {
   const tenants = useFindManyTenants();
+  const users = useFindManyUserProfiles();
   const paginatedTenants = usePaginatedResultFrom(tenants);
+  const paginatedUsers = usePaginatedResultFrom(users);
 
   return (
     <Page title="Admin Tools">
@@ -22,8 +26,9 @@ export function AdminIndex() {
           <VerticalDivider />
           <KPI
             label="Users"
-            value={100}
+            value={paginatedUsers().total}
             size="xl"
+            loading={users.isLoading}
           />
         </Panel>
       </PageContent>

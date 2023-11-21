@@ -6,6 +6,7 @@ import { userProfileUpdateRouter } from "@/features/user-profiles/update/server"
 import { makeRouter } from "@/shared/server";
 import { mergeRouters } from "@/shared/server";
 import { tenantsRouter } from "@/entities/tenant/server";
+import { userProfilesRouter } from "@/entities/user-profile/server";
 
 
 export const apiRouter = makeRouter({
@@ -20,7 +21,8 @@ export const apiRouter = makeRouter({
 
   userProfiles: mergeRouters(
     userProfileViewRouter, 
-    userProfileUpdateRouter
+    userProfileUpdateRouter,
+    userProfilesRouter
   ),
 
   tenants: tenantsRouter
